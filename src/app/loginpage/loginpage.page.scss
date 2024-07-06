@@ -1,0 +1,123 @@
+.image-container {
+  position: relative;
+  width: 100%;
+  height: 100vh; /* Full height */
+  overflow: hidden;
+  color: white;
+}
+
+p{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-style: normal;
+  font-family: initial;
+}
+
+.background-image {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Make the image cover the full container */
+  z-index: -1; /* Ensure the image is behind the overlay */
+  color: white;
+  filter: blur(4px);
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0); /* Black with opacity */
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  
+}
+
+h3{
+  font-size: 34px;
+  font-weight: bold;
+  font-family: initial;
+}
+
+
+a{
+  text-decoration: none;
+  background-color: rgba(71, 68, 68, 0.74);
+  color: white;
+  width: 200px;
+  height: 33px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 14px;
+  // padding: -3px;
+  // margin-left: 19px;
+}
+
+a:hover{
+  background-color:rgba(209, 205, 205, 0.685);
+  // border-color: rgba(219, 16, 16, 0.808);
+  color: rgba(7, 7, 7, 0.808);
+}
+
+.signup{
+  font-size: 18px;
+  color: #0d0d0d;
+}
+
+.container{
+  background-color: rgba(0, 0, 0, 0.11);
+  border-radius: 18px;
+  
+  
+}
+
+ion-grid{
+  width: 394px;
+  
+}
+
+.logocar{
+  position: absolute;
+  top: 15px;
+  width: 9vh;
+  left: 1vh;
+  border-radius: 29px;
+}
+
+
+
+h5{
+  font-size: 23.125px;
+  color: #352323d4;
+}
+
+ion-button{
+
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  position: relative;
+padding-top: 32px;
+
+}
+
+.text {
+  font-size: 24px;
+  font-weight: bold;
+}
+
+ion-input{
+  box-shadow: 0px 3px 0px -2px;
+}

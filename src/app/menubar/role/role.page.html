@@ -1,0 +1,51 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+  <ion-buttons slot="start">
+    <ion-menu-button auto-hide="true"></ion-menu-button>
+  </ion-buttons>
+  <ion-title class="title">Role</ion-title>
+</ion-toolbar>
+    <!-- <ion-title>org</ion-title> -->
+  <!-- </ion-toolbar> -->
+</ion-header>
+
+<ion-content padding>
+  <ion-item>
+    <ion-label position="floating">Role Id</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Role Name</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Role Description</ion-label>
+    <ion-textarea></ion-textarea>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Org Id</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Created By</ion-label>
+    <ion-input type="text"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Created Date</ion-label>
+    <ion-datetime-button datetime="datetime"></ion-datetime-button>
+
+    <ion-modal [keepContentsMounted]="true">
+      <ng-template>
+        <ion-datetime id="datetime"></ion-datetime>
+      </ng-template>
+    </ion-modal>
+  </ion-item>
+
+
+  <ion-button expand="block">Submit</ion-button>
+</ion-content>

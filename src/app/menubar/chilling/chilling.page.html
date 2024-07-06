@@ -1,0 +1,47 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button auto-hide="true"></ion-menu-button>
+    </ion-buttons>
+    <ion-title class="title">chilling</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">chilling</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  
+  <ion-content>
+    <form>
+      <ion-item>
+        <ion-label>Unit</ion-label>
+        <ion-input type="text" formControlName="unit"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Society</ion-label>
+        <ion-input type="text" formControlName="society"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>SNF</ion-label>
+        <ion-input type="number" formControlName="snf"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Fat</ion-label>
+        <ion-input type="number" formControlName="fat"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Liter</ion-label>
+        <ion-input type="number" formControlName="liter"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label>Shift</ion-label>
+        <ion-input type="text" formControlName="shift"></ion-input>
+      </ion-item>
+      <ion-button expand="full" type="submit">Submit</ion-button>
+    </form>
+  </ion-content>
+  
+</ion-content>

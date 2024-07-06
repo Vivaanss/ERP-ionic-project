@@ -1,0 +1,90 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Shopping Cart</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-grid>
+    <!-- Products List -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-list>
+          <ion-item>
+            <ion-label>
+              <img src="../../assets/big_paneer_recipe_(_how_to_make_paneer)-14107.jpg" width="100px"  alt="">
+              <h2>Paneer</h2>
+              <p>120</p>
+            </ion-label>
+            <ion-button slot="end" onclick="addToCart('Product 1', 100)">Add to Cart</ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <img src="../../assets/ghee.jpeg" width="100px" alt="" >
+              <h2>Ghee</h2>
+              <p>100</p>
+            </ion-label>
+            <ion-button slot="end" onclick="addToCart('Product 2', 200)">Add to Cart</ion-button>
+          </ion-item>
+          <ion-item>
+            <ion-label>
+              <img src="../../assets/curd.png" width="100px" alt="">
+              <h2>Curd</h2>
+              <p>30</p>
+            </ion-label>
+            <ion-button slot="end" onclick="addToCart('Product 3', 300)">Add to Cart</ion-button>
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <!-- Cart Items -->
+    <ion-row>
+      <ion-col size="12">
+        <ion-title>Your Cart</ion-title>
+        <ion-list id="cart-items">
+          <!-- Cart items will be dynamically added here -->
+        </ion-list>
+        <ion-button expand="full" color="success" onclick="clearCart()">Go to Cart</ion-button>
+        <ion-button expand="full" color="danger" onclick="clearCart()">Clear Cart</ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>
+
+<script>
+  const cartItems = [];
+
+  function addToCart(productName, productPrice) {
+    const cartList = document.getElementById('cart-items');
+    const item = document.createElement('ion-item');
+    item.innerHTML = `<ion-label><h2>${productName}</h2><p>$${productPrice}</p></ion-label>`;
+    cartList.appendChild(item);
+    cartItems.push({ name: productName, price: productPrice });
+  }
+
+  function clearCart() {
+    const cartList = document.getElementById('cart-items');
+    cartList.innerHTML = '';
+    cartItems.length = 0;
+  }
+</script>
+
+<style>
+  ion-item {
+    --inner-padding-end: 0;
+  }
+
+  ion-button {
+    margin-left: 10px;
+  }
+
+  ion-title {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  ion-content {
+    --padding: 10px;
+  }
+</style>
