@@ -1,0 +1,269 @@
+// header css
+  ion-header ion-toolbar {
+    color: black;
+  }
+  ion-button img.logo {
+    width: 50px; /* Adjust the size as needed */
+    height: auto;
+    display: block;
+  }
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: bold;
+  }
+  
+  p {
+    margin: 5px 0 ;
+    font-size: 10px;
+    color: #666;
+  }
+
+    // menubar css
+    .menu {
+      --background: #fff; /* Background color of the menu */
+      --color: #000; /* Text color */
+      --width: 250px; /* Width of the menu */
+    }
+    ion-menu {
+      z-index: 100;
+      --width: 300px; /* Adjust width of the menu if needed */
+    }
+    ion-list{
+      padding: 0;
+    }
+    
+    #main-content{
+      --background: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add box shadow */
+
+    }
+    .menu-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      // gap: 8px; /* Space between items */
+      padding: 0 16px;
+      height: 100%; /* Full height of the menu */
+  overflow-y: auto; /* Enable vertical scrolling */
+  align-content: start;
+  // box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* Add box shadow */
+
+
+}
+    
+    
+    .menu-item {
+      display: grid;
+      grid-template-columns: auto 1fr 3fr; /* Adjust column sizes as needed */
+      align-items: center;
+      padding: 4px 0; /* Adjust padding as needed */
+      // --inner-padding-end: 0; /* Remove default end padding */
+
+    }
+    
+    .menu-item ion-icon {
+      font-size: 24px; /* Adjust size of icons */
+     color: white; /* Adjust color if needed */
+    }
+
+    .menu-item ion-icon:first-child {
+      font-size: 24px; /* Adjust size of icons */
+      color: black; /* Adjust color if needed */
+      background-color: white;
+      padding: 5px;
+      border-radius: 50%;
+    }
+    
+    .menu-item ion-icon:last-child {
+      display: flex;
+      justify-self: end;
+      font-size: 24px; /* Adjust size of icons */
+      color: white; /* Adjust color if needed */
+    }
+    
+
+    
+
+
+   .menu-item ion-label {
+      color: white;
+      margin: 0 8px; /* Space between icon and label */
+    }
+    
+    
+    ion-item {
+      margin-top: 5px;
+      border-radius: 25px;
+      --background: #115ca1;
+      --inner-padding-end: 0; /* Remove default end padding */
+    }
+    
+
+  // main body css
+  ion-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    --background: #115ca1;  /* Replace with your desired background color */
+  }
+
+  // first section of dashboard
+  .grid-container {
+    display: grid;
+    grid-template-rows: 50vh 1fr; /* Image takes half of viewport height, text takes the rest */
+    width: 100vw; /* Full viewport width */
+    height: 100vh; /* Full viewport height */
+    padding: 0;
+    margin: 0;
+  }
+  
+  .grid-item {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden; /* Prevent overflow issues */
+  }
+  
+  .image-container {
+    position: relative;
+    width: 100%; /* Full width of the grid-item */
+    height: 50vh;
+  }
+  
+  .content-image {
+    width: 100%; /* Full width of the parent container */
+    height: 50vh; /* Half of viewport height */
+    object-fit: cover; /* Ensure the image covers the area without distortion */
+  }
+  
+.overlay-grid {
+    position: absolute;
+    // top: 0px;
+    // left: 0px;
+    width: 100%;
+    height: 100%;
+    margin-top: -30px;
+    display: grid;
+    grid-template-rows: repeat(2, 1fr); /* 2 rows */
+    grid-template-columns: repeat(2, 1fr); /* 2 columns */
+    gap: 5px; /* Optional: space between grid items */
+    align-content: center;
+    justify-content: center;
+  }
+  .overlay-item {
+    background: rgba(0, 0, 0,); /* Semi-transparent background */
+    color: #fff; /* Text color */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: self-start;
+    font-size: 18px;
+    border-radius: 5px;
+    padding: 10px 0;
+  }
+  
+  .overlay-grid p:first-child {
+      text-align: start;
+          margin-left:20px;
+          font-size: 1em;
+          font-weight: 200px;
+          color: black;
+  }
+  .overlay-grid p:last-child {
+      text-align: start;
+          margin-left: 20px;
+          font-size: 1em;
+          font-weight: 200px;
+          color: black;
+
+      
+  }
+  .overlay-grid p:nth-child(2){
+    margin-left:20px;
+   font-size: 3em;
+   color: white;
+   font-weight: 400;
+   width: 4;
+  }
+  ion-list:nth-child(1) p:nth-child(2){
+    color: #115ca1;  /* Replace with your desired background color */
+    
+}
+
+  
+
+  .item-1 { 
+    grid-row: 1 / 2;
+     grid-column: 1 / 2; 
+     margin: 50px 0px 0px 30px;
+background-color: #f2f8fb;
+color: black;
+    }
+  .item-2 { grid-row: 1 / 2;
+     grid-column: 2 / 3;
+      margin: 50px 30px 0px 0px; 
+// border-radius: 10px;
+background-color: #115ca1;
+color: white;
+     }
+  .item-3 { grid-row: 2 / 3;
+     grid-column: 1 / 2; 
+     margin: 0px 0px 50px 30px;
+// border-radius: 10px;
+background-color: #f2f8fb;
+color: black;
+      }
+  .item-4 { grid-row: 2 / 3;
+     grid-column: 2 / 3;
+      margin: 0px 30px 50px 0px; 
+    //   border-radius: 10px;
+      background-color: #115ca1;
+      color: white;
+    }
+
+
+
+    // second section of dashboard
+    .new-grid {
+      display: grid;
+      grid-template-rows: repeat(2, 1fr); /* 2 rows */
+      grid-template-columns: repeat(2, 1fr); /* 2 columns */
+      gap: 10px; /* Space between grid items */
+      padding: 20px; /* Space around the new grid */
+      width: calc(100% - 40px); /* Full width minus padding */
+      margin: auto; /* Center the grid */
+    
+    }
+    
+    .new-grid-item {
+      background: #286caa; /* Semi-transparent background */
+      color: white; /* Text color */
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+      display: flex;
+      flex-direction: column; /* Stack paragraphs vertically */
+      justify-content: center;
+      align-items: center;
+      border-radius: 25px;
+      font-size: 18px;
+      font-weight: 400;
+      padding: 20px; /* Add some padding to each grid item */
+      text-align: center; /* Center text within the grid items */
+    }
+    
+    .new-grid-item p {
+      color: white;
+      font-weight: 400;
+      margin: 5px 0; /* Space between paragraphs */
+      font-size: 20px; /* Adjust font size for paragraphs */
+    }
+  
+    .grid-image {
+      top: 0;
+      left: 0;
+      width: 150px; /* Adjust the size as needed */
+      height: 85px;
+      margin-bottom: 10px; /* Space between image and paragraph */
+
+    }
