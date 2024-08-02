@@ -22,6 +22,7 @@ const routes: Routes = [
   { path: 'broadcast-message', loadChildren: () => import('./pages/broadcast-message/broadcast-message.module').then(m => m.BroadcastMessagePageModule) },
   { path: '**', component: PageNotFoundComponent },  // Add this line to handle undefined routes
    {path: '**',redirectTo: 'dashboard',},
+  {path: 'users',loadChildren: () => import('./pages/users/users.module').then( m => m.UsersPageModule)},
 ];
 
 @NgModule({
