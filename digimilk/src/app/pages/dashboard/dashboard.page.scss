@@ -55,24 +55,6 @@ ion-title p {
 
 }
 
-// menubar css
-.menu {
-  --background: #fff;
-  /* Background color of the menu */
-  --color: #000;
-  /* Text color */
-  --width: 250px;
-  /* Width of the menu */
-}
-
-ion-menu {
-  z-index: 100;
-  --width: 300px;
-  /* Adjust width of the menu if needed */
-}
-
-
-
 // #main-content {
 //   --background: white;
 //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -154,58 +136,6 @@ ion-menu {
 //   --color: white;
 //   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
 // }
-
-.inline-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0rem;
-}
-
-.inline-item {
-  display: inline-flex;
-  align-items: center;
-  flex: 1 1 auto;
-  min-width: 200px;
-}
-
-ion-item-divider .inline-item {
-  display: inline-flex;
-  align-items: center;
-  flex: 1 1 auto;
-  min-width: 200px;
-}
-
-.inline-item a {
-  display: flex;
-  align-items: center;
-  width: 100%;
-  text-decoration: none;
-  color: inherit;
-}
-
-.inline-item ion-icon,
-.inline-item ion-label {
-  margin-right: 0.5rem;
-}
-
-.inline-item ion-icon[slot="end"] {
-  margin-left: auto;
-}
-
-// .inline-dropdown {
-//   display: flex;
-//   flex-wrap: wrap;
-//   gap: 1rem;
-// }
-
-/* Ensure dropdown items are displayed correctly */
-ion-item-group {
-  display: block;
-}
-
-.inline-dropdown {
-  display: block;
-}
 
 
 // main body css
@@ -380,7 +310,7 @@ p {
   }
 }
 
-@media (min-width: 769px) and (max-width: 992px) {
+@media (min-width: 769px) and (max-width: 991px) {
   .flex-item {
     flex: 1 1 calc(24.33% - 20px); /* 2 columns */
   }
@@ -394,7 +324,11 @@ p {
   }
 }
 
-@media  (min-width: 993px) and (max-width: 1024px) {
+@media  (min-width: 992px) and (max-width: 1024px) {
+  .flex-container{
+    width: 73vw;
+    margin: auto;
+  }
   .flex-item {
     flex: 1 1 calc(24.33% - 20px); /* 3 columns */
   }
@@ -410,8 +344,13 @@ p {
 }
 
 @media (min-width: 1025px) {
+  .flex-container{
+    width: 73vw;
+    margin: auto;
+    // align-items: center;
+  }
   .flex-grid{
-    gap: 35px;
+    gap: 20px;
   }
   .flex-item {
     margin-top: 20px;
@@ -419,10 +358,12 @@ p {
   }
 
   .second-list{
-    margin: 50px 100px;
+    margin: 50px 50px;
   }
   .second-item {
     flex: 1 1 calc(50% - 20px); /* 4 columns if desired */
   }
 }
+
+
 

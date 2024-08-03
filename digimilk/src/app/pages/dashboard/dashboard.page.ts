@@ -12,13 +12,22 @@ interface DropdownStates {
   styleUrls: ['./dashboard.page.scss'],
 })
 export class DashboardPage implements OnInit {
-  dropdowns: DropdownStates = {
-    users: false,
-    masters: false,
-    farmerDemand: false,
-    reports: false,
-    broadcastMessage: false,
+  // dropdowns: DropdownStates = {
+  //   users: false,
+  //   masters: false,
+  //   farmerDemand: false,
+  //   reports: false,
+  //   broadcastMessage: false,
+  // };
+  dropdowns: { [key: string]: boolean } = {
+    menu1: false,
+    menu2: false,
   };
+
+  toggleDropdown(menu: string) {
+    this.dropdowns[menu] = !this.dropdowns[menu];
+  }
+
 
   constructor(private menuController: MenuController) {}
 
@@ -44,9 +53,9 @@ export class DashboardPage implements OnInit {
     });
   }
 
-  toggleDropdown(section: string) {
-    // Toggle the visibility of the dropdown
-    this.dropdowns[section] = !this.dropdowns[section];
-  }
+  // toggleDropdown(section: string) {
+  //   // Toggle the visibility of the dropdown
+  //   this.dropdowns[section] = !this.dropdowns[section];
+  // }
 
 }
