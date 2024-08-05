@@ -7,12 +7,19 @@ import { MenuController } from '@ionic/angular';
   styleUrls: ['app.component.scss'],
 })
 export class AppComponent {
+<<<<<<< HEAD
   dropdowns: { [key: string]: boolean } = {
     users: false,
     reports: false,
     masters: false,
     farmerDemand: false,
     broadcastMessage: false
+=======
+  // Define an index signature to allow string keys
+  dropdowns: { [key: string]: boolean } = {
+    users: false,
+    reports: false
+>>>>>>> origin/prernarawat77
   };
 
   constructor(private menu: MenuController) {}

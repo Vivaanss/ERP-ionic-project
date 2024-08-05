@@ -4,7 +4,10 @@ import { IonicModule, IonicRouteStrategy } from '@ionic/angular';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RouteReuseStrategy } from '@angular/router';
+<<<<<<< HEAD
 // import { MenubarComponent } from './components/menubar/menubar.component';
+=======
+>>>>>>> origin/prernarawat77
 import { FormsModule } from '@angular/forms';
 
 @NgModule({

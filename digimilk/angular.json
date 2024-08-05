@@ -132,8 +132,12 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
+<<<<<<< HEAD
     ],
     "analytics": false
+=======
+    ]
+>>>>>>> origin/prernarawat77
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {
