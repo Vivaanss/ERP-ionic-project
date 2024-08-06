@@ -1,0 +1,23 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #115ca1;
+}
+
+img{
+   height: 30px;
+
+}
+ion-card {
+  width: 90%;
+  max-width: 400px;
+  padding: 20px;
+}
+
+.forgot-password {
+  text-align: center;
+  color: #3880ff;
+  cursor: pointer;
+}

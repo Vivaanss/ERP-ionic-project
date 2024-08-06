@@ -1,0 +1,38 @@
+// menubar css
+.menu {
+  --background: #fff; /* Background color of the menu */
+  --color: #000; /* Text color */
+  --width: 250px; /* Width of the menu */
+}
+ion-label {
+  color: rgb(0, 0, 0);
+  margin: 0 8px; /* Space between icon and label */
+}
+
+
+ion-item {
+  margin-top: 5px;
+  border-radius: 25px;
+  --background: #e3ecf5;
+  --inner-padding-end: 0; /* Remove default end padding */
+}
+
+
+ion-item-group {
+  display: block;
+}
+
+.inline-dropdown {
+  display: block;
+}
+
+ion-item-divider{
+  margin-top: 5px;
+  border-radius: 25px;
+  --background: #115ca1;
+  --inner-padding-end: 0;
+}
+.background-image-container{
+  height: 100%;
+  width: 100%;
+}
