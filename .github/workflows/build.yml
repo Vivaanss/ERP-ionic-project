@@ -32,11 +32,8 @@ jobs:
         restore-keys: ${{ runner.os }}-gradle
 
     - name: Build APK
-      run: |
-        dir ERP-ionic-project\android
-        .\ERP-ionic-project\android\gradlew.bat assembleRelease
-      working-directory: ERP-ionic-project\android
-
+      run: ./gradlew.bat assembleRelease
+      
     - name: Upload APK
       uses: actions/upload-artifact@v2
       with:
