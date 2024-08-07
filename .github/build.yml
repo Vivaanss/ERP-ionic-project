@@ -1,0 +1,34 @@
+name: Build Ionic Angular App
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: windows-lastest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v20
+      with:
+        node-version: '18'  # Use the appropriate Node.js version for your project
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the app
+      run: npm run build -- --prod
+
+    - name: Archive build artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ionic-build
+        path: ./www  # Adjust this path if your build output is in a different directory
