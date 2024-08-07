@@ -32,11 +32,4 @@ jobs:
         restore-keys: ${{ runner.os }}-gradle
 
     - name: Build APK
-      run: .\gradlew.bat assembleRelease
-      working-directory: ${{ github.workspace }}
-
-    - name: Upload APK
-      uses: actions/upload-artifact@v2
-      with:
-        name: app-release.apk
-        path: app\build\outputs\apk\release\app-release.apk
+      run: .\project\gradlew.bat assembleRelease
