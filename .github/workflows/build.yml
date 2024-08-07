@@ -32,7 +32,7 @@ jobs:
         restore-keys: ${{ runner.os }}-gradle
 
     - name: Build APK
-      run: .\ERP-ionic-project\android\gradlew.bat assembleRelease
+      run: .\gradlew.bat assembleRelease
       working-directory: ERP-ionic-project\android
 
     - name: Upload APK
