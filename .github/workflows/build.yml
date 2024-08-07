@@ -33,6 +33,7 @@ jobs:
 
     - name: Build APK
       run: .\gradlew.bat assembleRelease
+      shell: cmd
 
     - name: Upload APK
       uses: actions/upload-artifact@v2
