@@ -33,7 +33,6 @@ jobs:
 
     - name: Build APK
       run: .\gradlew.bat assembleRelease
-      working-directory: ERP-ionic-project\android
 
     - name: Upload APK
       uses: actions/upload-artifact@v2
