@@ -22,11 +22,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Set execute permissions
-        run: |
-          git update-index --chmod=+x gradlew
-          Get-ChildItem -Path . -Recurse -Include gradlew | Unblock-File
-
       - name: Build APK
         run: .\gradlew.bat assembleRelease
 
