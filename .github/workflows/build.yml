@@ -23,12 +23,10 @@ jobs:
           distribution: 'temurin'
 
       - name: Build APK
-        run: ./gradlew assembleRelease
-        env:
-          JAVA_HOME: /usr/lib/jvm/temurin-11
+        run: .\gradlew assembleRelease
 
       - name: Archive APK
         uses: actions/upload-artifact@v3
         with:
           name: apk
-          path: app/build/outputs/apk/release/app-release.apk
+          path: app\build\outputs\apk\release\app-release.apk
