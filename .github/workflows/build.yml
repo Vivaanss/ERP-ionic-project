@@ -22,9 +22,6 @@ jobs:
           java-version: '11'
           distribution: 'temurin'
 
-      - name: Install dependencies
-        run: ./gradlew dependencies
-
       - name: Build APK
         run: ./gradlew assembleRelease
         env:
