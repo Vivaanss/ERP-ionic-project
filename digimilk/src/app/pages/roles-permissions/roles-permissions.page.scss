@@ -1,56 +1,59 @@
-// header css
-ion-header ion-toolbar {
-    color: black;
-    display: flex;
-    align-items: center; /* Center content vertically */
-    justify-content: space-between; /* Space between menu button and header content */
-    // padding: ; /* Add padding to the sides */
-    position: relative; /* For positioning the logo */
+.table-controls {
+  margin-bottom: 1rem;
+}
+
+.table-header {
+  background-color: #f8f8f8;
+  font-weight: bold;
+  border-bottom: 2px solid #ccc;
+}
+
+.table-row {
+  border-bottom: 1px solid #eee;
+}
+
+.pagination-controls {
+  margin-top: 1rem;
+}
+
+ion-grid {
+  --ion-grid-padding: 0;
+}
+
+ion-col {
+  padding: 10px;
+  text-align: center;
+}
+
+@media screen and (max-width: 768px) {
+  ion-col {
+    font-size: 0.9rem;
+    padding: 8px;
   }
-  .digi-logo-container {
-    position: absolute;
-    left: 50%;
-    bottom: 0px;
-    transform: translateX(-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    // padding: 10px;
+}
+
+@media screen and (max-width: 576px) {
+  ion-col {
+    font-size: 0.8rem;
+    padding: 5px;
   }
-  
-  .digi-logo-container img.digi-logo {
-    width: 100px; /* Adjust size as needed */
-    height: auto;
+
+  .table-header,
+  .table-row {
+    flex-wrap: wrap;
   }
-  
-  ion-button img.logo {
-    width: 50px;
-    /* Adjust the size as needed */
-    height: auto;
+
+  .table-row ion-col {
     display: block;
+    width: 100%;
   }
-  
-  ion-title h2 {
-    margin: 0;
-    font-size: 24px;
-    font-weight: bold;
+
+  .table-header ion-col {
+    display: block;
+    width: 100%;
   }
-  
-  ion-title p {
-    margin: 5px 0;
-    font-size: 10px;
-    color: #666;
+
+  .pagination-controls ion-col {
+    width: 50%;
   }
-  @media (max-width: 600px) {
-    ion-title h2, ion-title p {
-      display: none;
-    }
-    .digi-logo-container{
-      bottom: 5px;
-    }
-  .digi-logo-container img.digi-logo {
-    width: 70px; /* Adjust size as needed */
-    height: auto;
-  }
-  
-  }
+}

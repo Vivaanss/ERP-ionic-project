@@ -65,7 +65,7 @@
               "namedChunks": true
             },
             "ci": {
-            
+              "progress": false
             }
           },
           "defaultConfiguration": "production"
@@ -78,6 +78,9 @@
             },
             "development": {
               "buildTarget": "app:build:development"
+            },
+            "ci": {
+              "progress": false
             }
           },
           "defaultConfiguration": "development"
@@ -113,7 +116,8 @@
           },
           "configurations": {
             "ci": {
-              
+              "progress": false,
+              "watch": false
             }
           }
         },
@@ -132,12 +136,8 @@
   "cli": {
     "schematicCollections": [
       "@ionic/angular-toolkit"
-<<<<<<< HEAD
     ],
     "analytics": false
-=======
-    ]
->>>>>>> origin/prernarawat77
   },
   "schematics": {
     "@ionic/angular-toolkit:component": {

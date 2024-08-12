@@ -1,10 +1,11 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';  // Import the component
-import { PaymentsPageModule } from './pages/payments/payments.module';
+
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  {path: 'login',loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule) },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule) },
   { path: 'roles-permissions', loadChildren: () => import('./pages/roles-permissions/roles-permissions.module').then(m => m.RolesPermissionsPageModule) },
   { path: 'users/add-users', loadChildren: () => import('./pages/users/add-users/add-users.module').then(m => m.AddUsersPageModule) },
@@ -37,15 +38,18 @@ const routes: Routes = [
   { path: 'reports/queries', loadChildren: () => import('./pages/reports/queries/queries.module').then(m => m.QueriesPageModule) },
   { path: 'reports/qual-quan-check', loadChildren: () => import('./pages/reports/qual-quan-check/qual-quan-check.module').then(m => m.QualQuanCheckPageModule) },
   { path: 'reports/products', loadChildren: () => import('./pages/reports/products/products.module').then(m => m.ProductsPageModule) },
-  { path: 'reports/payments', loadChildren: () => import('./pages/reports/payments/payments.module').then(m => PaymentsPageModule) },
+  { path: 'reports/payments', loadChildren: () => import('./pages/reports/payments/payments.module').then(m => m.PaymentsPageModule) },
   { path: 'reports/milk-coll', loadChildren: () => import('./pages/reports/milk-coll/milk-coll.module').then(m => m.MilkCollPageModule) },
   { path: 'reports/farmers', loadChildren: () => import('./pages/reports/farmers/farmers.module').then(m => m.FarmersPageModule) },
   { path: 'society-demands', loadChildren: () => import('./pages/society-demands/society-demands.module').then(m => m.SocietyDemandsPageModule) },
   { path: 'broadcast-message/screen-msg', loadChildren: () => import('./pages/broadcast-message/screen-msg/screen-msg.module').then(m => m.ScreenMsgPageModule) },
   { path: 'broadcast-message/farmer-screen-msg', loadChildren: () => import('./pages/broadcast-message/farmer-screen-msg/farmer-screen-msg.module').then(m => m.FarmerScreenMsgPageModule) },
   { path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)},
-  { path: '**', redirectTo: 'dashboard', },
   { path: '**', component: PageNotFoundComponent },
+  
+
+
+
 ];
 
 @NgModule({

@@ -1,13 +1,6 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "module": "es2020",
-    "target": "es2022",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "skipLibCheck": true,
-    "esModuleInterop": true,
-    "types": ["node"],
     "baseUrl": "./",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
@@ -19,12 +12,17 @@
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
     "importHelpers": true,
-    "lib": ["es2018", "dom"],
+    "target": "es2022",
+    "module": "es2020",
+    "lib": [
+      "es2018", 
+      "dom"
+    ],
     "useDefineForClassFields": false
   },
-  "exclude": ["node_modules"],
-  "compileOnSave": false,
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
