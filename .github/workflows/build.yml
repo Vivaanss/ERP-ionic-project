@@ -3,7 +3,7 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches:
-      - main  # Change this to your main branch if it's named differently
+      - main  # Adjust this if your main branch has a different name
 
 jobs:
   build-and-deploy:
@@ -16,13 +16,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '20.x'  # Specify the Node.js version
+          node-version: '20.x'  # Use a valid Node.js version
 
       - name: Install dependencies
         run: npm install
 
       - name: Build Angular project
-        run: npm run build -- --prod  # Adjust this if needed for your build script
+        run: npm run build -- --configuration production
 
       - name: Build Capacitor web assets
         run: npm run build:capacitor  # Custom script to copy Angular build to Capacitor web folder
