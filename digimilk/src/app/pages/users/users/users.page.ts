@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { AddUserComponent } from '../../pages/users/add-users/add-user.component';
+import { AddUsersPage } from '../add-users/add-users.page'; // Ensure this path is correct
+// import { AddUserComponent } from '../../pages/users/add-users/add-user.page';
 
 interface User {
   userName: string;
@@ -15,10 +16,10 @@ interface User {
 
 @Component({
   selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.scss'],
+  templateUrl: './users.page.html', // Ensure this path is correct
+  styleUrls: ['./users.page.scss']
 })
-export class UsersComponent implements OnInit {
+export class UsersPage implements OnInit {
   users: User[] = [];
   filteredUsers: User[] = [];
   roles = ['Admin', 'User', 'Manager'];
@@ -58,7 +59,7 @@ export class UsersComponent implements OnInit {
 
   async openAddUserModal() {
     const modal = await this.modalCtrl.create({
-      component: AddUserComponent,
+      component: AddUsersPage,
     });
 
     modal.onDidDismiss().then((data) => {

@@ -17,7 +17,7 @@ export class AppComponent {
     broadcastMessage: false
   };
 
-  showMenuBar = true;
+  showMenuBar = false;
 
 
 
