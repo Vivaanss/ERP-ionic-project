@@ -1,12 +1,12 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MilkTypePage } from './milk-type.page';
+import { MilkTypesPage } from './milk-types.page';
 
-describe('MilkTypePage', () => {
-  let component: MilkTypePage;
-  let fixture: ComponentFixture<MilkTypePage>;
+describe('MilkTypesPage', () => {
+  let component: MilkTypesPage;
+  let fixture: ComponentFixture<MilkTypesPage>;
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MilkTypePage);
+    fixture = TestBed.createComponent(MilkTypesPage);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

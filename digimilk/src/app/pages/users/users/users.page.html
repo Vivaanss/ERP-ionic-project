@@ -1,8 +1,10 @@
 <ion-header>
-  <ion-toolbar>
-    <ion-title>Users</ion-title>
+  <ion-toolbar><ion-buttons slot="start">
+    <ion-back-button defaultHref="/"></ion-back-button>
+  </ion-buttons>
+  <ion-title class= "ion-text-center">Users</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="openAddUserModal()">Add User</ion-button>
+      <ion-button [routerLink]="['/users/add-users' ]">Add User</ion-button>
       <ion-button (click)="importFromExcel()">Import Excel</ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -32,7 +34,7 @@
       <ion-col>{{ user.emailId }}</ion-col>
       <ion-col>{{ user.mobile }}</ion-col>
       <ion-col>{{ user.role }}</ion-col>
-      <ion-col>{{ user.status ? 'Active' : 'Inactive' }}</ion-col>
+      <ion-col>{{ user.status ? 'Active' : 'Deactive' }}</ion-col>
       <ion-col>{{ user.createdAt | date: 'short' }}</ion-col>
       <ion-col>
         <ion-select interface="popover">
