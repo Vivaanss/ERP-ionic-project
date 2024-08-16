@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';  // Ensure this import exists
-import { passwordValidator } from '../../components/pwd-validator'; // Adjust the path accordingly
+import { passwordValidator } from '../components/pwd-validator'; // Adjust the path accordingly
 
 @Component({
   selector: 'app-login',

@@ -4,7 +4,7 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 
 
 const routes: Routes = [
-  {path: 'login',loadChildren: () => import('./pages/login/login.module').then( m => m.LoginPageModule) },
+  {path: 'login',loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule) },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule) },
   { path: 'roles-permissions', loadChildren: () => import('./pages/roles-permissions/roles-permissions.module').then(m => m.RolesPermissionsPageModule) },
