@@ -11,7 +11,6 @@ const routes: Routes = [
   { path: 'users/add-users', loadChildren: () => import('./pages/users/add-users/add-users.module').then(m => m.AddUsersPageModule) },
   { path: 'users/users', loadChildren: () => import('./pages/users/users/users.module').then(m => m.UsersPageModule) },
   { path: 'masters/pro-type', loadChildren: () => import('./pages/masters/pro-type/pro-type.module').then(m => m.ProTypePageModule) },
-  { path: 'masters/product', loadChildren: () => import('./pages/masters/product/product.module').then(m => m.ProductPageModule) },
   { path: 'masters/shift', loadChildren: () => import('./pages/masters/shift/shift.module').then(m => m.ShiftPageModule) },
   { path: 'masters/rate-chart', loadChildren: () => import('./pages/masters/rate-chart/rate-chart.module').then(m => m.RateChartPageModule) },
   { path: 'masters/farmer-loan-detail', loadChildren: () => import('./pages/masters/farmer-loan-detail/farmer-loan-detail.module').then(m => m.FarmerLoanDetailPageModule) },
@@ -48,12 +47,11 @@ const routes: Routes = [
     path: 'milk-types',
     loadChildren: () => import('./pages/masters/milk-types/milk-types.module').then( m => m.MilkTypesPageModule)
   },
+  {
+    path: 'product',
+    loadChildren: () => import('./pages/masters/product/product.module').then( m => m.ProductPageModule)
+  },
   { path: '**', component: PageNotFoundComponent },
-
-  
-
-
-
 ];
 
 @NgModule({

@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>Add Milk Type</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">Cancel</ion-button>
+      <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -21,7 +21,7 @@
       <ion-label>Status</ion-label>
       <ion-select formControlName="status">
         <ion-select-option value="true">Active</ion-select-option>
-        <ion-select-option value="false">Inactive</ion-select-option>
+        <ion-select-option value="false">Deactive</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-button expand="full" type="submit">Submit</ion-button>

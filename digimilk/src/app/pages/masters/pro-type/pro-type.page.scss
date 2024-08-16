@@ -9,9 +9,30 @@
     border-bottom: 2px solid #ccc;
   }
   
+   
   .table-row {
+    padding: 12px 0;
     border-bottom: 1px solid #eee;
+  
+    ion-col {
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+  
+    ion-icon {
+      font-size: 1.2rem;
+      cursor: pointer;
+      margin: 0 10px;
+      color: #3880ff;
+    }
+  
+    ion-icon[name="trash-sharp"] {
+      color: #eb445a;
+    }
   }
+  
   
   .pagination-controls {
     margin-top: 1rem;
