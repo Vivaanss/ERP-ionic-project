@@ -18,7 +18,7 @@ export class AppComponent {
   }
   
   constructor(private router: Router) {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
 
         // this.showMenuBar = !event.url.includes('/login');
@@ -39,12 +39,10 @@ export class AppComponent {
       menu.close();
     }
   }
+
   toggleDropdown(dropdown: string) {
     if (this.dropdowns.hasOwnProperty(dropdown)) {
       this.dropdowns[dropdown] = !this.dropdowns[dropdown];
     }
   }
-
-
-
 }
