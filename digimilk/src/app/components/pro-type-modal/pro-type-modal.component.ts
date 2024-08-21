@@ -16,7 +16,8 @@ export class ProTypeModalComponent {
   ) {
      this.proTypeForm = this.fb.group({
       name: ['', Validators.required],
-      status: ['true', Validators.required],
+      status: ['Active', Validators.required],
+      createdAt: [new Date(), Validators.required], // Ensure this is set
     });
   }
   ngOnInit(): void {

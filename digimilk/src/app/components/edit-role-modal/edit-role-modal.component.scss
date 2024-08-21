@@ -1,4 +1,86 @@
 /* General styles for the modal */
+
+/* Add this to your add-society-milk-collection-modal.component.scss file */
+
+ion-header {
+  --background: #f8f9fa;
+  --color: #333;
+}
+
+ion-toolbar {
+  --background: #007bff;
+  --color: #fff;
+}
+
+ion-title {
+  font-weight: bold;
+}
+
+ion-content {
+  --background: #ffffff;
+}
+
+form {
+  padding: 16px;
+}
+
+ion-item {
+  margin-bottom: 12px;
+}
+
+ion-label {
+  font-weight: bold;
+  font-size: 14px;
+}
+
+ion-select {
+  --padding-start: 0;
+  --padding-end: 0;
+}
+
+ion-input {
+  font-size: 14px;
+}
+
+ion-button {
+  // margin-top: 16px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+}
+
+ion-button:hover {
+  background-color: #0056b3;
+}
+
+ion-datetime {
+  font-size: 14px;
+}
+
+ion-select {
+  --placeholder-color: #6c757d;
+}
+
+ion-select-option {
+  font-size: 14px;
+}
+
+ion-select .select-placeholder {
+  font-size: 14px;
+}
+
+ion-item ion-label {
+  color: #495057;
+}
+
+ion-item ion-input {
+  font-size: 14px;
+}
+
+ion-item ion-datetime {
+  font-size: 14px;
+}
+
 ion-card {
     margin: 16px;
     border-radius: 8px;

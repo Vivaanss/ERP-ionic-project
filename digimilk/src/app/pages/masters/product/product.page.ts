@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ModalController, AlertController } from '@ionic/angular';
 
 import { AddProductModalComponent } from '../../../components/add-product-modal/add-product-modal.component';
 
 interface Product {
+  id: number;
   name: string;
   productType: string;
   price: number;
-  status: boolean;
+  status: string;
   createdAt: Date;
 }
 
@@ -18,97 +18,129 @@ interface Product {
   styleUrls: ['./product.page.scss'],
 })
 export class ProductPage implements OnInit {
+  products: Product[] = [
+    {
+      id: 1,
+      name: 'Product 1',
+      productType: 'Type A',
+      price: 500,
+      status: 'Available',
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      name: 'Product 2',
+      productType: 'Type B',
+      price: 300,
+      status: 'Out of Stock',
+      createdAt: new Date(),
+    },
+    // Add more entries as needed
+  ];
 
-  products: Product[] = [];
-  filteredProducts: Product[] = [];
-  paginatedProducts: Product[] = [];
-  searchQuery = '';
-  currentPage = 1;
+  searchTerm = '';
   entriesToShow = 5;
+  currentPage = 1;
+  paginatedProducts: Product[] = [];
   totalPages = 1;
 
-  addProductForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addProductForm = this.fb.group({
-      name: ['', Validators.required],
-      productType: ['', Validators.required],
-      price: [0, Validators.required],
-      status: [true, Validators.required],
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadProducts();
+    this.updatePagination();
   }
 
-  loadProducts() {
-    this.products = [
-      { name: 'Product 1', productType: 'Type A', price: 100, status: true, createdAt: new Date() },
-      // Add more products here
-    ];
-    this.filteredProducts = [...this.products];
-    this.updatePagination();
+  get filteredProducts(): Product[] {
+    return this.products.filter(product =>
+      product.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      product.productType.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      product.status.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredProducts.length / this.entriesToShow);
-    this.paginatedProducts = this.filteredProducts.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.paginateProducts();
   }
 
-  openAddProductModal() {
-    this.modalCtrl.create({
-      component: AddProductModalComponent,
-      componentProps: {
-        form: this.addProductForm
-      }
-    }).then(modal => {
-      modal.present();
-
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newProduct: Product = {
-            name: result.data.name,
-            productType: result.data.productType,
-            price: result.data.price,
-            status: result.data.status,
-            createdAt: new Date()
-          };
-          this.products.push(newProduct);
-          this.filteredProducts = [...this.products];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: Product) {
-    // Logic to edit product
-  }
-
-  deleteProduct(item: Product) {
-    this.products = this.products.filter(product => product !== item);
-    this.filteredProducts = [...this.products];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateProducts() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedProducts = this.filteredProducts.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateProducts();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateProducts();
+    }
+  }
+
+  async openAddProductModal() {
+    const modal = await this.modalController.create({
+      component: AddProductModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.products.push({
+        id: this.products.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
   }
-}
 
+ 
+  async editProduct(product: Product) {
+    const modal = await this.modalController.create({
+      component: AddProductModalComponent,
+      componentProps: { product },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.products.findIndex(
+        (item) => item.id === product.id
+      );
+      if (index > -1) {
+        this.products[index] = { id: product.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteProduct(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this entry?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.products = this.products.filter((product) => product.id !== id);
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
+  }
+}

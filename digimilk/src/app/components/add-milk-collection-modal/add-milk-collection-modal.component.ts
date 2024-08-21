@@ -1,6 +1,6 @@
-import { Component, Input } from '@angular/core';
+import { Component } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-add-milk-collection-modal',
@@ -8,18 +8,43 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-milk-collection-modal.component.scss'],
 })
 export class AddMilkCollectionModalComponent {
-  @Input() form!: FormGroup;
-  @Input() milkCollection: any = null;
+  addMilkCollectionForm: FormGroup;
+  farmerNames = ['Farmer A', 'Farmer B'];
+  milkTypes = ['Cow Milk', 'Buffalo Milk'];
+  milkCategories = ['Category 1', 'Category 2'];
+  shifts = ['Morning', 'Evening'];
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(
+    private modalCtrl: ModalController,
+    private fb: FormBuilder
+  ) {
+    this.addMilkCollectionForm = this.fb.group({
+      farmerName: ['', Validators.required],
+      milkType: ['', Validators.required],
+      milkCategory: ['', Validators.required],
+      shift: ['', Validators.required],
+      snf: ['', Validators.required],
+      fat: ['', Validators.required],
+      ratePerLitre: ['', Validators.required],
+      totalMilk: ['', Validators.required],
+      totalAmount: ['', Validators.required],
+      canId: [''],
+      createdAt: [new Date(), Validators.required], // Ensure this is set
 
-  submitForm() {
-    if (this.form.valid) {
-      this.modalCtrl.dismiss(this.form.value);
+    });
+  }
+
+  onSubmit() {
+    if (this.addMilkCollectionForm.valid) {
+      console.log('Form Value:', this.addMilkCollectionForm.value);
+      this.modalCtrl.dismiss(this.addMilkCollectionForm.value);
+    } else {
+      console.log('Form is invalid');
     }
   }
 
   cancel() {
     this.modalCtrl.dismiss();
   }
+
 }

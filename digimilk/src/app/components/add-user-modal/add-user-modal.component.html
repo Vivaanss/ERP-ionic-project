@@ -1,0 +1,50 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add User</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label position="floating">User Name</ion-label>
+      <ion-input formControlName="userName" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Email ID</ion-label>
+      <ion-input formControlName="emailId" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">User ID</ion-label>
+      <ion-input formControlName="userId" type="text"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label position="floating">Mobile Number</ion-label>
+      <ion-input formControlName="mobile" required></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <!-- <ion-label>Role</ion-label> -->
+      <ion-select placeholder="Role" interface="popover" formControlName="role">
+        <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <!-- <ion-label>Status</ion-label> -->
+      <ion-select placeholder="Status" interface="popover" formControlName="status">
+        <ion-select-option value="Active">Active</ion-select-option>
+        <ion-select-option value="Inactive">Inactive</ion-select-option>
+      </ion-select>
+    </ion-item>
+    
+
+    <ion-button expand="block" (click)="save()" [disabled]="form.invalid">Save</ion-button>
+  </form>
+</ion-content>

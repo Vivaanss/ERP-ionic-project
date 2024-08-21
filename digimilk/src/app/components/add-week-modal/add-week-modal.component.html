@@ -1,36 +1,38 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Week</ion-title>
+    <ion-title>{{ week ? 'Edit Week' : 'Add Week' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="closeModal()">Close</ion-button>
+      <ion-button (click)="dismiss()">
+        <ion-icon slot="icon-only" name="close"></ion-icon>
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+  <ion-list>
     <ion-item>
       <ion-label position="floating">Week Name</ion-label>
-      <ion-input formControlName="name"></ion-input>
+      <ion-input [(ngModel)]="name"></ion-input>
     </ion-item>
-
     <ion-item>
       <ion-label position="floating">Start Date</ion-label>
-      <ion-datetime formControlName="startDate"></ion-datetime>
+      <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="startDate"></ion-datetime>
     </ion-item>
-
     <ion-item>
       <ion-label position="floating">End Date</ion-label>
-      <ion-datetime formControlName="endDate"></ion-datetime>
+      <ion-datetime display-format="DD/MM/YYYY" [(ngModel)]="endDate"></ion-datetime>
     </ion-item>
-
     <ion-item>
-      <ion-label>Status</ion-label>
-      <ion-toggle formControlName="status"></ion-toggle>
+      <ion-select placeholder="Status" interface="popover" [(ngModel)]="status">
+        <ion-select-option value="Active">Active</ion-select-option>
+        <ion-select-option value="Completed">Completed</ion-select-option>
+        <ion-select-option value="Pending">Pending</ion-select-option>
+      </ion-select>
     </ion-item>
+  </ion-list>
 
-    <ion-footer>
-      <ion-button type="submit" expand="block" [disabled]="form.invalid">Submit</ion-button>
-    </ion-footer>
-  </form>
+  <ion-footer>
+    <ion-button expand="block" (click)="submit()" [disabled]="!name || !startDate || !endDate || !status">Submit</ion-button>
+  </ion-footer>
 </ion-content>

@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Settlement</ion-title>
+    <ion-title>{{ settlePay ? 'Edit' : 'Add' }} Settlement</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">Cancel</ion-button>
+      <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -10,18 +10,16 @@
 <ion-content>
   <form [formGroup]="addSettlePayForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <ion-label position="floating">Society</ion-label>
-      <ion-select formControlName="society">
+      <ion-select placeholder="Society" interface="popover" formControlName="society">
         <ion-select-option value="Society A">Society A</ion-select-option>
         <ion-select-option value="Society B">Society B</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Farmer</ion-label>
-      <ion-select formControlName="farmer">
-        <ion-select-option value="farmer A">Farmer A</ion-select-option>
-        <ion-select-option value="farmer B">Farmer B</ion-select-option>
+      <ion-select placeholder="Farmer" interface="popover" formControlName="farmer">
+        <ion-select-option value="Farmer A">Farmer A</ion-select-option>
+        <ion-select-option value="Farmer B">Farmer B</ion-select-option>
       </ion-select>    </ion-item>
 
     <ion-item>

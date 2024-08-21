@@ -1,0 +1,30 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Query</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addQueryForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <!-- <ion-label position="floating">Farmer Name</ion-label> -->
+      <ion-select placeholder="Farmer Name" interface="popover" formControlName="farmerName"  >
+        <ion-select-option *ngFor="let farmer of farmersList" [value]="farmer">{{ farmer }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Farmer Mobile Number</ion-label>
+      <ion-input type="tel" formControlName="farmerMobileNo"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Query</ion-label>
+      <ion-textarea formControlName="query"></ion-textarea>
+    </ion-item>
+    <ion-footer>
+      <ion-button expand="block" type="submit" [disabled]="!addQueryForm.valid">Submit</ion-button>
+    </ion-footer>
+  </form>
+</ion-content>

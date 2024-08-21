@@ -1,18 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddRouteModalComponent } from '../../../components/add-route-modal/add-route-modal.component';
 
 interface Route {
+  id: number;
   name: string;
-  status: boolean;
-  vehicleNumber: string;
-  driverNumber: string;
   driverName: string;
-  distance: string;
+  vehicleNo: string;
+  distance: number;
   duration: string;
-  createdAt: Date;
+  status: string;
 }
 
 @Component({
@@ -21,100 +18,132 @@ interface Route {
   styleUrls: ['./route-master.page.scss'],
 })
 export class RouteMasterPage implements OnInit {
-  routes: Route[] = [];
-  filteredRoutes: Route[] = [];
-  paginatedRoutes: Route[] = [];
-  currentPage = 1;
+  routes: Route[] = [
+    {
+      id: 1,
+      name: 'Route 1',
+      driverName: 'John Doe',
+      vehicleNo: 'XYZ 1234',
+      distance: 15,
+      duration: '1 hour',
+      status: 'Active',
+    },
+    {
+      id: 2,
+      name: 'Route 2',
+      driverName: 'Jane Smith',
+      vehicleNo: 'ABC 5678',
+      distance: 25,
+      duration: '1.5 hours',
+      status: 'Inactive',
+    },
+    // Add more routes as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
+  currentPage = 1;
+  paginatedRoutes: Route[] = [];
   totalPages = 1;
 
-  addRouteForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addRouteForm = this.fb.group({
-      name: ['', Validators.required],
-      status: [true, Validators.required],
-      vehicleNumber: ['', Validators.required],
-      driverNumber: ['', Validators.required],
-      driverName: ['', Validators.required],
-      distance: ['', Validators.required],
-      duration: ['', Validators.required],
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadRoutes();
+    this.updatePagination();
   }
 
-  loadRoutes() {
-    // Example data - replace with data from a service
-    this.routes = [
-      { name: 'Route 1', status: true, vehicleNumber: 'AB123', driverNumber: '1234567890', driverName: 'John Doe', distance: '10 Km', duration: '30 mins', createdAt: new Date() },
-      // Add more routes here
-    ];
-    this.filteredRoutes = [...this.routes];
-    this.updatePagination();
+  get filteredRoutes(): Route[] {
+    return this.routes.filter(route =>
+      route.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      route.driverName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      route.vehicleNo.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredRoutes.length / this.entriesToShow);
-    this.paginatedRoutes = this.filteredRoutes.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.paginateRoutes();
   }
 
-  openAddRouteModal() {
-    this.modalCtrl.create({
-      component: AddRouteModalComponent,
-      componentProps: {
-        form: this.addRouteForm
-      }
-    }).then(modal => {
-      modal.present();
-
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newRoute: Route = {
-            name: result.data.name,
-            status: result.data.status,
-            vehicleNumber: result.data.vehicleNumber,
-            driverNumber: result.data.driverNumber,
-            driverName: result.data.driverName,
-            distance: result.data.distance,
-            duration: result.data.duration,
-            createdAt: new Date()
-          };
-          this.routes.push(newRoute);
-          this.filteredRoutes = [...this.routes];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: Route) {
-    // Logic for opening the edit modal with the selected item
-  }
-
-  deleteRoute(item: Route) {
-    // Logic for deleting the selected route
+  paginateRoutes() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedRoutes = this.filteredRoutes.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
-      this.updatePagination();
+      this.paginateRoutes();
     }
   }
 
-  previousPage() {
+  prevPage() {
     if (this.currentPage > 1) {
       this.currentPage--;
+      this.paginateRoutes();
+    }
+  }
+
+  async openAddRouteMasterModal() {
+    const modal = await this.modalController.create({
+      component: AddRouteModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.routes.push({
+        id: this.routes.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
   }
 
-  onEntriesChange(event: any) {
-    this.currentPage = 1;
-    this.updatePagination();
+  async editRoute(route: Route) {
+    const modal = await this.modalController.create({
+      component: AddRouteModalComponent,
+      componentProps: { route },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.routes.findIndex(
+        (item) => item.id === route.id
+      );
+      if (index > -1) {
+        this.routes[index] = { id: route.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteRoute(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this entry?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.routes = this.routes.filter(
+              (item) => item.id !== id
+            );
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

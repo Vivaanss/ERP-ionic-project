@@ -9,8 +9,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddShiftModalComponent {
   addShiftForm: FormGroup = this.fb.group({
-    shift: ['', Validators.required],
-    status: [true, Validators.required] // Default value for status
+    name: ['Morning Shift', Validators.required],
+    status: ["Active", Validators.required], // Default value for status
+    createdAt: [new Date(), Validators.required], // Ensure this is set
+
   });
 
   constructor(

@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddWeekModalComponent } from '../../../components/add-week-modal/add-week-modal.component';
 
 interface Week {
+  id: number;
   name: string;
   startDate: Date;
   endDate: Date;
-  status: boolean;
+  status: string;
   createdAt: Date;
 }
 
@@ -18,97 +17,124 @@ interface Week {
   styleUrls: ['./manage-week.page.scss'],
 })
 export class ManageWeekPage implements OnInit {
-  weeks: Week[] = [];
-  filteredWeeks: Week[] = [];
-  paginatedWeeks: Week[] = [];
-  currentPage = 1;
+  weeks: Week[] = [
+    {
+      id: 1,
+      name: 'Week 1',
+      startDate: new Date(2024, 7, 1),
+      endDate: new Date(2024, 7, 7),
+      status: 'Active',
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      name: 'Week 2',
+      startDate: new Date(2024, 7, 8),
+      endDate: new Date(2024, 7, 14),
+      status: 'Completed',
+      createdAt: new Date(),
+    },
+    // Add more week entries as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
+  currentPage = 1;
+  paginatedWeeks: Week[] = [];
   totalPages = 1;
 
-  addWeekForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addWeekForm = this.fb.group({
-      name: ['', Validators.required],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required],
-      status: [true, Validators.required], // Updated to boolean
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadWeeks();
+    this.updatePagination();
   }
 
-  loadWeeks() {
-    // Example data - replace with data from a service
-    this.weeks = [
-      { name: 'Week 1', startDate: new Date('2024-01-01'), endDate: new Date('2024-01-07'), status: true, createdAt: new Date() },
-      // Add more weeks here
-    ];
-    this.filteredWeeks = [...this.weeks];
-    this.updatePagination();
+  get filteredWeeks(): Week[] {
+    return this.weeks.filter(week =>
+      week.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      week.status.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredWeeks.length / this.entriesToShow);
-    this.paginatedWeeks = this.filteredWeeks.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.paginateWeeks();
   }
 
-  openAddWeekModal() {
-    this.modalCtrl.create({
-      component: AddWeekModalComponent,
-      componentProps: {
-        form: this.addWeekForm
-      }
-    }).then(modal => {
-      modal.present();
-  
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newWeek: Week = {
-            name: result.data.name,
-            startDate: new Date(result.data.startDate),
-            endDate: new Date(result.data.endDate),
-            status: result.data.status,
-            createdAt: new Date() // Example for additional data
-          };
-          this.weeks.push(newWeek);
-          this.filteredWeeks = [...this.weeks];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: Week) {
-    // Logic to edit week
-  }
-
-  deleteWeek(item: Week) {
-    // Logic to delete week
-    this.weeks = this.weeks.filter(week => week !== item);
-    this.filteredWeeks = [...this.weeks];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateWeeks() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedWeeks = this.filteredWeeks.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateWeeks();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateWeeks();
+    }
+  }
+
+  async openAddWeekModal() {
+    const modal = await this.modalController.create({
+      component: AddWeekModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.weeks.push({
+        id: this.weeks.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
+  }
+
+  async editWeek(week: Week) {
+    const modal = await this.modalController.create({
+      component: AddWeekModalComponent,
+      componentProps: { week },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.weeks.findIndex((item) => item.id === week.id);
+      if (index > -1) {
+        this.weeks[index] = { id: week.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteWeek(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Delete Week',
+      message: 'Are you sure you want to delete this week?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.weeks = this.weeks.filter(week => week.id !== id);
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+    await alert.present();
   }
 }

@@ -1,14 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddMilkTypeModalComponent } from '../../../components/add-milk-type-modal/add-milk-type-modal.component';
 
-
 interface MilkType {
+  id: number;
   name: string;
-  milkType: string;
-  status: boolean;
+  status: string;
   createdAt: Date;
 }
 
@@ -18,97 +15,124 @@ interface MilkType {
   styleUrls: ['./milk-types.page.scss'],
 })
 export class MilkTypesPage implements OnInit {
-  milkTypes: MilkType[] = [];
-  filteredMilkTypes: MilkType[] = [];
-  paginatedMilkTypes: MilkType[] = [];
-  currentPage = 1;
+  milkTypes: MilkType[] = [
+    {
+      id: 1,
+      name: 'Cow Milk',
+      status: 'Active',
+      createdAt: new Date(), // Example timestamp converted to Date
+    },
+    {
+      id: 2,
+      name: 'Buffalo Milk',
+      status: 'Inactive',
+      createdAt: new Date(), // Example timestamp converted to Date
+    },
+    // Add more entries as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
-  totalPages = 1; // Add totalPages to handle pagination
+  currentPage = 1;
+  paginatedMilkTypes: MilkType[] = [];
+  totalPages = 1;
 
-  addMilkTypeForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addMilkTypeForm = this.fb.group({
-      name: ['', Validators.required],
-      milkType: ['', Validators.required],
-      status: [true, Validators.required], // Updated to boolean
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    console.log("milktype")
-    this.loadMilkTypes();
+    this.updatePagination();
   }
 
-  loadMilkTypes() {
-    // Example data - replace with data from a service
-    this.milkTypes = [
-      { name: 'Full Cream', milkType: 'Cow Milk', status: true, createdAt: new Date() },
-      // Add more milk types here
-    ];
-    this.filteredMilkTypes = [...this.milkTypes];
-    this.updatePagination();
+  get filteredMilkTypes(): MilkType[] {
+    return this.milkTypes.filter(milkType =>
+      milkType.name.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredMilkTypes.length / this.entriesToShow);
-    this.paginatedMilkTypes = this.filteredMilkTypes.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.paginateMilkTypes();
   }
 
-  openAddMilkTypeModal() {
-    this.modalCtrl.create({
-      component: AddMilkTypeModalComponent,
-      componentProps: {
-        form: this.addMilkTypeForm
-      }
-    }).then(modal => {
-      modal.present(); // Correct placement of modal.present()
-  
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newMilkType: MilkType = {
-            name: result.data.name,
-            milkType: result.data.milkType,
-            status: result.data.status,
-            createdAt: new Date() // Assuming the creation time is now
-          };
-          this.milkTypes.push(newMilkType);
-          this.filteredMilkTypes = [...this.milkTypes];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-  
-
-  openEditModal(item: MilkType) {
-    // Logic to edit milk type
-  }
-
-  deleteMilkType(item: MilkType) {
-    // Logic to delete milk type
-    this.milkTypes = this.milkTypes.filter(milkType => milkType !== item);
-    this.filteredMilkTypes = [...this.milkTypes];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateMilkTypes() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedMilkTypes = this.filteredMilkTypes.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateMilkTypes();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateMilkTypes();
+    }
+  }
+
+  async openAddMilkTypeModal() {
+    const modal = await this.modalController.create({
+      component: AddMilkTypeModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.milkTypes.push({
+        id: this.milkTypes.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
+  }
+
+  async editMilkType(milkType: MilkType) {
+    const modal = await this.modalController.create({
+      component: AddMilkTypeModalComponent,
+      componentProps: { milkType },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.milkTypes.findIndex(
+        (item) => item.id === milkType.id
+      );
+      if (index > -1) {
+        this.milkTypes[index] = { id: milkType.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteMilkType(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this entry?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.milkTypes = this.milkTypes.filter(
+              (item) => item.id !== id
+            );
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

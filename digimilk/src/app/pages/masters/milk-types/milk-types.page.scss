@@ -1,88 +1,116 @@
-.table-controls {
+.ent-ser{
+  display: flex;
   justify-content: space-between;
-  margin-bottom: 1rem;
-}
-
-.table-header {
-  background-color: #f8f8f8;
-  font-weight: bold;
-  border-bottom: 2px solid #ccc;
-}
-
- 
-.table-row {
-  padding: 12px 0;
-  border-bottom: 1px solid #eee;
-
-  ion-col {
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  ion-icon {
-    font-size: 1.2rem;
-    cursor: pointer;
-    margin: 0 10px;
-    color: #3880ff;
-  }
-
-  ion-icon[name="trash-sharp"] {
-    color: #eb445a;
-  }
-}
-
-
-.pagination-controls {
-  margin-top: 1rem;
-}
-
-ion-grid {
-  --ion-grid-padding: 0;
+  text-align: center;
 }
 
 ion-col {
   padding: 10px 0;
   text-align: center;
 
-  ion-input{
+  ion-input {
     margin: 5px 0;
   }
 
-  ion-select{
+  ion-select {
     margin: 5px 0;
   }
 }
 
-@media screen and (max-width: 768px) {
-  ion-col ,ion-input, ion-select{
-    font-size: 0.9rem;
+ion-button {
+  margin: 10px;
+}
+
+
+.search-container {
+  padding: 10px;
+}
+
+.entries-container {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0;
+}
+
+.pagination-container ion-label {
+  margin: 0 10px;
+}
+
+ion-input, ion-select {
+  width: 100%;
+}
+
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  background-color: #ffffff;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.responsive-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 800px;
+}
+
+.responsive-table th,
+.responsive-table td {
+  padding: 12px 15px;
+  text-align: left;
+  border-bottom: 1px solid #e0e0e0;
+  white-space: nowrap;
+}
+
+.responsive-table th {
+  background-color: #f9fafb;
+  color: #333;
+  font-weight: 600;
+}
+
+.responsive-table tbody tr:nth-of-type(even) {
+  background-color: #f4f6f8;
+}
+
+.responsive-table tbody tr:hover {
+  background-color: #eaeff5;
+}
+
+.responsive-table td ion-button {
+  margin: 0 4px;
+}
+
+@media (max-width: 600px) {
+  .responsive-table {
+    min-width: 600px;
   }
 }
 
-@media screen and (max-width: 576px) {
-  ion-col {
-    font-size: 0.8rem;
-    padding: 5px;
-  }
-
-  .table-header,
-  .table-row {
-    flex-wrap: wrap;
-  }
-
-  .table-row ion-col {
-    display: block;
-    width: 100%;
-  }
-
-  .table-header ion-col {
-    display: block;
-    width: 100%;
-  }
-
-  .pagination-controls ion-col {
-    width: 50%;
+@media (max-width: 400px) {
+  .responsive-table {
+    min-width: 400px;
   }
 }
+
+.responsive-table thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+}
+
+@media (max-width: 600px) {
+  .responsive-table th,
+  .responsive-table td {
+    font-size: 14px;
+  }
+}
+

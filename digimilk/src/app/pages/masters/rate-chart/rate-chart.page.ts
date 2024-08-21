@@ -1,15 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddRateModalComponent } from '../../../components/add-rate-modal/add-rate-modal.component';
 
-interface Rate {
+interface RateCharts {
   milkType: string;
   snf: number;
   fat: number;
   ratePerLitre: number;
   createdAt: Date;
+  id: number;
 }
 
 @Component({
@@ -18,102 +17,137 @@ interface Rate {
   styleUrls: ['./rate-chart.page.scss'],
 })
 export class RateChartPage implements OnInit {
-  rates: Rate[] = [];
-  filteredRates: Rate[] = [];
-  paginatedRates: Rate[] = [];
-  currentPage = 1;
+  rateCharts: RateCharts[] = [
+    {
+      id: 1,
+      milkType: 'Cow',
+      snf: 8.5,
+      fat: 4.5,
+      ratePerLitre: 30,
+      createdAt: new Date(),
+    },
+    {
+      id: 2,
+      milkType: 'Buffalo',
+      snf: 9.0,
+      fat: 6.0,
+      ratePerLitre: 40,
+      createdAt: new Date(),
+    },
+    // Add more entries as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
-  totalPages = 1; // Add totalPages to handle pagination
+  currentPage = 1;
+  paginatedCharts: RateCharts[] = [];
+  totalPages = 1;
 
-  addRateForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addRateForm = this.fb.group({
-      milkType: ['', Validators.required],
-      snf: ['', [Validators.required, Validators.min(0)]],
-      fat: ['', [Validators.required, Validators.min(0)]],
-      ratePerLitre: ['', [Validators.required, Validators.min(0)]],
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadRates();
-  }
-
-  loadRates() {
-    // Example data - replace with data from a service
-    this.rates = [
-      { milkType: 'Cow Milk', snf: 8.5, fat: 4.5, ratePerLitre: 50, createdAt: new Date() },
-      // Add more rates here
-    ];
-    this.filteredRates = [...this.rates];
     this.updatePagination();
   }
 
-  updatePagination() {
-    this.totalPages = Math.ceil(this.filteredRates.length / this.entriesToShow);
-    this.paginatedRates = this.filteredRates.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+  get filteredCharts(): RateCharts[] {
+    return this.rateCharts.filter(chart =>
+      chart.milkType.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
-
-  openAddRateModal() {
-    this.modalCtrl.create({
-      component: AddRateModalComponent,
-      componentProps: {
-        form: this.addRateForm
-      }
-    }).then(modal => {
-      modal.present();
   
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newRate: Rate = {
-            milkType: result.data.milkType,
-            snf: result.data.snf,
-            fat: result.data.fat,
-            ratePerLitre: result.data.ratePerLitre,
-            createdAt: new Date() // Assuming the creation time is now
-          };
-          this.rates.push(newRate);
-          this.filteredRates = [...this.rates];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
   importExcel() {
     // Logic to handle Excel import
     console.log('Import Excel functionality not yet implemented');
   }
-
-  openEditModal(item: Rate) {
-    // Logic to edit rate
+  updatePagination() {
+    this.totalPages = Math.ceil(this.filteredCharts.length / this.entriesToShow);
+    this.paginateCharts();
   }
 
-  deleteRate(item: Rate) {
-    // Logic to delete rate
-    this.rates = this.rates.filter(rate => rate !== item);
-    this.filteredRates = [...this.rates];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateCharts() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedCharts = this.filteredCharts.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateCharts();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateCharts();
+    }
+  }
+  
+  async openAddRateChartModal() {
+    const modal = await this.modalController.create({
+      component: AddRateModalComponent,
+    });
+    await modal.present();
+  
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      // Handle the form data here
+      this.rateCharts.push({
+        id: this.rateCharts.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
   }
+  
+
+  async editRateChart(rateChart: RateCharts) {
+    const modal = await this.modalController.create({
+      component: AddRateModalComponent,
+      componentProps: { rateChart },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.rateCharts.findIndex(
+        (item) => item.id === rateChart.id
+      );
+      if (index > -1) {
+        this.rateCharts[index] = { id: rateChart.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteRateChart(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this entry?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          role: 'destructive',
+          handler: () => {
+            this.rateCharts = this.rateCharts.filter(
+              (item) => item.id !== id
+            );
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+    await alert.present();
+  }
+
 }
+
+

@@ -14,10 +14,9 @@
       <ion-input formControlName="name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label>Status</ion-label>
-      <ion-select formControlName="status">
-        <ion-select-option value="true">Active</ion-select-option>
-        <ion-select-option value="false">Deactive</ion-select-option>
+      <ion-select placeholder="Status" interface="popover" formControlName="status">
+        <ion-select-option value="Active">Active</ion-select-option>
+        <ion-select-option value="Inactive">Inactive</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-button expand="full" type="submit">Submit</ion-button>

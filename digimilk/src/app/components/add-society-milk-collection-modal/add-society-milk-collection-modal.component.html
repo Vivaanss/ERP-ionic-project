@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Add Society Milk Collection</ion-title>
+    <ion-buttons slot="end">
+      <ion-button  (click)="dismiss()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="addSocietyMilkCollectionForm" (ngSubmit)="onSubmit()">
+    <ion-item>
+      <ion-select interface="popover" placeholder="Society Name" formControlName="societyName">
+        <ion-select-option *ngFor="let option of societyNames" [value]="option">{{ option }}</ion-select-option>
+      </ion-select>
+    </ion-item>    
+    <ion-item>
+      <ion-select interface="popover" placeholder="Milk Type" formControlName="milkType">
+        <ion-select-option *ngFor="let option of milkTypes" [value]="option">{{ option }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select interface="popover" placeholder="Milk Category" formControlName="milkCategory">
+        <ion-select-option *ngFor="let option of milkCategories" [value]="option">{{ option }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-select interface="popover" placeholder="Shift" formControlName="shift" >
+        <ion-select-option *ngFor="let option of shifts" [value]="option">{{ option }}</ion-select-option>
+      </ion-select>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">SNF</ion-label>
+      <ion-input formControlName="snf" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">FAT</ion-label>
+      <ion-input formControlName="fat" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Rate/L</ion-label>
+      <ion-input formControlName="ratePerLitre" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Total Milk</ion-label>
+      <ion-input formControlName="totalMilk" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Total Amount</ion-label>
+      <ion-input formControlName="totalAmount" type="number"></ion-input>
+    </ion-item>
+    <ion-item>
+      <ion-label position="floating">Item Can ID</ion-label>
+      <ion-input formControlName="canId"></ion-input>
+    </ion-item>
+    <ion-button expand="block" type="submit">Submit</ion-button>
+  </form>
+</ion-content>

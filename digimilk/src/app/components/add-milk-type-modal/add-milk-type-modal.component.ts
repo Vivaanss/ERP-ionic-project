@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddMilkTypeModalComponent {
   addMilkTypeForm: FormGroup;
+  milkTypes= ["Cow Milk","Buffalo Milk"]
 
   constructor(
     private modalCtrl: ModalController,
@@ -16,8 +17,8 @@ export class AddMilkTypeModalComponent {
   ) {
     this.addMilkTypeForm = this.fb.group({
       name: ['', Validators.required],
-      milkType: ['', Validators.required],
-      status: ['true', Validators.required],
+      status: ['Active', Validators.required],
+      createdAt: [new Date(), Validators.required], // Ensure this is set
     });
   }
 

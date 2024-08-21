@@ -1,0 +1,94 @@
+<ion-content>
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title >Users</ion-title>
+    <ion-buttons slot="end">
+      <ion-button>Import Excel</ion-button>
+      <ion-button >
+        <ion-select [(ngModel)]="selectedRole" (ionChange)="filterByRole($event)" interface="popover">
+          <ion-select-option value="">All Roles</ion-select-option>
+          <ion-select-option *ngFor="let role of roles" [value]="role">{{ role }}</ion-select-option>
+        </ion-select>        
+  </ion-button>
+      <ion-button (click)="openAddUserModal()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Add User</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+
+  <ion-grid>
+    <ion-row class="ent-ser">
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-select label="Show Entries" interface="popover" label-placement="floating" fill="outline" [(ngModel)]="entriesToShow" (ionChange)="updatePagination()">
+            <ion-select-option value="5">5</ion-select-option>
+            <ion-select-option value="10">10</ion-select-option>
+            <ion-select-option value="15">15</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-input label-placement="floating" fill="outline" [(ngModel)]="searchTerm" label="Search"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="table-container">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>S.No</th>
+          <th>User Name</th>
+          <th>Email ID</th>
+          <th>userId</th>
+          <th>Mobile</th>
+          <th>Role</th>
+          <th>Status</th>
+          <th>Created Date/Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of paginatedUsers; let i = index">
+          <td>{{ (currentPage - 1) * entriesToShow + i + 1 }}</td>
+          <td>{{ user.userName }}</td>
+          <td>{{ user.emailId }}</td>
+          <td>{{ user.userId }}</td>
+          <td>{{ user.mobile }}</td>
+          <td>{{ user.role }}</td>
+          <td>{{ user.status? 'Active' : 'Inactive' }}</td>
+          <td>{{ user.createdAt | date: 'short' }}</td>
+          <td>
+            <ion-button size="small" fill="clear" color="primary" (click)="editUser(user)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteUser(user.id)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="secondary" (click)="changePassword(user)">
+              <ion-icon slot="icon-only" name="lock-closed-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="tertary" (click)="updateUserDetails(user)">
+              <ion-icon name="refresh-circle-outline"></ion-icon>           
+             </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+
+  <div class="pagination-container">
+    <ion-button (click)="prevPage()" [disabled]="currentPage === 1">Previous</ion-button>
+    <ion-label>{{currentPage}} of {{totalPages}}</ion-label>
+    <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</ion-button>
+  </div>
+</ion-content>
+

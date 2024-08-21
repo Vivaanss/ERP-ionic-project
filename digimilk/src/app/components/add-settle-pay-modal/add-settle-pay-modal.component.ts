@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
 
@@ -9,6 +9,13 @@ import { ModalController } from '@ionic/angular';
 })
 export class AddSettlePayModalComponent implements OnInit {
   addSettlePayForm!: FormGroup;
+  @Input() settlePay = {
+    society: '',
+    farmer: '',
+    settlementAmount: null,
+    settlementDate: null,
+    adjust: ''
+  };
 
   constructor(private fb: FormBuilder, private modalCtrl: ModalController) {}
 

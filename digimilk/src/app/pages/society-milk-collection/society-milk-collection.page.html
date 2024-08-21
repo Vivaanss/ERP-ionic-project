@@ -1,17 +1,85 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    
     <ion-buttons slot="start">
-      <ion-menu-button></ion-menu-button>
+      <ion-back-button defaultHref="/"></ion-back-button>
     </ion-buttons>
-    <ion-title>society-milk-collection</ion-title>
+    <ion-title>Society Milk Collection</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddSocietyMilkCollectionModal()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Add Society MC
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">society-milk-collection</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ent-ser">
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-select label="Show Entries" interface="popover" label-placement="floating" fill="outline" [(ngModel)]="entriesToShow" (ionChange)="updatePagination()">
+            <ion-select-option value="5">5</ion-select-option>
+            <ion-select-option value="10">10</ion-select-option>
+            <ion-select-option value="15">15</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-input label-placement="floating" fill="outline" [(ngModel)]="searchTerm" label="Search"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="table-container">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Society Name</th>
+          <th>Milk Type</th>
+          <th>Milk Category</th>
+          <th>Shift</th>
+          <th>SNF</th>
+          <th>FAT</th>
+          <th>Rate/Litre</th>
+          <th>Total Milk</th>
+          <th>Total Amount</th>
+          <th>Can ID</th>
+          <th>Created Date/Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let milkCollection of milkCollections">
+          <td>{{ milkCollection.societyName }}</td>
+          <td>{{ milkCollection.milkType }}</td>
+          <td>{{ milkCollection.milkCategory }}</td>
+          <td>{{ milkCollection.shift }}</td>
+          <td>{{ milkCollection.snf }}</td>
+          <td>{{ milkCollection.fat }}</td>
+          <td>{{ milkCollection.ratePerLitre | currency:'USD' }}</td>
+          <td>{{ milkCollection.totalMilk }} L</td>
+          <td>{{ milkCollection.totalAmount | currency:'USD' }}</td>
+          <td>{{ milkCollection.canId }}</td>
+          <td>{{ milkCollection.createdAt | date: 'short' }}</td>
+          <td>
+            <ion-button size="small" fill="clear" color="primary" (click)="editMilkCollection(milkCollection)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteMilkCollection(milkCollection.canId ||'' )">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-container">
+    <ion-button (click)="prevPage()" [disabled]="currentPage === 1">Previous</ion-button>
+    <ion-label>{{currentPage}} of {{totalPages}}</ion-label>
+    <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</ion-button>
+  </div>
+
 </ion-content>

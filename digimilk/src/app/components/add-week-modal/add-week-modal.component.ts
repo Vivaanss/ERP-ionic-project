@@ -8,18 +8,35 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-week-modal.component.scss'],
 })
 export class AddWeekModalComponent {
-  @Input()
-  form!: FormGroup;
+  @Input() week: any;
+  
+  name!: string;
+  startDate!: string;
+  endDate!: string;
+  status!: string;
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalController: ModalController) {}
 
-  closeModal() {
-    this.modalCtrl.dismiss();
+  ngOnInit() {
+    if (this.week) {
+      this.name = this.week.name;
+      this.startDate = this.week.startDate;
+      this.endDate = this.week.endDate;
+      this.status = this.week.status;
+    }
   }
 
-  onSubmit() {
-    if (this.form.valid) {
-      this.modalCtrl.dismiss(this.form.value);
-    }
+  dismiss(data?: any) {
+    this.modalController.dismiss(data);
+  }
+
+  submit() {
+    this.dismiss({
+      name: this.name,
+      startDate: this.startDate,
+      endDate: this.endDate,
+      status: this.status,
+      createdAt: new Date()
+    });
   }
 }

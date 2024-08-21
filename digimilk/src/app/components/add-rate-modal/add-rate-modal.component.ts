@@ -9,6 +9,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddRateModalComponent {
   rateForm: FormGroup;
+  milkTypes = ["Cow Milk", "Buffalo Milk"];
 
   constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
     this.rateForm = this.fb.group({
@@ -16,6 +17,7 @@ export class AddRateModalComponent {
       snf: ['', [Validators.required, Validators.min(0)]],
       fat: ['', [Validators.required, Validators.min(0)]],
       ratePerLitre: ['', [Validators.required, Validators.min(0)]],
+      createdAt: [new Date(), Validators.required], // Default to current date/time
     });
   }
 

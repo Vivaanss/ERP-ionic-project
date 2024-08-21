@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, Validators,FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-add-route-modal',
@@ -8,9 +8,21 @@ import { FormGroup } from '@angular/forms';
   styleUrls: ['./add-route-modal.component.scss'],
 })
 export class AddRouteModalComponent {
-  @Input() form!: FormGroup;
+  @Input() form: FormGroup;
+  
 
-  constructor(private modalCtrl: ModalController) {}
+  constructor(private modalCtrl: ModalController, private fb:FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      vehicleNo:['', Validators.required],
+      driverNumber:['', [Validators.required,  Validators.pattern('^[0-9]{10}$')]],
+      driverName:['', Validators.required],
+      distance:['', Validators.required],
+      duration:['', Validators.required],
+      status: ['Active', Validators.required],
+      createdAt: [new Date(), Validators.required], // Ensure this is set
+    });
+  }
 
   submit() {
     if (this.form.valid) {

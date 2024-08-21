@@ -2,17 +2,17 @@
   <ion-toolbar>
     <ion-title>Add Rate</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()">Cancel</ion-button>
-      <ion-button (click)="submit()">Submit</ion-button>
+      <ion-button (click)="cancel()"><ion-icon name="close"></ion-icon></ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="rateForm">
+  <form [formGroup]="rateForm" (ngSubmit)="submit()">
     <ion-item>
-      <ion-label position="floating">Milk Type</ion-label>
-      <ion-input formControlName="milkType"></ion-input>
+      <ion-select interface="popover" placeholder="Milk Type" formControlName="milkType">
+        <ion-select-option *ngFor="let option of milkTypes" [value]="option">{{ option }}</ion-select-option>
+      </ion-select>
     </ion-item>
 
     <ion-item>
@@ -29,5 +29,9 @@
       <ion-label position="floating">Rate per Litre</ion-label>
       <ion-input type="number" formControlName="ratePerLitre"></ion-input>
     </ion-item>
+
+    <ion-footer>
+      <ion-button expand="block" type="submit" [disabled]="!rateForm.valid">Submit</ion-button>
+    </ion-footer>
   </form>
 </ion-content>

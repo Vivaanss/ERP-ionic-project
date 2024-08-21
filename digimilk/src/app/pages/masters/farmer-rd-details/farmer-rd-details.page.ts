@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddFarmerRdDetailModalComponent } from '../../../components/add-farmer-rd-detail-modal/add-farmer-rd-detail-modal.component';
 
-interface FarmerRdDetail {
+interface FarmerRDDetail {
+  id:number;
   farmerName: string;
   tenureAmount: number;
   noOfMonths: number;
@@ -19,99 +18,126 @@ interface FarmerRdDetail {
   styleUrls: ['./farmer-rd-details.page.scss'],
 })
 export class FarmerRdDetailsPage implements OnInit {
-  farmerRdDetails: FarmerRdDetail[] = [];
-  filteredFarmerRdDetails: FarmerRdDetail[] = [];
-  paginatedFarmerRdDetails: FarmerRdDetail[] = [];
-  currentPage = 1;
+  farmerRDDetails = [
+    {
+      id: 1,
+      farmerName: 'John Doe',
+      tenureAmount: 1000,
+      noOfMonths: 12,
+      startDate: new Date(),
+      maturityAmount: 1200,
+      interestRate: 10,
+    },
+    {
+      id: 2,
+      farmerName: 'Jane Smith',
+      tenureAmount: 1500,
+      noOfMonths: 18,
+      startDate: new Date(),
+      maturityAmount: 1800,
+      interestRate: 12,
+    },
+    // Add more entries as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
+  currentPage = 1;
+  paginatedCollections: FarmerRDDetail[] = [];
   totalPages = 1;
 
-  addFarmerRdDetailForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addFarmerRdDetailForm = this.fb.group({
-      farmerName: ['', Validators.required],
-      tenureAmount: ['', [Validators.required, Validators.min(0)]],
-      noOfMonths: ['', [Validators.required, Validators.min(1)]],
-      startDate: ['', Validators.required],
-      maturityAmount: ['', [Validators.required, Validators.min(0)]],
-      interestRate: ['', [Validators.required, Validators.min(0)]],
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadFarmerRdDetails();
+    this.updatePagination();
   }
 
-  loadFarmerRdDetails() {
-    // Example data - replace with data from a service
-    this.farmerRdDetails = [
-      { farmerName: 'John Doe', tenureAmount: 50000, noOfMonths: 12, startDate: new Date(), maturityAmount: 55000, interestRate: 5 },
-      // Add more farmer RD details here
-    ];
-    this.filteredFarmerRdDetails = [...this.farmerRdDetails];
-    this.updatePagination();
+  get filteredCollections(): FarmerRDDetail[] {
+    return this.farmerRDDetails.filter(detail =>
+      detail.farmerName.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
-    this.totalPages = Math.ceil(this.filteredFarmerRdDetails.length / this.entriesToShow);
-    this.paginatedFarmerRdDetails = this.filteredFarmerRdDetails.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.totalPages = Math.ceil(this.filteredCollections.length / this.entriesToShow);
+    this.paginateCollections();
   }
 
-  openAddFarmerRdDetailsModal() {
-    this.modalCtrl.create({
-      component: AddFarmerRdDetailModalComponent,
-      componentProps: {
-        form: this.addFarmerRdDetailForm
-      }
-    }).then(modal => {
-      modal.present();
-  
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newFarmerRdDetail: FarmerRdDetail = {
-            farmerName: result.data.farmerName,
-            tenureAmount: result.data.tenureAmount,
-            noOfMonths: result.data.noOfMonths,
-            startDate: result.data.startDate,
-            maturityAmount: result.data.maturityAmount,
-            interestRate: result.data.interestRate
-          };
-          this.farmerRdDetails.push(newFarmerRdDetail);
-          this.filteredFarmerRdDetails = [...this.farmerRdDetails];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: FarmerRdDetail) {
-    // Logic to edit farmer RD detail
-  }
-
-  deleteFarmerRdDetail(item: FarmerRdDetail) {
-    this.farmerRdDetails = this.farmerRdDetails.filter(detail => detail !== item);
-    this.filteredFarmerRdDetails = [...this.farmerRdDetails];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateCollections() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedCollections = this.filteredCollections.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateCollections();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateCollections();
+    }
+  }
+
+  async openAddFarmerRDModal() {
+    const modal = await this.modalController.create({
+      component: AddFarmerRdDetailModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.farmerRDDetails.push({
+        id: this.farmerRDDetails.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
+  }
+
+  async editRDDetail(rdDetail: { id: number }) {
+    const modal = await this.modalController.create({
+      component: AddFarmerRdDetailModalComponent,
+      componentProps: { rdDetail },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.farmerRDDetails.findIndex(detail => detail.id === rdDetail.id);
+      if (index !== -1) {
+        this.farmerRDDetails[index] = { id: rdDetail.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteRDDetail(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this RD detail?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.farmerRDDetails = this.farmerRDDetails.filter(detail => detail.id !== id);
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

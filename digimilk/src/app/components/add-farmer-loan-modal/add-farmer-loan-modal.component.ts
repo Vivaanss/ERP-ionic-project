@@ -19,7 +19,7 @@ export class AddFarmerLoanModalComponent {
       loanAccountNo: ['', Validators.required],
       loanAmount: ['', [Validators.required, Validators.min(0)]],
       interestRate: ['', [Validators.required, Validators.min(0)]],
-      noOfEmi: ['', [Validators.required, Validators.min(0)]],
+      numberOfEMI: ['', [Validators.required, Validators.min(0)]],
       emi: ['', [Validators.required, Validators.min(0)]],
       startDate: ['', Validators.required],
       endDate: ['', Validators.required]

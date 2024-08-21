@@ -8,8 +8,6 @@ const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'dashboard', loadChildren: () => import('./pages/dashboard/dashboard.module').then(m => m.DashboardPageModule) },
   { path: 'roles-permissions', loadChildren: () => import('./pages/roles-permissions/roles-permissions.module').then(m => m.RolesPermissionsPageModule) },
-  { path: 'users/add-users', loadChildren: () => import('./pages/users/add-users/add-users.module').then(m => m.AddUsersPageModule) },
-  { path: 'users/users', loadChildren: () => import('./pages/users/users/users.module').then(m => m.UsersPageModule) },
   { path: 'masters/pro-type', loadChildren: () => import('./pages/masters/pro-type/pro-type.module').then(m => m.ProTypePageModule) },
   { path: 'masters/shift', loadChildren: () => import('./pages/masters/shift/shift.module').then(m => m.ShiftPageModule) },
   { path: 'masters/rate-chart', loadChildren: () => import('./pages/masters/rate-chart/rate-chart.module').then(m => m.RateChartPageModule) },
@@ -43,15 +41,11 @@ const routes: Routes = [
   { path: 'broadcast-message/screen-msg', loadChildren: () => import('./pages/broadcast-message/screen-msg/screen-msg.module').then(m => m.ScreenMsgPageModule) },
   { path: 'broadcast-message/farmer-screen-msg', loadChildren: () => import('./pages/broadcast-message/farmer-screen-msg/farmer-screen-msg.module').then(m => m.FarmerScreenMsgPageModule) },
   { path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)},
-  {
-    path: 'milk-types',
-    loadChildren: () => import('./pages/masters/milk-types/milk-types.module').then( m => m.MilkTypesPageModule)
-  },
-  {
-    path: 'product',
-    loadChildren: () => import('./pages/masters/product/product.module').then( m => m.ProductPageModule)
-  },
+  {path: 'milk-types', loadChildren: () => import('./pages/masters/milk-types/milk-types.module').then( m => m.MilkTypesPageModule)},
+  { path: 'product', loadChildren: () => import('./pages/masters/product/product.module').then( m => m.ProductPageModule)},
+  {path: 'user', loadChildren: () => import('./pages/user/user.module').then( m => m.UserPageModule)},
   { path: '**', component: PageNotFoundComponent },
+
 ];
 
 @NgModule({

@@ -1,108 +1,135 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddShiftModalComponent } from '../../../components/add-shift-modal/add-shift-modal.component';
 
 interface Shift {
-  shift: string;
-  status: boolean;
+  id: number;
+  name: string;
+  status: string;
   createdAt: Date;
 }
+
 @Component({
   selector: 'app-shift',
   templateUrl: './shift.page.html',
   styleUrls: ['./shift.page.scss'],
 })
 export class ShiftPage implements OnInit {
+  shifts: Shift[] = [
+    {
+      id: 1,
+      name: 'Morning Shift',
+      status: 'Active',
+      createdAt: new Date(),  // Example timestamp converted to Date
+    },
+    {
+      id: 2,
+      name: 'Evening Shift',
+      status: 'Inactive',
+      createdAt: new Date(),  // Example timestamp converted to Date
+    },
+    // Add more entries as needed
+  ];
 
-  shifts: Shift[] = [];
-  filteredShifts: Shift[] = [];
-  paginatedShifts: Shift[] = [];
-  currentPage = 1;
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
+  currentPage = 1;
+  paginatedShifts: Shift[] = [];
   totalPages = 1;
 
-  addShiftForm: FormGroup;
-
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
-    this.addShiftForm = this.fb.group({
-      shift: ['', Validators.required],
-      status: [true, Validators.required],
-    });
-  }
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadShifts();
+    this.updatePagination();
   }
 
-  loadShifts() {
-    // Example data - replace with data from a service
-    this.shifts = [
-      { shift: 'Morning', status: true, createdAt: new Date() },
-      // Add more shifts here
-    ];
-    this.filteredShifts = [...this.shifts];
-    this.updatePagination();
+  get filteredShifts(): Shift[] {
+    return this.shifts.filter(shift =>
+      shift.name.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      shift.status.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
     this.totalPages = Math.ceil(this.filteredShifts.length / this.entriesToShow);
-    this.paginatedShifts = this.filteredShifts.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.paginateShifts();
   }
 
-  openAddShiftModal() {
-    this.modalCtrl.create({
-      component: AddShiftModalComponent,
-      componentProps: {
-        form: this.addShiftForm
-      }
-    }).then(modal => {
-      modal.present();
-
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newShift: Shift = {
-            shift: result.data.shift,
-            status: result.data.status,
-            createdAt: new Date()
-          };
-          this.shifts.push(newShift);
-          this.filteredShifts = [...this.shifts];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: Shift) {
-    // Logic to edit shift
-  }
-
-  deleteShift(item: Shift) {
-    // Logic to delete shift
-    this.shifts = this.shifts.filter(shift => shift !== item);
-    this.filteredShifts = [...this.shifts];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateShifts() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedShifts = this.filteredShifts.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateShifts();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateShifts();
+    }
+  }
+
+  async openAddShiftModal() {
+    const modal = await this.modalController.create({
+      component: AddShiftModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.shifts.push({
+        id: this.shifts.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
+  }
+
+  async editShift(shift: Shift) {
+    const modal = await this.modalController.create({
+      component: AddShiftModalComponent,
+      componentProps: { shift },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.shifts.findIndex((item) => item.id === shift.id);
+      if (index > -1) {
+        this.shifts[index] = { id: shift.id, ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteShift(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Delete',
+      message: 'Are you sure you want to delete this entry?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.shifts = this.shifts.filter((item) => item.id !== id);
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

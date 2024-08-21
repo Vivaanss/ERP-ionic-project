@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
+import { ModalController, AlertController } from '@ionic/angular';
 import { AddSettlePayModalComponent } from '../../../components/add-settle-pay-modal/add-settle-pay-modal.component';
 
-interface Settlement {
+interface SettlePay {
+  id: number;
   society: string;
   farmer: string;
   settlementAmount: number;
@@ -18,84 +17,126 @@ interface Settlement {
   styleUrls: ['./settle-pay.page.scss'],
 })
 export class SettlePayPage implements OnInit {
-  settlements: Settlement[] = [];
-  filteredSettlements: Settlement[] = [];
-  paginatedSettlements: Settlement[] = [];
-  currentPage = 1;
+  settlePays: SettlePay[] = [
+    {
+      id: 1,
+      society: 'Society A',
+      farmer: 'Farmer A',
+      settlementAmount: 5000,
+      settlementDate: new Date(),
+      adjust: 'None',
+    },
+    {
+      id: 2,
+      society: 'Society B',
+      farmer: 'Farmer B',
+      settlementAmount: 7000,
+      settlementDate: new Date(),
+      adjust: 'Adjustment 1',
+    },
+    // Add more entries as needed
+  ];
+
+  searchTerm = '';
   entriesToShow = 5;
-  searchQuery = '';
+  currentPage = 1;
+  paginatedCollections: SettlePay[] = [];
   totalPages = 1;
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {}
+  constructor(
+    private modalController: ModalController,
+    private alertController: AlertController
+  ) {}
 
   ngOnInit() {
-    this.loadSettlements();
+    this.updatePagination();
   }
 
-  loadSettlements() {
-    // Example data - replace with data from a service
-    this.settlements = [
-      { society: 'Society A', farmer: 'Farmer X', settlementAmount: 5000, settlementDate: new Date(), adjust: 'Adjustment 1' },
-      // Add more settlements here
-    ];
-    this.filteredSettlements = [...this.settlements];
-    this.updatePagination();
+  get filteredCollections(): SettlePay[] {
+    return this.settlePays.filter(settlePay =>
+      settlePay.society.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      settlePay.farmer.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      settlePay.adjust.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 
   updatePagination() {
-    this.totalPages = Math.ceil(this.filteredSettlements.length / this.entriesToShow);
-    this.paginatedSettlements = this.filteredSettlements.slice((this.currentPage - 1) * this.entriesToShow, this.currentPage * this.entriesToShow);
+    this.totalPages = Math.ceil(this.filteredCollections.length / this.entriesToShow);
+    this.paginateCollections();
   }
 
-  openAddSettlePayModal() {
-    this.modalCtrl.create({
-      component: AddSettlePayModalComponent
-    }).then(modal => {
-      modal.present();
-  
-      modal.onDidDismiss().then(result => {
-        if (result.data) {
-          const newSettlement: Settlement = {
-            society: result.data.society,
-            farmer: result.data.farmer,
-            settlementAmount: result.data.settlementAmount,
-            settlementDate: result.data.settlementDate,
-            adjust: result.data.adjust
-          };
-          this.settlements.push(newSettlement);
-          this.filteredSettlements = [...this.settlements];
-          this.updatePagination();
-        }
-      });
-    });
-  }
-
-  openEditModal(item: Settlement) {
-    // Logic to edit settlement
-  }
-
-  deleteSettlement(item: Settlement) {
-    this.settlements = this.settlements.filter(settlement => settlement !== item);
-    this.filteredSettlements = [...this.settlements];
-    this.updatePagination();
-  }
-
-  onEntriesChange(event: any) {
-    this.entriesToShow = event.detail.value;
-    this.updatePagination();
-  }
-
-  previousPage() {
-    if (this.currentPage > 1) {
-      this.currentPage--;
-      this.updatePagination();
-    }
+  paginateCollections() {
+    const startIndex = (this.currentPage - 1) * this.entriesToShow;
+    const endIndex = startIndex + this.entriesToShow;
+    this.paginatedCollections = this.filteredCollections.slice(startIndex, endIndex);
   }
 
   nextPage() {
     if (this.currentPage < this.totalPages) {
       this.currentPage++;
+      this.paginateCollections();
+    }
+  }
+
+  prevPage() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.paginateCollections();
+    }
+  }
+
+  async openAddSettlePayModal() {
+    const modal = await this.modalController.create({
+      component: AddSettlePayModalComponent,
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      this.settlePays.push({
+        id: this.settlePays.length + 1,
+        ...data,
+      });
       this.updatePagination();
     }
+  }
+
+  async editSettlePay(settlePay: SettlePay) {
+    const modal = await this.modalController.create({
+      component: AddSettlePayModalComponent,
+      componentProps: { settlePay },
+    });
+    await modal.present();
+
+    const { data } = await modal.onWillDismiss();
+    if (data) {
+      const index = this.settlePays.findIndex(s => s.id === settlePay.id);
+      if (index > -1) {
+        this.settlePays[index] = { ...this.settlePays[index], ...data };
+        this.updatePagination();
+      }
+    }
+  }
+
+  async deleteSettlePay(id: number) {
+    const alert = await this.alertController.create({
+      header: 'Confirm Deletion',
+      message: 'Are you sure you want to delete this record?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+        },
+        {
+          text: 'Delete',
+          handler: () => {
+            this.settlePays = this.settlePays.filter(s => s.id !== id);
+            this.updatePagination();
+          },
+        },
+      ],
+    });
+
+    await alert.present();
   }
 }

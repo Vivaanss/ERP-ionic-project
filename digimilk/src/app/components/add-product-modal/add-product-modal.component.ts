@@ -18,7 +18,8 @@ export class AddProductModalComponent  implements OnInit {
       name: ['', Validators.required],
       productType: ['', Validators.required],
       price: [0, Validators.required],
-      status: ['true', Validators.required],
+      status: ['Available', Validators.required],
+      createdAt: [new Date(), Validators.required], // Ensure this is set
     });
   }
   ngOnInit(): void {

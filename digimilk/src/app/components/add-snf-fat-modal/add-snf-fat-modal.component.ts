@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,16 +8,24 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-snf-fat-modal.component.scss'],
 })
 export class AddSnfFatModalComponent {
+  @Input() setMinSnfFat: any; // Receive data for editing
   addSnfFatForm: FormGroup;
+  milkTypes= ["Cow Milk","Buffalo Milk"]
 
   constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
     this.addSnfFatForm = this.fb.group({
+      id: [null],
       milkType: ['', Validators.required],
       minSnf: ['', [Validators.required, Validators.min(0)]],
       minFat: ['', [Validators.required, Validators.min(0)]],
       maxSnf: ['', [Validators.required, Validators.min(0)]],
       maxFat: ['', [Validators.required, Validators.min(0)]],
     });
+  }
+  ngOnInit() {
+    if (this.setMinSnfFat) {
+      this.addSnfFatForm.patchValue(this.setMinSnfFat); // Populate form with existing data
+    }
   }
 
   dismiss() {

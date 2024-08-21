@@ -10,12 +10,16 @@
 <ion-content>
   <form [formGroup]="addShiftForm" (ngSubmit)="onSubmit()">
     <ion-item>
-      <ion-label position="floating">Shift</ion-label>
-      <ion-input formControlName="shift"></ion-input>
+      <ion-select placeholder="Shift" interface="popover" formControlName="name">
+        <ion-select-option value="Morning Shift">Morning</ion-select-option>
+        <ion-select-option value="Evening Shift">Evening</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label>Status</ion-label>
-      <ion-toggle formControlName="status"></ion-toggle>
+      <ion-select placeholder="Status" interface="popover" formControlName="status">
+        <ion-select-option value="Active ">Active</ion-select-option>
+        <ion-select-option value="Inactive ">Inactive</ion-select-option>
+      </ion-select>
     </ion-item>
     <ion-footer>
       <ion-button expand="full" type="submit" [disabled]="addShiftForm.invalid">Submit</ion-button>
