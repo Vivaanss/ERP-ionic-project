@@ -1,0 +1,36 @@
+/* Add this to your component's SCSS file */
+
+ion-item {
+    display: flex;
+    align-items: center;
+  }
+  
+  input[type="file"] {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+  }
+  
+  input[type="file"]::-webkit-file-upload-button {
+    background: #3880ff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  input[type="file"]::-moz-file-upload {
+    background: #3880ff;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  

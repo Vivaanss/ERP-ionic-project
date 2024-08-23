@@ -1,0 +1,54 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>{{ isEdit ? 'Edit' : 'Add' }} Product Demand</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="dismissModal()"><ion-icon name="close"></ion-icon></ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <form [formGroup]="productDemandForm">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Product ID</ion-label>
+        <ion-input formControlName="productId"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Name</ion-label>
+        <ion-input formControlName="name"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Description</ion-label>
+        <ion-input formControlName="description"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Price</ion-label>
+        <ion-input type="number" formControlName="price"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Weight (kg)</ion-label>
+        <ion-input type="number" formControlName="weight"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="floating">Status</ion-label>
+        <ion-select  interface="popover" formControlName="status">
+          <ion-select-option value="Available">Available</ion-select-option>
+          <ion-select-option value="Out of Stock">Out of Stock</ion-select-option>
+        </ion-select>
+      </ion-item>
+    </ion-list>
+
+    <ion-button expand="block" (click)="saveProductDemand()">
+      {{ isEdit ? 'Save' : 'Add' }} Product Demand
+    </ion-button>
+  </form>
+
+  
+
+</ion-content>

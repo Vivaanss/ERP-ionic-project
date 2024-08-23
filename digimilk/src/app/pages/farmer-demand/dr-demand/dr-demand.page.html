@@ -1,13 +1,78 @@
-<ion-header [translucent]="true">
+<ion-header>
   <ion-toolbar>
-    <ion-title>dr-demand</ion-title>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/"></ion-back-button>
+    </ion-buttons>
+    <ion-title>Doctor Demand</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openAddDrDemandModal()">
+        <ion-icon name="add-circle-outline"></ion-icon>
+        Add Doctor Demand
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">dr-demand</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content>
+  <ion-grid>
+    <ion-row class="ent-ser">
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-select label="Show Entries" interface="popover" label-placement="floating" fill="outline" [(ngModel)]="entriesToShow" (ionChange)="updatePagination()">
+            <ion-select-option value="5">5</ion-select-option>
+            <ion-select-option value="10">10</ion-select-option>
+            <ion-select-option value="15">15</ion-select-option>
+          </ion-select>
+        </ion-item>
+      </ion-col>
+      <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
+        <ion-item>
+          <ion-input label-placement="floating" fill="outline" [(ngModel)]="searchTerm" label="Search"></ion-input>
+        </ion-item>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+  <div class="table-container">
+    <table class="responsive-table">
+      <thead>
+        <tr>
+          <th>Clinic ID</th>
+          <th>Clinic Name</th>
+          <th>Dr. Name</th>
+          <th>Phone No.</th>
+          <th>Email</th>
+          <th>Speciality</th>
+          <th>Status</th>
+          <th>Created Date/Time</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let drDemand of paginatedCollections">
+          <td>{{ drDemand.clinicId }}</td>
+          <td>{{ drDemand.clinicName }}</td>
+          <td>{{ drDemand.drName }}</td>
+          <td>{{ drDemand.phoneNo }}</td>
+          <td>{{ drDemand.email }}</td>
+          <td>{{ drDemand.speciality }}</td>
+          <td>{{ drDemand.status }}</td>
+          <td>{{ drDemand.createdAt | date: 'short' }}</td>
+          <td>
+            <ion-button size="small" fill="clear" color="primary" (click)="editDrDemand(drDemand)">
+              <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+            </ion-button>
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteDrDemand(drDemand.clinicId)">
+              <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+            </ion-button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="pagination-container">
+    <ion-button (click)="prevPage()" [disabled]="currentPage === 1">Previous</ion-button>
+    <ion-label>{{ currentPage }} of {{ totalPages }}</ion-label>
+    <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</ion-button>
+  </div>
 </ion-content>
