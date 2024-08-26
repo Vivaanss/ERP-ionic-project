@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{ isEdit ? 'Edit' : 'Add' }} Product Demand</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismissModal()"><ion-icon name="close"></ion-icon></ion-button>
+      <ion-icon (click)="dismiss()" name="close"  ></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,33 +11,33 @@
   <form [formGroup]="productDemandForm">
     <ion-list>
       <ion-item>
-        <ion-label position="floating">Product ID</ion-label>
+        <ion-label position="stacked">Product ID</ion-label>
         <ion-input formControlName="productId"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Name</ion-label>
+        <ion-label position="stacked">Name</ion-label>
         <ion-input formControlName="name"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Description</ion-label>
+        <ion-label position="stacked">Description</ion-label>
         <ion-input formControlName="description"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Price</ion-label>
+        <ion-label position="stacked">Price</ion-label>
         <ion-input type="number" formControlName="price"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Weight (kg)</ion-label>
+        <ion-label position="stacked">Weight (kg)</ion-label>
         <ion-input type="number" formControlName="weight"></ion-input>
       </ion-item>
 
       <ion-item>
-        <ion-label position="floating">Status</ion-label>
-        <ion-select  interface="popover" formControlName="status">
+        <ion-label position="stacked">Status</ion-label>
+        <ion-select  interface="popover" placeholder="Select Status" formControlName="status">
           <ion-select-option value="Available">Available</ion-select-option>
           <ion-select-option value="Out of Stock">Out of Stock</ion-select-option>
         </ion-select>

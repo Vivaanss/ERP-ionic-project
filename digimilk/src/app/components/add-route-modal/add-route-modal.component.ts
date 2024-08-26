@@ -8,6 +8,9 @@ import { FormGroup, Validators,FormBuilder } from '@angular/forms';
   styleUrls: ['./add-route-modal.component.scss'],
 })
 export class AddRouteModalComponent {
+  @Input() route: any;
+  isEdit:boolean=false;
+
   @Input() form: FormGroup;
   
 
@@ -24,6 +27,9 @@ export class AddRouteModalComponent {
     });
   }
 
+  ngOnInit() {
+    this.isEdit = !!this.route;
+  }
   submit() {
     if (this.form.valid) {
       this.modalCtrl.dismiss(this.form.value);

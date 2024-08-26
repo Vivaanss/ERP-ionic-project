@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, Input,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ModalController } from '@ionic/angular';
+import { IonPopover, ModalController } from '@ionic/angular';
 
 @Component({
   selector: 'app-add-farmer-rd-detail-modal',
@@ -8,7 +8,10 @@ import { ModalController } from '@ionic/angular';
   styleUrls: ['./add-farmer-rd-detail-modal.component.scss'],
 })
 export class AddFarmerRdDetailModalComponent {
+  @Input() rdDetail: any;
   addFarmerRdDetailForm: FormGroup;
+  isEdit: boolean = false;
+  farmerNames = ['Farmer A', 'Farmer B'];
 
   constructor(
     private fb: FormBuilder,
@@ -24,6 +27,21 @@ export class AddFarmerRdDetailModalComponent {
       interestRate: ['', [Validators.required, Validators.pattern('^[0-9]+(\\.[0-9]+)?$')]],
     });
   }
+
+  ngOnInit() {
+    this.isEdit = !!this.rdDetail;
+  }
+  onDateChange(field: string, event: any, popover: IonPopover) {
+    const value = event.detail.value;
+    this.addFarmerRdDetailForm.get(field)?.setValue(value);
+
+    // Automatically close the popover after selecting the date
+    popover.dismiss();
+  }
+  openPopover(popover: IonPopover) {
+    popover.present();
+  }
+
 
   save() {
     if (this.addFarmerRdDetailForm.valid) {

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-society-milk-collection-modal.component.scss'],
 })
 export class AddSocietyMilkCollectionModalComponent {
+  @Input() milkCollection: any;
+  isEdit:boolean=false;
+
   addSocietyMilkCollectionForm: FormGroup;
   societyNames = ['Society A', 'Society B']; // Replace with actual options
   milkTypes = ['Cow Milk', 'Buffalo Milk']; // Replace with actual options
@@ -31,6 +34,9 @@ export class AddSocietyMilkCollectionModalComponent {
       canId: [''],
       createdAt: [new Date(), Validators.required], // Ensure this is set
     });    
+  }
+  ngOnInit() {
+    this.isEdit = !!this.milkCollection;
   }
 
   dismiss() {

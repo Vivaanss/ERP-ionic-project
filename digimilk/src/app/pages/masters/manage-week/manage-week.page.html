@@ -48,8 +48,8 @@
       <tbody>
         <tr *ngFor="let week of paginatedWeeks">
           <td>{{ week.name }}</td>
-          <td>{{ week.startDate | date: 'shortDate' }}</td>
-          <td>{{ week.endDate | date: 'shortDate' }}</td>
+          <td>{{ week.startDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ week.endDate | date: 'dd-MM-yyyy' }}</td>
           <td>{{ week.status }}</td>
           <td>{{ week.createdAt | date: 'short' }}</td>
           <td>

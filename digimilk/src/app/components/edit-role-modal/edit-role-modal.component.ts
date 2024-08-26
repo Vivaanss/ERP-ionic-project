@@ -16,7 +16,7 @@ interface Page {
 export class EditRoleModalComponent implements OnInit {
   @Input() role: any;
   roleForm: FormGroup;
-  isEditMode = true;
+  isEditMode:boolean=false;
 
   allPages: Page[] = [  // Use the Page interface here
     { name: 'Roles & Permissions', selected: false },
@@ -93,7 +93,7 @@ export class EditRoleModalComponent implements OnInit {
     }
   }
 
-  dismissModal() {
+  dismiss() {
     this.modalCtrl.dismiss();
   }
 

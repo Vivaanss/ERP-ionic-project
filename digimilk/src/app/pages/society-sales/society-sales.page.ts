@@ -1,21 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-import { AddMilkCollectionModalComponent } from '../../components/add-milk-collection-modal/add-milk-collection-modal.component';
+import { AddSocietySalesModalComponent } from '../../components/add-society-sales-modal/add-society-sales-modal.component';
 
 
 // Define the interface for your collection items
-interface milkCollections {
-  id: number;
-  farmerName: string;
-  milkType: string;
-  milkCategory: string;
-  shift: string;
-  fat: number;
-  snf: number;
-  ratePerLitre: number;
-  totalMilk: number;
-  totalAmount: number;
-  canId: string;
+interface SocietySales{
+  id:number;
+  invoice_id: number;
+  customer_id: string;
+  invoice_date: Date;
+  total_amount: number;
+  due_date:Date;
+  status: string;
+  org_id: string;
+  created_by: string;
+  createdAT: Date;
 }
 
 
@@ -25,32 +24,30 @@ interface milkCollections {
   styleUrls: ['./society-sales.page.scss'],
 })
 export class SocietySalesPage implements OnInit {
-  milkCollections = [
+  societySales = [
     {
-      id: 1,
-      farmerName: 'John Doe',
-      milkType: 'Cow',
-      milkCategory: 'A',
-      shift: 'Morning',
-      fat: 4.5,
-      snf: 8.5,
-      ratePerLitre: 30,
-      totalMilk: 20,
-      totalAmount: 600,
-      canId: 'CAN001',
+      id:1,
+      invoice_id: 1,
+      customer_id: '2',
+      invoice_date: new Date(),
+      total_amount: 20,
+      due_date: new Date(),
+      status: 'Inactive',
+      org_id: '2',
+      created_by: 'Raju',
+      createdAT: new Date(),
     },
     {
-      id: 2,
-      farmerName: 'Jane Smith',
-      milkType: 'Buffalo',
-      milkCategory: 'B',
-      shift: 'Evening',
-      fat: 6.0,
-      snf: 9.0,
-      ratePerLitre: 40,
-      totalMilk: 15,
-      totalAmount: 600,
-      canId: 'CAN002',
+      id:2,
+      invoice_id: 2,
+      customer_id: '3',
+      invoice_date:new Date(),
+      total_amount: 30,
+      due_date: new Date(),
+      status: 'Active',
+      org_id: '3',
+      created_by: 'Anil',
+      createdAT: new Date(),
     },
     // Add more entries as needed
   ];
@@ -58,7 +55,7 @@ export class SocietySalesPage implements OnInit {
   searchTerm = '';
   entriesToShow = 5;
   currentPage = 1;
-  paginatedCollections:milkCollections[] = [];
+  paginatedCollections:SocietySales[] = [];
   totalPages = 1;
 
   constructor(
@@ -71,12 +68,12 @@ export class SocietySalesPage implements OnInit {
 
   }
 
-  get filteredCollections():milkCollections[] {
-    return this.milkCollections.filter(collection =>
-      collection.farmerName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      collection.milkType.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      collection.milkCategory.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
-      collection.shift.toLowerCase().includes(this.searchTerm.toLowerCase())
+  get filteredCollections():SocietySales[] {
+    return this.societySales.filter((collection) =>
+      collection.invoice_id.toString().includes(this.searchTerm.toLowerCase()) ||
+      collection.customer_id.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      collection.org_id.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+      collection.status.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
@@ -105,16 +102,16 @@ export class SocietySalesPage implements OnInit {
     }
   }
 
-  async openAddMilkCollectionModal() {
+  async openAddSocietySalesModal() {
     const modal = await this.modalController.create({
-      component: AddMilkCollectionModalComponent,
+      component: AddSocietySalesModalComponent,
     });
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      this.milkCollections.push({
-        id: this.milkCollections.length + 1,
+      this.societySales.push({
+        id: this.editSocietySale.length + 1,
         ...data,
       });
       this.updatePagination();
@@ -122,27 +119,28 @@ export class SocietySalesPage implements OnInit {
     }
   }
 
-  async editMilkCollection(milkCollection: { id: number; }) {
+  async editSocietySale(societySales: SocietySales)  
+{
     const modal = await this.modalController.create({
-      component: AddMilkCollectionModalComponent,
-      componentProps: { milkCollection },
+      component: AddSocietySalesModalComponent,
+      componentProps: { societySales },
     });
     await modal.present();
 
     const { data } = await modal.onWillDismiss();
     if (data) {
-      const index = this.milkCollections.findIndex(
-        (item) => item.id === milkCollection.id
+      const index = this.societySales.findIndex(
+        (item) => item.invoice_id === societySales.id
       );
       if (index > -1) {
-        this.milkCollections[index] = { id: milkCollection.id, ...data };
+        this.societySales[index] = { ...this.societySales[index], ...data };
         this.updatePagination();
 
       }
     }
   }
 
-  async deleteMilkCollection(id: number) {
+  async deleteSocietySale(id: number) {
     const alert = await this.alertController.create({
       header: 'Confirm Delete',
       message: 'Are you sure you want to delete this entry?',
@@ -154,7 +152,7 @@ export class SocietySalesPage implements OnInit {
         {
           text: 'Delete',
           handler: () => {
-            this.milkCollections = this.milkCollections.filter(
+            this.societySales = this.societySales.filter(
               (item) => item.id !== id
             );
             this.updatePagination();

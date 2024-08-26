@@ -2,7 +2,7 @@
   <ion-toolbar>
     <ion-title>{{ isEdit ? 'Edit Product' : 'Add Product' }}</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="dismiss()">Close</ion-button>
+      <ion-icon (click)="dismiss()" name="close"  ></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -10,28 +10,28 @@
 <ion-content>
   <form [formGroup]="productForm" (ngSubmit)="saveProduct()">
     <ion-item>
-      <ion-label position="floating">Product Name</ion-label>
+      <ion-label position="stacked">Product Name</ion-label>
       <ion-input formControlName="name"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Image</ion-label>
+      <ion-label position="stacked">Select Image</ion-label>
       <input type="file" (change)="onFileChange($event)" />
       <ion-img *ngIf="previewImage" [src]="previewImage"></ion-img>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Type</ion-label>
+      <ion-label position="stacked">Type</ion-label>
       <ion-select interface="popover" formControlName="type">
         <ion-select-option value="Pack">Pack</ion-select-option>
         <ion-select-option value="Block">Block</ion-select-option>
       </ion-select>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Price</ion-label>
+      <ion-label position="stacked">Price</ion-label>
       <ion-input formControlName="price" type="number"></ion-input>
     </ion-item>
     <ion-item>
-      <ion-label position="floating">Status</ion-label>
-      <ion-select interface="popover" formControlName="status">
+      <ion-label position="stacked">Status</ion-label>
+      <ion-select interface="popover" placeholder="Select Status" formControlName="status">
         <ion-select-option value="Available">Available</ion-select-option>
         <ion-select-option value="Out of Stock">Out of Stock</ion-select-option>
       </ion-select>

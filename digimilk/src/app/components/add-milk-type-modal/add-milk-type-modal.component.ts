@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,7 +8,10 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-milk-type-modal.component.scss'],
 })
 export class AddMilkTypeModalComponent {
+  @Input() milkType: any;
   addMilkTypeForm: FormGroup;
+  isEdit: boolean = false;
+
   milkTypes= ["Cow Milk","Buffalo Milk"]
 
   constructor(
@@ -22,6 +25,9 @@ export class AddMilkTypeModalComponent {
     });
   }
 
+  ngOnInit() {
+    this.isEdit = !!this.milkType;
+  }
   dismiss() {
     this.modalCtrl.dismiss();
   }

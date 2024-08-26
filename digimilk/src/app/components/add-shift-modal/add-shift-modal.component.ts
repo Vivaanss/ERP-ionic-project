@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-shift-modal.component.scss'],
 })
 export class AddShiftModalComponent {
+  @Input() shift: any;
+  isEdit:boolean=false;
+
   addShiftForm: FormGroup = this.fb.group({
     name: ['Morning Shift', Validators.required],
     status: ["Active", Validators.required], // Default value for status
@@ -19,6 +22,9 @@ export class AddShiftModalComponent {
     private modalCtrl: ModalController,
     private fb: FormBuilder
   ) {}
+  ngOnInit() {
+    this.isEdit = !!this.shift;
+  }
 
   dismiss() {
     this.modalCtrl.dismiss();

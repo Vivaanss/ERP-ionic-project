@@ -1,82 +1,93 @@
 /* Add this to your add-society-milk-collection-modal.component.scss file */
 
 ion-header {
-    --background: #f8f9fa;
-    --color: #333;
-  }
-  
-  ion-toolbar {
-    --background: #007bff;
-    --color: #fff;
-    
-  }
-  
-  ion-title {
-    font-weight: bold;
-  }
-  
-  ion-content {
-    --background: #ffffff;
-  }
-  
-  form {
-    padding: 16px;
-  }
-  
-  ion-item {
-    margin-bottom: 12px;
-  }
-  
-  ion-label {
-    font-weight: bold;
-    font-size: 14px;
-  }
-  
-  ion-select {
-    --padding-start: 0;
-    --padding-end: 0;
-  }
-  
-  ion-input {
-    font-size: 14px;
-  }
-  
-  ion-button {
-    // margin-top: 16px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-  }
-  
-  ion-button:hover {
-    background-color: #0056b3;
-  }
-  
-  ion-datetime {
-    font-size: 14px;
-  }
-  
-  ion-select {
-    --placeholder-color: #6c757d;
-  }
-  
-  ion-select-option {
-    font-size: 14px;
-  }
-  
-  ion-select .select-placeholder {
-    font-size: 14px;
-  }
-  
-  ion-item ion-label {
-    color: #495057;
-  }
-  
-  ion-item ion-input {
-    font-size: 14px;
-  }
-  
-  ion-item ion-datetime {
-    font-size: 14px;
-  }
-  
+  --background: #ffffff; // Light background for a clean look
+  --color: #333; // Dark text for good readability
+  border-bottom: 1px solid #e0e0e0; // Subtle border for separation
+}
+
+ion-toolbar {
+  --background: #007bff; // Primary color for the toolbar
+  --color: #ffffff; // White text for contrast
+}
+
+ion-title {
+  font-weight: 600; // Slightly bolder for emphasis
+  font-size: 18px; // Slightly larger title font
+}
+
+ion-icon[name=close] {
+  font-size: 24px;
+  padding-right: 10px;
+}
+
+ion-content {
+  --background: #f8f9fa; // Light gray background for the content area
+}
+
+form {
+  padding: 24px; // Increased padding for a spacious feel
+}
+
+ion-item {
+  margin-bottom: 16px; // More space between form fields
+  border-radius: 8px; // Rounded corners for a modern look
+  --background: #ffffff; // White background for each item
+  --border-color: #e0e0e0; // Light border color
+  --border-width: 1px; // Thin border
+  --padding-start: 16px; // Padding for text alignment
+  --padding-end: 16px; // Padding for text alignment
+}
+
+ion-label {
+  font-weight: 500; // Medium weight for labels
+  font-size: 15px; // Larger font size for better readability
+  color: #495057; // Darker text color
+}
+
+ion-select {
+  --padding-start: 0;
+  --padding-end: 0;
+  --placeholder-color: #6c757d; // Subtle placeholder color
+}
+
+ion-input {
+  font-size: 15px; // Slightly larger input text
+  --padding-start: 12px; // Padding inside the input
+}
+
+ion-button {
+  background-color: #007bff; // Primary button color
+  color: #ffffff; // White text
+  border-radius: 4px; // Rounded corners
+  font-size: 16px; // Larger button text
+  height: 48px; // Taller button for better touch targets
+  --box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); // Subtle shadow for elevation
+}
+
+ion-button:hover {
+  background-color: #0056b3; // Darker shade for hover effect
+  --box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); // More prominent shadow on hover
+}
+
+ion-datetime {
+  font-size: 15px; // Consistent font size with inputs
+  --padding: 12px; // Padding inside the datetime picker
+}
+
+ion-select-option {
+  font-size: 15px; // Consistent font size with inputs
+}
+
+ion-select .select-placeholder {
+  font-size: 15px; // Consistent font size with inputs
+}
+
+ion-item ion-label {
+  color: #495057; // Dark text for labels inside items
+}
+
+ion-item ion-input,
+ion-item ion-datetime {
+  font-size: 15px; // Consistent font size
+}

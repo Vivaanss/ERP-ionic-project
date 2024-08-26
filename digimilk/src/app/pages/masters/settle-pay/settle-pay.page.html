@@ -50,7 +50,7 @@
           <td>{{ settlePay.society }}</td>
           <td>{{ settlePay.farmer }}</td>
           <td>{{ settlePay.settlementAmount | currency:'INR' }}</td>
-          <td>{{ settlePay.settlementDate | date: 'short' }}</td>
+          <td>{{ settlePay.settlementDate | date: 'dd-MM-yyyy' }}</td>
           <td>{{ settlePay.adjust }}</td>
           <td>
             <ion-button size="small" fill="clear" color="primary" (click)="editSettlePay(settlePay)">

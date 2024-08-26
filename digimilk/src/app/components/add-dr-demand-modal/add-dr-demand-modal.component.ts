@@ -37,7 +37,7 @@ export class AddDrDemandModalComponent implements OnInit {
     }
   }
 
-  closeModal() {
+  dismiss() {
     this.modalController.dismiss();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+  import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddFarmerRdDetailModalComponent } from '../../../components/add-farmer-rd-detail-modal/add-farmer-rd-detail-modal.component';
 

@@ -9,12 +9,15 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AddUserModalComponent implements OnInit {
   @Input() user: any;  // This will contain the user data passed in for editing
+  isEdit:boolean=false;
+
   form!: FormGroup;
   roles = ['Union', 'Supervisor', 'Society', 'Farmer'];
 
   constructor(private modalCtrl: ModalController, private fb: FormBuilder) {}
 
   ngOnInit() {
+      this.isEdit = !!this.user;
     this.form = this.fb.group({
       userName: [this.user?.userName || '', Validators.required],
       emailId: [this.user?.emailId || '', [Validators.required, Validators.email]],

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-milk-collection-modal.component.scss'],
 })
 export class AddMilkCollectionModalComponent {
+  @Input() milkCollection: any;
+  isEdit:boolean=false;
   addMilkCollectionForm: FormGroup;
   farmerNames = ['Farmer A', 'Farmer B'];
   milkTypes = ['Cow Milk', 'Buffalo Milk'];
@@ -33,6 +35,9 @@ export class AddMilkCollectionModalComponent {
 
     });
   }
+  ngOnInit() {
+    this.isEdit = !!this.milkCollection;
+  }
 
   onSubmit() {
     if (this.addMilkCollectionForm.valid) {
@@ -43,7 +48,7 @@ export class AddMilkCollectionModalComponent {
     }
   }
 
-  cancel() {
+  dismiss() {
     this.modalCtrl.dismiss();
   }
 

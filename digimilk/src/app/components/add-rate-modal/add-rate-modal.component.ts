@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-rate-modal.component.scss'],
 })
 export class AddRateModalComponent {
+  @Input() rateChart: any;
+  isEdit:boolean=false;
   rateForm: FormGroup;
   milkTypes = ["Cow Milk", "Buffalo Milk"];
 
@@ -20,6 +22,9 @@ export class AddRateModalComponent {
       createdAt: [new Date(), Validators.required], // Default to current date/time
     });
   }
+  ngOnInit() {
+    this.isEdit = !!this.rateChart;
+  }
 
   submit() {
     if (this.rateForm.valid) {
@@ -27,7 +32,7 @@ export class AddRateModalComponent {
     }
   }
 
-  cancel() {
+  dismiss() {
     this.modalCtrl.dismiss();
   }
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
@@ -8,6 +8,9 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-product-modal.component.scss'],
 })
 export class AddProductModalComponent  implements OnInit {
+  @Input() product: any;
+  isEdit:boolean=false;
+
   addProductForm: FormGroup;
 
   constructor(
@@ -22,7 +25,9 @@ export class AddProductModalComponent  implements OnInit {
       createdAt: [new Date(), Validators.required], // Ensure this is set
     });
   }
-  ngOnInit(): void {
+  ngOnInit(): void{
+      this.isEdit = !!this.product;
+    
     throw new Error('Method not implemented.');
   }
 

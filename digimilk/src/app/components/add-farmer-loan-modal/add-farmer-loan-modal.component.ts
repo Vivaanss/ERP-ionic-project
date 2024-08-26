@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { Component, Input, OnInit } from '@angular/core';
+import { IonPopover, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -8,7 +8,11 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   styleUrls: ['./add-farmer-loan-modal.component.scss'],
 })
 export class AddFarmerLoanModalComponent {
+  @Input() loanDetail: any;
   addLoanForm: FormGroup;
+  isEdit:boolean=false;
+  farmerNames = ['Farmer A', 'Farmer B'];
+
 
   constructor(
     private modalCtrl: ModalController,
@@ -21,9 +25,24 @@ export class AddFarmerLoanModalComponent {
       interestRate: ['', [Validators.required, Validators.min(0)]],
       numberOfEMI: ['', [Validators.required, Validators.min(0)]],
       emi: ['', [Validators.required, Validators.min(0)]],
-      startDate: ['', Validators.required],
-      endDate: ['', Validators.required]
+      startDate: [null, Validators.required],
+      endDate: [null, Validators.required]
     });
+  }
+
+  ngOnInit() {
+    this.isEdit = !!this.loanDetail;
+  }
+
+  onDateChange(field: string, event: any, popover: IonPopover) {
+    const value = event.detail.value;
+    this.addLoanForm.get(field)?.setValue(value);
+
+    // Automatically close the popover after selecting the date
+    popover.dismiss();
+  }
+  openPopover(popover: IonPopover) {
+    popover.present();
   }
 
   dismiss() {

@@ -9,6 +9,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddSnfFatModalComponent {
   @Input() setMinSnfFat: any; // Receive data for editing
+  isEdit:boolean=false;
+
   addSnfFatForm: FormGroup;
   milkTypes= ["Cow Milk","Buffalo Milk"]
 
@@ -23,6 +25,7 @@ export class AddSnfFatModalComponent {
     });
   }
   ngOnInit() {
+      this.isEdit = !!this.setMinSnfFat;
     if (this.setMinSnfFat) {
       this.addSnfFatForm.patchValue(this.setMinSnfFat); // Populate form with existing data
     }

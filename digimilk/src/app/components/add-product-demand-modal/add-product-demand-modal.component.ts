@@ -35,7 +35,7 @@ export class AddProductDemandModalComponent implements OnInit {
     }
   }
 
-  dismissModal() {
+  dismiss() {
     this.modalController.dismiss();
   }
 

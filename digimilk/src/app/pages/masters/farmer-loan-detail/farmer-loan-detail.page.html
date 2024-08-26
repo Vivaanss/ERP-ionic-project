@@ -56,8 +56,8 @@
           <td>{{ loanDetail.interestRate }}%</td>
           <td>{{ loanDetail.numberOfEMI }}</td>
           <td>{{ loanDetail.emi | currency:'INR' }}</td>
-          <td>{{ loanDetail.startDate | date: 'shortDate' }}</td>
-          <td>{{ loanDetail.endDate | date: 'shortDate' }}</td>
+          <td>{{ loanDetail.startDate | date: 'dd-MM-yyyy' }}</td>
+          <td>{{ loanDetail.endDate | date: 'dd-MM-yyyy' }}</td>
           <td>
             <ion-button size="small" fill="clear" color="primary" (click)="editLoanDetail(loanDetail)">
               <ion-icon slot="icon-only" name="create-outline"></ion-icon>

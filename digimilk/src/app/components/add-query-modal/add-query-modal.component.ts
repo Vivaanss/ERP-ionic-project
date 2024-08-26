@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
@@ -9,7 +9,9 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AddQueryModalComponent implements OnInit {
   [x: string]: any;
+  @Input() query: any;
   addQueryForm!: FormGroup;
+  isEdit:boolean=false;
 
   farmersList = ['John Doe', 'Jane Smith', 'Michael Johnson'];
 
@@ -17,6 +19,9 @@ export class AddQueryModalComponent implements OnInit {
   }
   
   ngOnInit() {
+  
+    this.isEdit = !!this.query;
+
 
     this.addQueryForm = this.fb.group({
     farmerName: ['', Validators.required], // Updated form control name

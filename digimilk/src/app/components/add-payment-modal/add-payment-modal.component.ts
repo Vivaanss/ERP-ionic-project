@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { IonPopover, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -38,13 +38,25 @@ export class AddPaymentModalComponent implements OnInit {
     });
   }
 
+  onDateChange(field: string, event: any, popover: IonPopover) {
+    const value = event.detail.value;
+    this.paymentForm.get(field)?.setValue(value);
+
+    // Automatically close the popover after selecting the date
+    popover.dismiss();
+  }
+  openPopover(popover: IonPopover) {
+    popover.present();
+  }
+
+
   async submitForm() {
     if (this.paymentForm.valid) {
       await this.modalController.dismiss(this.paymentForm.value);
     }
   }
 
-  async dismissModal() {
+  async dismiss() {
     await this.modalController.dismiss();
   }
 }

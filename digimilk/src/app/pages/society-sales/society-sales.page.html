@@ -1,10 +1,10 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Milk Collection</ion-title>
+    <ion-title>Society Sales</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="openAddMilkCollectionModal()">
+      <ion-button (click)="openAddSocietySalesModal()">
         <ion-icon name="add-circle-outline"></ion-icon>
-        Add Entry
+        Add Society Sales
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
@@ -16,7 +16,7 @@
     <ion-row class="ent-ser">
       <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
         <ion-item>
-          <ion-select  placeholder="Show Entries" interface="popover" [(ngModel)]="entriesToShow" (ionChange)="updatePagination()">
+          <ion-select  label="Show Entries" interface="popover" label-placement="floating" fill="outline" [(ngModel)]="entriesToShow" (ionChange)="updatePagination()">
             <ion-select-option value="5">5</ion-select-option>
             <ion-select-option value="10">10</ion-select-option>
             <ion-select-option value="15">15</ion-select-option>
@@ -25,7 +25,7 @@
       </ion-col>
       <ion-col size="12" size-xs="5" size-sm="3" size-md="3">
         <ion-item>
-          <ion-input [(ngModel)]="searchTerm" placeholder="Search"></ion-input>
+          <ion-input [(ngModel)]="searchTerm" label-placement="floating" fill="outline" label="Search"></ion-input>
         </ion-item>
       </ion-col>
     </ion-row>
@@ -36,36 +36,34 @@
     <table class="responsive-table">
       <thead>
         <tr>
-          <th>Farmer Name</th>
-          <th>Milk Type</th>
-          <th>Milk Category</th>
-          <th>Shift</th>
-          <th>FAT</th>
-          <th>SNF</th>
-          <th>Rate/Litre</th>
-          <th>Total Milk</th>
+          <th>Invoice Id</th>
+          <th>Customer Id</th>
+          <th>Invoice Date</th>
           <th>Total Amount</th>
-          <th>Can ID</th>
+          <th>Due Date</th>
+          <th>Status</th>
+          <th>Organization Id</th>
+          <th>Created By</th>
+          <th>Created Date/Time</th>
           <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr *ngFor="let milkCollection of milkCollections">
-          <td>{{ milkCollection.farmerName }}</td>
-          <td>{{ milkCollection.milkType }}</td>
-          <td>{{ milkCollection.milkCategory }}</td>
-          <td>{{ milkCollection.shift }}</td>
-          <td>{{ milkCollection.fat }}</td>
-          <td>{{ milkCollection.snf }}</td>
-          <td>{{ milkCollection.ratePerLitre | currency:'USD' }}</td>
-          <td>{{ milkCollection.totalMilk }} L</td>
-          <td>{{ milkCollection.totalAmount | currency:'USD' }}</td>
-          <td>{{ milkCollection.canId }}</td>
+        <tr *ngFor="let SocietySales of societySales">
+          <td>{{ SocietySales.invoice_id }}</td>
+          <td>{{ SocietySales.customer_id }}</td>
+          <td>{{ SocietySales.invoice_date | date:"dd-MM-yyyy" }}</td>
+          <td>{{ SocietySales.total_amount | currency:'INR' }}</td>
+          <td>{{ SocietySales.due_date | date:"dd-MM-yyyy" }}</td>
+          <td>{{ SocietySales.status }}</td>
+          <td>{{ SocietySales.org_id }}</td>
+          <td>{{ SocietySales.created_by }} </td>
+          <td>{{ SocietySales.createdAT | date:"short" }}</td>
           <td>
-            <ion-button size="small" fill="clear" color="primary" (click)="editMilkCollection(milkCollection)">
+            <ion-button size="small" fill="clear" color="primary" (click)="editSocietySale(SocietySales)">
               <ion-icon slot="icon-only" name="create-outline"></ion-icon>
             </ion-button>
-            <ion-button size="small" fill="clear" color="danger" (click)="deleteMilkCollection(milkCollection.id)">
+            <ion-button size="small" fill="clear" color="danger" (click)="deleteSocietySale(SocietySales.invoice_id)">
               <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
             </ion-button>
           </td>

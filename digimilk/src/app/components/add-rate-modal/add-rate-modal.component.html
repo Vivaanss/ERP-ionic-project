@@ -1,8 +1,8 @@
 <ion-header>
   <ion-toolbar>
-    <ion-title>Add Rate</ion-title>
+    <ion-title>{{ isEdit ? 'Edit' : 'Add' }} Rate</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="cancel()"><ion-icon name="close"></ion-icon></ion-button>
+      <ion-icon (click)="dismiss()" name="close"  ></ion-icon>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -10,28 +10,29 @@
 <ion-content>
   <form [formGroup]="rateForm" (ngSubmit)="submit()">
     <ion-item>
-      <ion-select interface="popover" placeholder="Milk Type" formControlName="milkType">
+      <ion-label position="stacked">Milk Type</ion-label>
+      <ion-select interface="popover" placeholder="Select Milk Type" formControlName="milkType">
         <ion-select-option *ngFor="let option of milkTypes" [value]="option">{{ option }}</ion-select-option>
       </ion-select>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">SNF</ion-label>
+      <ion-label position="stacked">SNF</ion-label>
       <ion-input type="number" formControlName="snf"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">FAT</ion-label>
+      <ion-label position="stacked">FAT</ion-label>
       <ion-input type="number" formControlName="fat"></ion-input>
     </ion-item>
 
     <ion-item>
-      <ion-label position="floating">Rate per Litre</ion-label>
+      <ion-label position="stacked">Rate per Litre</ion-label>
       <ion-input type="number" formControlName="ratePerLitre"></ion-input>
     </ion-item>
 
-    <ion-footer>
-      <ion-button expand="block" type="submit" [disabled]="!rateForm.valid">Submit</ion-button>
-    </ion-footer>
+
+  <ion-button expand="block" type="submit" [disabled]="!rateForm.valid">{{ isEdit ? 'Save Changes' : 'Submit' }}</ion-button>
+
   </form>
 </ion-content>
