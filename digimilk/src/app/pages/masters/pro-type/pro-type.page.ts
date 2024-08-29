@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
-
 import { ProTypeModalComponent } from '../../../components/pro-type-modal/pro-type-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface ProType {
   id: number;
@@ -37,14 +37,19 @@ export class ProTypePage implements OnInit {
   currentPage = 1;
   paginatedProTypes: ProType[] = [];
   totalPages = 1;
+  isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
-  ) {}
+    private alertController: AlertController,
+    private darkModeService: DarkModeService  ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredProTypes(): ProType[] {

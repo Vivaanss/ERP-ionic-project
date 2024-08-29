@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.dark-mode]="isDarkMode">
   <form [formGroup]="weekForm">
     <ion-item>
       <ion-label position="stacked">Week Name</ion-label>

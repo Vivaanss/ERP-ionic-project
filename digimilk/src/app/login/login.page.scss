@@ -1,7 +1,7 @@
 /* Background Image Container */
 .background-image-container {
   position: fixed;
-  background: url('../../assets/dashboard/bg-milk2.jpg');
+  background: url('../../assets/dashboard/milk.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -13,27 +13,43 @@
   height: 100%;
   padding: 0;
   margin: 0;
-  filter: brightness(0.9); /* Slightly darken the background */
+  filter: brightness(0.7); /* Darker background for contrast in dark mode */
+}
+
+/* Dark Mode Styles */
+.dark-mode {
+  --ion-background-color: #1c1c1c;
+  --ion-color-primary: #00d8ff;
+  --ion-color-secondary: #ff6f61;
+  --ion-color-tertiary: #f3a712;
+  --ion-text-color: #ffffff;
+  --ion-item-background: #2a2a2a;
+  --ion-item-border-color: #444;
+  --ion-item-color-active: #00d8ff;
+  --ion-input-background: #333;
+  --ion-input-color: #fff;
+  --ion-label-color: #aaa;
+  --ion-placeholder-color: #666;
 }
 
 /* Logo Styling */
 .digi-logo {
   width: 200px;
   height: auto;
-  animation: fadeIn 1.2s ease-in-out; /* Smooth fade-in animation */
+  animation: fadeIn 1.2s ease-in-out;
 }
 
 /* Login Container */
 .login-container {
-  background: rgba(255, 255, 255, 0.8);
-  padding: 10px 20px;
-  border-radius: 10px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  background: rgba(44, 44, 44, 0.85); /* Darker background with slight transparency */
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6); /* Deeper shadow for better contrast */
   max-width: 400px;
   width: 100%;
   text-align: center;
-  backdrop-filter: blur(10px); /* Adds a blur effect behind the container */
-  animation: slideUp 1s ease-out; /* Smooth slide-up animation */
+  backdrop-filter: blur(10px);
+  animation: slideUp 1s ease-out;
 }
 
 /* Login Icon */
@@ -48,8 +64,8 @@
   font-weight: bold;
   color: var(--ion-color-primary);
   margin-top: 0;
-  text-transform: uppercase; /* Makes text uppercase */
-  letter-spacing: 1.2px; /* Adds spacing between letters */
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
 }
 
 /* Form Container */
@@ -59,33 +75,43 @@
 
 /* Input Fields */
 .form-container ion-item {
-  padding-bottom: 8px;
-  --background: rgba(245, 245, 245, 0.9); /* Slightly transparent background */
+  --background: var(--ion-input-background);
+  --border-color: var(--ion-item-border-color);
+  --color: var(--ion-text-color);
   border-radius: 6px;
-  position: relative; /* For correct positioning of the password toggle */
+  position: relative;
 }
 
 .form-container ion-input {
+  --color: var(--ion-input-color);
+  --placeholder-color: var(--ion-placeholder-color);
   margin: 8px 0;
-  --padding-start: 10px; /* Adds padding inside input */
+  padding-left: 12px;
+  border-radius: 6px;
+  background: var(--ion-item-background);
+  transition: border-color 0.3s ease, background-color 0.3s ease;
+  opacity: .5;
 }
 
-.form-container ion-text {
-  font-size: 0.6em;
-  color: var(--ion-color-danger);
-  margin-top: 0;
+.form-container ion-input:focus {
+  --border-color: var(--ion-item-color-active);
+  background: rgba(0, 0, 0, 0.5); /* Darken input background on focus */
+}
+
+.form-container ion-label {
+  color: var(--ion-label-color);
 }
 
 /* Password Toggle Icon */
 .password-toggle {
   position: absolute;
-  right:20px;
+  right: 20px;
   top: 35%;
   transform: translateY(-50%);
   z-index: 2;
   font-size: 22px;
   cursor: pointer;
-  color: #6c757d;
+  color: var(--ion-placeholder-color);
   transition: color 0.3s ease;
 }
 
@@ -96,7 +122,7 @@
 /* Remember Me Checkbox */
 .form-container ion-checkbox {
   --background: var(--ion-color-primary);
-  --checkmark-color: #fff; /* White checkmark */
+  --checkmark-color: #fff;
   margin-right: 10px;
 }
 
@@ -104,14 +130,13 @@
   display: flex;
   align-items: center;
   font-size: 14px;
-  --color:black;
-  // margin-bottom: 15px;
+  color: var(--ion-text-color);
   cursor: pointer;
   transition: color 0.3s ease;
 }
 
-.rememberMe-label:hover {
-  color: var(--ion-color-secondary); /* Change color on hover */
+.error-message{
+  color: var(--ion-color-secondary);
 }
 
 /* Links */
@@ -130,20 +155,20 @@
 }
 
 .links a:hover {
-  color: var(--ion-color-secondary); /* Change color on hover */
+  color: var(--ion-color-secondary);
 }
 
 /* Login Button */
 ion-button {
   margin-top: 10px;
-  color: white;
-  --background: linear-gradient(45deg, #007bff, #0056b3);
+  --background: linear-gradient(45deg, #00d8ff, #0056b3);
   --box-shadow: 0 4px 10px rgba(0, 123, 255, 0.5);
   border-radius: 25px;
   height: 50px;
   font-size: 16px;
-  text-transform: uppercase; /* Makes button text uppercase */
-  letter-spacing: 1px; /* Adds spacing between letters */
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: white;
 }
 
 ion-button:hover {

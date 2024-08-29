@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-product-modal',
@@ -10,12 +11,13 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddProductModalComponent  implements OnInit {
   @Input() product: any;
   isEdit:boolean=false;
-
+  public isDarkMode: boolean = false;
   addProductForm: FormGroup;
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {
     this.addProductForm = this.fb.group({
       name: ['', Validators.required],
@@ -29,6 +31,10 @@ export class AddProductModalComponent  implements OnInit {
       this.isEdit = !!this.product;
     
     throw new Error('Method not implemented.');
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

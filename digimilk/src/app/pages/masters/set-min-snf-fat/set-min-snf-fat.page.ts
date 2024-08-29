@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-
 import { AddSnfFatModalComponent } from '../../../components/add-snf-fat-modal/add-snf-fat-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface SetMinSnfFat {
   id: number;
@@ -44,14 +44,22 @@ export class SetMinSnfFatPage implements OnInit {
   currentPage = 1;
   paginatedSetMinSnfFats: SetMinSnfFat[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredSetMinSnfFats(): SetMinSnfFat[] {

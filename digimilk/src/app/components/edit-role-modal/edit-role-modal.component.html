@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.dark-mode]="isDarkMode">
   <form [formGroup]="roleForm" (ngSubmit)="onSubmit()">
     <ion-card>
       <ion-card-header>
@@ -36,7 +36,7 @@
         <ion-list>
           <ng-container *ngFor="let page of allPages; let i = index">
             <ion-item>
-              <ion-label>
+              <ion-label >
                 <ion-checkbox
                   [checked]="page.selected"
                   (ionChange)="togglePageSelection(i)"

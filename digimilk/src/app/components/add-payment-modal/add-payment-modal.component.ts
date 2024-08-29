@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IonPopover, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-payment-modal',
@@ -11,6 +12,7 @@ export class AddPaymentModalComponent implements OnInit {
   @Input() payment: any;
   paymentForm!: FormGroup;
   isEditMode: boolean = false;
+  public isDarkMode: boolean = false;
 
   farmers = ['John Doe', 'Jane Smith', 'Mike Johnson'];
   societies = ['Society A', 'Society B', 'Society C'];
@@ -19,7 +21,8 @@ export class AddPaymentModalComponent implements OnInit {
 
   constructor(
     private modalController: ModalController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
@@ -35,6 +38,11 @@ export class AddPaymentModalComponent implements OnInit {
       transactionId: [this.payment?.transactionId || ''],
       description: [this.payment?.description || ''],
       adjustment: [this.payment?.adjustment || '']
+    });
+
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
     });
   }
 

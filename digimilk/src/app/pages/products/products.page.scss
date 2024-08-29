@@ -22,20 +22,9 @@ ion-card {
     border-radius: 8px;
   }
   
-  ion-button {
-    margin: 5px 0;
-  }
-  
-
-  ion-content {
-    --padding-start: 0;
-    --padding-end: 0;
-    --padding-top: 0;
-    --padding-bottom: 0;
-  }
   
   ion-searchbar {
-    width: 25%;
+    width: 50%;
     // margin: 16px;
   }
   
@@ -66,22 +55,4 @@ ion-card {
     margin: 4px 0;
   }
   
-  .pagination-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px 0;
-  }
-  
-  .pagination-container ion-label {
-    margin: 0 10px;
-  }
-  
-  ion-button[expand="full"] {
-    margin: 8px 0;
-  }
-  
-  ion-back-button {
-    margin: 0;
-  }
   

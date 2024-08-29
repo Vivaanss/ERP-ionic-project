@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.dark-mode]="isDarkMode">
   <form [formGroup]="productDemandForm">
     <ion-list>
       <ion-item>

@@ -1,28 +1,23 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-back-button defaultHref="/"></ion-back-button>
-    </ion-buttons>
-    <ion-title>Products</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="openAddProductModal()">
-        <ion-icon name="add-circle-outline"></ion-icon>
-        Add Product
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<ion-content [class.dark-mode]="isDarkMode">
 
-<ion-content>
-  <ion-grid>
-  <ion-row>
-    <ion-col>
-  <ion-searchbar [(ngModel)]="searchTerm" (ionInput)="filterProducts()"></ion-searchbar>
-</ion-col>
-</ion-row>
-    <ion-row>
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of paginatedProducts">
-        <ion-card>
+  <div class="filter-section">
+    <ion-grid>
+      <ion-row>
+        <ion-col size="12" size-xs="6" size-sm="6" size-md="6">
+      <ion-searchbar label="Search" [(ngModel)]="searchTerm" (ionInput)="filterProducts()"></ion-searchbar>
+    </ion-col>
+
+        <ion-col size="12" size-xs="6" size-sm="6" size-md="6"  class="header-section">
+          <ion-button color="primary" expand="block" (click)="openAddProductModal()">
+            <ion-icon slot="start" name="add-circle-outline"></ion-icon>
+            Add Product
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    
+<ion-row>
+        <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of paginatedProducts">
+        <ion-card class="table-card">
           <ion-card-header>
             <ion-card-title>{{ product.name }}</ion-card-title>
           </ion-card-header>
@@ -31,7 +26,12 @@
             <div class="product-details">
               <p><strong>Type:</strong> {{ product.type }}</p>
               <p><strong>Price:</strong> {{ product.price | currency:'INR' }}</p>
-              <p><strong>Status:</strong> {{ product.status }}</p>
+              <p><strong>Status:</strong>
+                <span
+                  [ngClass]="{'available-status': product.status === 'Available', 'outOfStock-status': product.status === 'Out of Stock'}">
+                  {{ product.status }}
+                </span>
+              </p>
             </div>
             <ion-button expand="full" (click)="editProduct(product)">
               Edit Product
@@ -44,12 +44,11 @@
       </ion-col>
     </ion-row>
   </ion-grid>
-
-
-  <div class="pagination-container">
-    <ion-button (click)="previousPage()" [disabled]="currentPage === 1">Previous</ion-button>
-    <ion-label>{{currentPage}} of {{totalPages}}</ion-label>
-    <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</ion-button>
   </div>
-  
+<div class="pagination-section">
+  <ion-button (click)="previousPage()" [disabled]="currentPage === 1">Previous</ion-button>
+  <ion-label>{{currentPage}} of {{totalPages}}</ion-label>
+  <ion-button (click)="nextPage()" [disabled]="currentPage === totalPages">Next</ion-button>
+</div>
+
 </ion-content>

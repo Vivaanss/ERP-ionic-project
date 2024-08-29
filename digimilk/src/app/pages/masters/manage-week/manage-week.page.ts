@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddWeekModalComponent } from '../../../components/add-week-modal/add-week-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface Week {
   id: number;
@@ -42,14 +43,22 @@ export class ManageWeekPage implements OnInit {
   currentPage = 1;
   paginatedWeeks: Week[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredWeeks(): Week[] {

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddDairyProductsModalComponent } from '../../components/add-dairy-products-modal/add-dairy-products-modal.component';
+import { DarkModeService } from '../../services/dark-mode';
 
 interface Product {
   id: number;
@@ -43,15 +44,22 @@ export class ProductsPage implements OnInit {
   currentPage: number = 1;
   itemsPerPage: number = 6;
   totalPages: number = 1;
+  public isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
     this.filteredProducts = [...this.products];
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   filterProducts() {

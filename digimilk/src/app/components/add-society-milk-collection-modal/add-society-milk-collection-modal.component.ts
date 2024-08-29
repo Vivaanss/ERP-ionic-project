@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-society-milk-collection-modal',
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddSocietyMilkCollectionModalComponent {
   @Input() milkCollection: any;
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   addSocietyMilkCollectionForm: FormGroup;
   societyNames = ['Society A', 'Society B']; // Replace with actual options
@@ -19,7 +21,8 @@ export class AddSocietyMilkCollectionModalComponent {
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {
     this.addSocietyMilkCollectionForm = this.fb.group({
       societyName: ['', Validators.required],
@@ -37,6 +40,10 @@ export class AddSocietyMilkCollectionModalComponent {
   }
   ngOnInit() {
     this.isEdit = !!this.milkCollection;
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

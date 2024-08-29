@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, Validators,FormBuilder } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-route-modal',
@@ -10,11 +11,13 @@ import { FormGroup, Validators,FormBuilder } from '@angular/forms';
 export class AddRouteModalComponent {
   @Input() route: any;
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   @Input() form: FormGroup;
   
 
-  constructor(private modalCtrl: ModalController, private fb:FormBuilder) {
+  constructor(private modalCtrl: ModalController, private fb:FormBuilder,    private  darkModeService: DarkModeService
+  ) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       vehicleNo:['', Validators.required],
@@ -29,6 +32,10 @@ export class AddRouteModalComponent {
 
   ngOnInit() {
     this.isEdit = !!this.route;
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
   submit() {
     if (this.form.valid) {

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { DarkModeService } from '../../services/dark-mode';
 
 interface Page {
   name: string;
@@ -17,6 +18,7 @@ export class EditRoleModalComponent implements OnInit {
   @Input() role: any;
   roleForm: FormGroup;
   isEditMode:boolean=false;
+  public isDarkMode: boolean = false;
 
   allPages: Page[] = [  // Use the Page interface here
     { name: 'Roles & Permissions', selected: false },
@@ -71,7 +73,8 @@ export class EditRoleModalComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private modalCtrl: ModalController
+    private modalCtrl: ModalController,    private  darkModeService: DarkModeService
+
   ) {
     this.roleForm = this.fb.group({
       name: ['', [Validators.required]],
@@ -91,6 +94,10 @@ export class EditRoleModalComponent implements OnInit {
       // Initialize selected pages
       this.initializeSelectedPages(this.role.pages);
     }
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

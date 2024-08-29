@@ -3,7 +3,7 @@
     <ion-menu *ngIf="showMenuBar" side="start" menuId="main-menu" contentId="main-content">
       <ion-header>
         <ion-toolbar>
-          <ion-title>Menu</ion-title>
+          <img src="../../../assets/digimilk-logo/digimilk-logo.png" alt="Logo" class="logo"/>
           <ion-buttons slot="end">
             <ion-button (click)="closeMenu()">
               <ion-icon class="menu-cross" name="close"></ion-icon>
@@ -11,21 +11,15 @@
           </ion-buttons>
         </ion-toolbar>
       </ion-header>
-  
+
       <ion-content class="custom-scrollbar">
-          <!-- Search Bar -->
-          <div class="menu-bar" >
-            <!-- Search Bar -->
-            <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="performSearch()" placeholder="Search"></ion-searchbar>
-            </div>
-            <!-- Notifications Icon -->
-            <div class="notifications">
-              <ion-icon name="notifications-outline" (click)="clearNotifications()"></ion-icon>
-              <span class="notification-badge" *ngIf="notifications > 0">{{ notifications }}</span>
-            </div>
-    <!-- menu list -->
+        <!-- Search Bar -->
+        <div class="menu-bar">
+          <ion-searchbar [(ngModel)]="searchQuery" (ionInput)="performSearch()" placeholder="Search"></ion-searchbar>
+        </div>
+
+        <!-- Menu List -->
         <ion-list>
-          <!-- Iterate over menu items -->
           <ng-container *ngFor="let item of filteredMenuItems">
             <ion-item (click)="item.isDropdown ? toggleDropdown(item.key) : navigateTo(item.link)">
               <ion-icon slot="start" [name]="item.icon"></ion-icon>
@@ -33,7 +27,7 @@
               <!-- Chevron icon for dropdown items -->
               <ion-icon *ngIf="item.isDropdown" slot="end" [name]="dropdowns[item.key] ? 'chevron-up' : 'chevron-down'"></ion-icon>
             </ion-item>
-    
+
             <!-- Render dropdown items -->
             <ng-container *ngIf="item.isDropdown && dropdowns[item.key]">
               <ion-list>
@@ -46,10 +40,9 @@
           </ng-container>
         </ion-list>
       </ion-content>
-    
     </ion-menu>
-    
-    <!-- <app-header></app-header> Header added here -->
+
+    <!-- Header added here -->
     <ion-router-outlet id="main-content"></ion-router-outlet>
   </ion-split-pane>
 </ion-app>

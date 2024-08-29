@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonPopover, ModalController } from '@ionic/angular';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-settle-pay-modal',
@@ -10,6 +11,7 @@ import { IonPopover, ModalController } from '@ionic/angular';
 export class AddSettlePayModalComponent implements OnInit {
   @Input() settlePay: any;
   isEdit: boolean = false;
+  public isDarkMode: boolean = false;
 
   addSettlePayForm!: FormGroup;
   @Input() settlePays = {
@@ -20,7 +22,8 @@ export class AddSettlePayModalComponent implements OnInit {
     adjust: ''
   };
 
-  constructor(private fb: FormBuilder, private modalCtrl: ModalController) {}
+  constructor(private fb: FormBuilder, private modalCtrl: ModalController,    private  darkModeService: DarkModeService
+  ) {}
 
   ngOnInit() {
     this.isEdit = !!this.settlePay;
@@ -33,6 +36,10 @@ export class AddSettlePayModalComponent implements OnInit {
       adjust: [''],
       description: ['',Validators.required],
       head: ['',Validators.required]
+    });
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
     });
   }
 

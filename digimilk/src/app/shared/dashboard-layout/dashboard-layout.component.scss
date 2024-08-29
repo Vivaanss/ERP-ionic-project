@@ -1,0 +1,53 @@
+ion-header {
+  background: linear-gradient(90deg, #4e54c8, #8f94fb);
+  box-shadow: 0 4px 6px rgba(5, 5, 5, 0.5);
+}
+
+ion-title {
+  font-weight: bold;
+  font-size: 1.5rem;
+  text-align: start;
+}
+
+ion-searchbar {
+  --background: #d5d6d7b8;
+  --border-radius: 30px;
+  width: 250px;
+  margin-right: 20px;
+}
+
+.searchbar-hidden {
+  display: none;
+}
+
+ion-list {
+  display: block; /* Ensure the list is displayed */
+  background-color: white; /* Make sure the background is visible */
+  z-index: 1000; /* Make sure it's on top of other elements */
+  position: absolute; /* Position it relative to the search bar */
+  width: 30%; /* Full width of the parent container */
+  padding: 0;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+}
+
+ion-icon[name="notifications-outline"]{
+  font-size: 25px;
+}
+.notification-badge {
+  font-size: 10px;
+  border-radius: 50%;
+  position: absolute;
+  top: -4px;
+  right: -4px;
+}
+
+.dark-mode {
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+}
+
+ion-toolbar {
+  --background: var(--ion-background-color);
+  color: var(--ion-text-color);
+  transition: background 0.3s ease, color 0.3s ease;
+}

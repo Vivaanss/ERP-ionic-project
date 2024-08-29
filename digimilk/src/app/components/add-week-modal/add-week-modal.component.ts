@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { IonPopover, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-week-modal',
@@ -10,8 +11,10 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 export class AddWeekModalComponent {
   @Input() week: any;
   weekForm!: FormGroup;
+  public isDarkMode: boolean = false;
 
-  constructor(private modalController: ModalController, private fb: FormBuilder) {
+  constructor(private modalController: ModalController, private fb: FormBuilder,    private  darkModeService: DarkModeService
+  ) {
     this.weekForm = this.fb.group({
       name: [''],
       startDate: [''],
@@ -29,6 +32,10 @@ export class AddWeekModalComponent {
       status : this.week.status
     });
     }
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   onDateChange(field: string, event: any, popover: IonPopover) {

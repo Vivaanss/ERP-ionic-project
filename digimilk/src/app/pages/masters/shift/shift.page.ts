@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddShiftModalComponent } from '../../../components/add-shift-modal/add-shift-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface Shift {
   id: number;
@@ -36,14 +37,21 @@ export class ShiftPage implements OnInit {
   currentPage = 1;
   paginatedShifts: Shift[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredShifts(): Shift[] {

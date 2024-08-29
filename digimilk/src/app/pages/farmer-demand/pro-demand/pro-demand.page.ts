@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddProductDemandModalComponent } from '../../../components/add-product-demand-modal/add-product-demand-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface ProductDemand {
   id: number;
@@ -48,14 +49,21 @@ export class ProDemandPage implements OnInit {
   currentPage = 1;
   paginatedDemands: ProductDemand[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredDemands(): ProductDemand[] {

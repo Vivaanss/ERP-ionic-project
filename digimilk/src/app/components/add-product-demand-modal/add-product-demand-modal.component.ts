@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-product-demand-modal',
@@ -9,13 +10,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddProductDemandModalComponent implements OnInit {
   @Input() productDemand: any;
-
   productDemandForm!: FormGroup;
   isEdit = false;
+  public isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
@@ -33,6 +35,11 @@ export class AddProductDemandModalComponent implements OnInit {
     if (this.productDemand?.productId) {
       this.isEdit = true;
     }
+
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

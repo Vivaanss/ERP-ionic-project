@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddMilkTypeModalComponent } from '../../../components/add-milk-type-modal/add-milk-type-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface MilkType {
   id: number;
@@ -36,14 +37,21 @@ export class MilkTypesPage implements OnInit {
   currentPage = 1;
   paginatedMilkTypes: MilkType[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredMilkTypes(): MilkType[] {

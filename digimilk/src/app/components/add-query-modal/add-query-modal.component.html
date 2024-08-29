@@ -7,7 +7,7 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content [class.dark-mode]="isDarkMode">
   <form [formGroup]="addQueryForm" (ngSubmit)="onSubmit()">
     <ion-item>
       <ion-label position="stacked">Farmer Name</ion-label>

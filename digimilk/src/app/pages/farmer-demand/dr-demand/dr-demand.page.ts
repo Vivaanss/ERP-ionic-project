@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddDrDemandModalComponent } from '../../../components/add-dr-demand-modal/add-dr-demand-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface DrDemand {
   clinicId: string;
@@ -38,11 +39,17 @@ export class DrDemandPage implements OnInit {
   currentPage = 1;
   paginatedCollections: DrDemand[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
 
-  constructor(private modalController: ModalController, private alertController: AlertController) {}
+  constructor(private modalController: ModalController, private alertController: AlertController,private darkModeService: DarkModeService
+  ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredCollections(): DrDemand[] {

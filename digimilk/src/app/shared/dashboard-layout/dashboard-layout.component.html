@@ -1,0 +1,58 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-menu-button></ion-menu-button>
+    </ion-buttons>
+
+    <ion-title>
+      {{Title}}
+    </ion-title>
+
+    <ion-buttons slot="end">
+      <!-- Conditional class for small screens -->
+      <ion-searchbar [(ngModel)]="searchQuery" placeholder="Search"
+        [class.searchbar-hidden]="isSmallScreen && !isSearchActive" (ionInput)="performSearch()">
+      </ion-searchbar>
+
+      <!-- Search Icon visible only on small screens -->
+      <ion-button *ngIf="isSmallScreen && !isSearchActive" (click)="toggleSearchBar()">
+        <ion-icon slot="icon-only" name="search-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button>
+        <ion-icon name="notifications-outline" (click)="clearNotifications()"></ion-icon>
+        <ion-badge class="notification-badge" *ngIf="notifications > 0" color="danger">{{ notifications }}</ion-badge>
+      </ion-button>
+
+      <ion-button (click)="darkModeService.toggleDarkMode()">
+        <ion-icon slot="icon-only" name="moon-outline"></ion-icon>
+      </ion-button>
+
+      <ion-button (click)="toggleUserMenu()">
+        <ion-icon name="person-circle-outline"></ion-icon>
+      </ion-button>
+
+      <ion-popover [isOpen]="isUserMenuOpen" (ionPopoverDidDismiss)="closeUserMenu()">
+        <ng-template>
+          <ion-list>
+            <ion-item button (click)="navigateTo('/profile')">Profile</ion-item>
+            <ion-item button (click)="navigateTo('/settings')">Settings</ion-item>
+            <ion-item button (click)="logout()">Logout</ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div class="search-result">
+    <ion-list *ngIf="searchResults.length > 0">
+      <ion-item *ngFor="let result of searchResults" (click)="navigateTo(result.route)">
+        {{ result.name }}
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <ion-router-outlet></ion-router-outlet>
+</ion-content>

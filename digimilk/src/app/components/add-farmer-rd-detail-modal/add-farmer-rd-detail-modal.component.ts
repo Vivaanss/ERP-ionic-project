@@ -1,6 +1,7 @@
 import { Component, Input,OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonPopover, ModalController } from '@ionic/angular';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-farmer-rd-detail-modal',
@@ -12,10 +13,12 @@ export class AddFarmerRdDetailModalComponent {
   addFarmerRdDetailForm: FormGroup;
   isEdit: boolean = false;
   farmerNames = ['Farmer A', 'Farmer B'];
+  public isDarkMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,    private  darkModeService: DarkModeService
+
   ) {
     this.addFarmerRdDetailForm = this.fb.group({
       farmerName: ['', Validators.required],
@@ -30,6 +33,10 @@ export class AddFarmerRdDetailModalComponent {
 
   ngOnInit() {
     this.isEdit = !!this.rdDetail;
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
   onDateChange(field: string, event: any, popover: IonPopover) {
     const value = event.detail.value;

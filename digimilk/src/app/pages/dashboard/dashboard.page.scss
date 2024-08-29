@@ -1,76 +1,19 @@
-// header css
-ion-header ion-toolbar {
-  background-color: white;
-  color: black;
-  display: flex;
-  align-items: center; /* Center content vertically */
-  justify-content: space-between; /* Space between menu button and header content */
-  // padding: ; /* Add padding to the sides */
-  position: relative; /* For positioning the logo */
-}
-.digi-logo-container {
-  position: absolute;
-  left: 50%;
-  bottom: 0px;
-  transform: translateX(-50%);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  // padding: 10px;
-}
-
-.digi-logo-container img.digi-logo {
-  width: 100px; /* Adjust size as needed */
-  height: auto;
-}
-
-ion-button img.logo {
-  width: 50px;
-  /* Adjust the size as needed */
-  height: auto;
-  display: block;
-}
-
-ion-title h2 {
-  margin: 0;
-  font-size: 24px;
-  font-weight: bold;
-}
-
-ion-title p {
-  margin: 5px 0;
-  font-size: 10px;
-  color: #666;
-}
-@media (max-width: 600px) {
-  ion-title h2, ion-title p {
-    display: none;
-  }
-  .digi-logo-container{
-    bottom: 5px;
-  }
-.digi-logo-container img.digi-logo {
-  width: 70px; /* Adjust size as needed */
-  height: auto;
-}
-}
-
-
 // main body css
 ion-content {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  --background:#eff0ec; /* Replace with your desired background color */
+  --background:#ffffff; /* Replace with your desired background color */
 }
 
 
 /* Background image container */
 .background-image-container {
+  margin: auto;
   width: 100%;
   height: 100vh;
-  background:url('../../../assets/dashboard/bg-milk2.jpg') no-repeat center center/cover;
+  background:url('../../../assets/dashboard/milk.jpg') no-repeat center center/cover;
 }
 
 // first section

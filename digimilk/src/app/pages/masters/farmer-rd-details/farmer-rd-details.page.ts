@@ -1,6 +1,7 @@
   import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddFarmerRdDetailModalComponent } from '../../../components/add-farmer-rd-detail-modal/add-farmer-rd-detail-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface FarmerRDDetail {
   id:number;
@@ -45,14 +46,20 @@ export class FarmerRdDetailsPage implements OnInit {
   currentPage = 1;
   paginatedCollections: FarmerRDDetail[] = [];
   totalPages = 1;
+   public isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredCollections(): FarmerRDDetail[] {

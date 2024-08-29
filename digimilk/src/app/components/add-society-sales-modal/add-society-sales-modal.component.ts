@@ -1,6 +1,8 @@
 import { Component, input, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { IonPopover, ModalController } from '@ionic/angular';
+import { DarkModeService } from '../../services/dark-mode';
+
 @Component({
   selector: 'app-add-society-sales-modal',
   templateUrl: './add-society-sales-modal.component.html',
@@ -10,9 +12,10 @@ export class AddSocietySalesModalComponent  implements OnInit {
   @Input() societySales: any;
     addSocietySalesForm!: FormGroup;
   isEdit: boolean = false;
+  public isDarkMode: boolean = false;
 
-
-  constructor(private fb: FormBuilder, private modalCtrl: ModalController) {}
+  constructor(private fb: FormBuilder, private modalCtrl: ModalController,    private  darkModeService: DarkModeService
+  ) {}
 
   ngOnInit() {
     this.isEdit = !!this.societySales;
@@ -28,6 +31,10 @@ export class AddSocietySalesModalComponent  implements OnInit {
       created_by: ['',Validators.required],
       createdAT: [new Date(), Validators.required], // Ensure this is set
 
+    });
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
     });
   }
 

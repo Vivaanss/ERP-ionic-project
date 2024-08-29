@@ -1,4 +1,4 @@
-<ion-content class="main">
+<ion-content class="main" [class.dark-mode]="isDarkMode">
   <div class="background-image-container">
     <div class="digi-logo-container">
       <img src="assets/digimilk-logo/digimilk-logo.png" alt="Digi Logo" class="digi-logo">
@@ -21,16 +21,15 @@
           </ion-item>
           
           <!-- Error Message -->
-           <ion-text>          
+          <ion-text>          
             <p *ngIf="passwordValidator()(passwordControl) !== null" class="error-message">{{ errorMessage }}</p>
-            </ion-text>
+          </ion-text>
 
           <!-- Remember Me Checkbox -->
           <p lines="none" class="rememberMe">
             <ion-checkbox slot="start" [(ngModel)]="rememberMe" name="rememberMe"></ion-checkbox>
             <ion-label>Remember Me</ion-label>
           </p>
-          
 
           <!-- Login Button -->
           <ion-button expand="full" type="submit" [disabled]="!loginForm.form.valid" aria-label="Login">

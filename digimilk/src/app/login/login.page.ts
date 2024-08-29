@@ -3,6 +3,7 @@ import { NgForm, AbstractControl, ValidationErrors, ValidatorFn } from '@angular
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service'; // Your authentication service
 import { LoadingController } from '@ionic/angular';
+import { DarkModeService } from '../services/dark-mode';
 
 @Component({
   selector: 'app-login',
@@ -15,10 +16,15 @@ export class LoginPage {
   rememberMe: boolean = false;
   errorMessage: string = '';
   isLoading: boolean = false;
+  public isDarkMode: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService, private loadingCtrl: LoadingController) {}
+  constructor(private router: Router, private authService: AuthService, private loadingCtrl: LoadingController,private  darkModeService: DarkModeService) {}
 
-  
+  ngOnInit(): void {
+  this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+    this.isDarkMode = isDarkMode;
+  });
+}
   async login() {
     this.isLoading = true;
     try {

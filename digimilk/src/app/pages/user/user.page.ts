@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddUserModalComponent } from '../../components/add-user-modal/add-user-modal.component';
+import { DarkModeService } from '../../services/dark-mode';
 
 interface User {
   id: number;
@@ -35,10 +36,11 @@ export class UserPage implements OnInit {
   entriesToShow = 5;
   currentPage = 1;
   totalPages = 1;
+  public isDarkMode: boolean = false;
 
   addUserForm: FormGroup;
 
-  constructor(private modalController: ModalController, private alertController: AlertController, private fb: FormBuilder) {
+  constructor(private modalController: ModalController, private alertController: AlertController, private fb: FormBuilder, private darkModeService: DarkModeService) {
     this.addUserForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -50,6 +52,11 @@ export class UserPage implements OnInit {
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
+
   }
 
   get filteredUsers(): User[] {

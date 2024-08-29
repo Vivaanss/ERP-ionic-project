@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddSocietyMilkCollectionModalComponent } from '../../components/add-society-milk-collection-modal/add-society-milk-collection-modal.component';
+import { DarkModeService } from '../../services/dark-mode';
 
 interface MilkCollection {
   id: number; // Add this line
@@ -61,14 +62,21 @@ export class SocietyMilkCollectionPage implements OnInit {
   currentPage = 1;
   paginatedCollections: MilkCollection[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredCollections(): MilkCollection[] {

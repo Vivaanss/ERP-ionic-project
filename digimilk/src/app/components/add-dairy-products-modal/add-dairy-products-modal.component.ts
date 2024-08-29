@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ModalController } from '@ionic/angular';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-dairy-products-modal',
@@ -13,10 +14,12 @@ export class AddDairyProductsModalComponent implements OnInit {
   isEdit: boolean = false;
   selectedFile: File | null = null;
   previewImage: string | ArrayBuffer | null = null;
+  public isDarkMode: boolean = false;
 
   constructor(
     private fb: FormBuilder,
-    private modalController: ModalController
+    private modalController: ModalController,    private  darkModeService: DarkModeService
+
   ) {}
 
   ngOnInit() {
@@ -39,6 +42,11 @@ export class AddDairyProductsModalComponent implements OnInit {
 
       this.previewImage = this.product.image;
     }
+
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   onFileChange(event: any) {

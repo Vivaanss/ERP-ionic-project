@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { IonPopover, ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-farmer-loan-modal',
@@ -12,11 +13,12 @@ export class AddFarmerLoanModalComponent {
   addLoanForm: FormGroup;
   isEdit:boolean=false;
   farmerNames = ['Farmer A', 'Farmer B'];
-
+  public isDarkMode: boolean = false;
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {
     this.addLoanForm = this.fb.group({
       farmerName: ['', Validators.required],
@@ -32,6 +34,11 @@ export class AddFarmerLoanModalComponent {
 
   ngOnInit() {
     this.isEdit = !!this.loanDetail;
+
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   onDateChange(field: string, event: any, popover: IonPopover) {

@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-dr-demand-modal',
@@ -9,10 +10,12 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 })
 export class AddDrDemandModalComponent implements OnInit {
   @Input() drDemand: any;
+  public isDarkMode: boolean = false;
 
   drDemandForm: FormGroup;
 
-  constructor(private modalController: ModalController, private formBuilder: FormBuilder) {
+  constructor(private modalController: ModalController, private formBuilder: FormBuilder,    private  darkModeService: DarkModeService
+  ) {
     this.drDemandForm = this.formBuilder.group({
       clinicName: ['', Validators.required],
       drName: ['', Validators.required],
@@ -29,6 +32,10 @@ export class AddDrDemandModalComponent implements OnInit {
     if (this.drDemand) {
       this.drDemandForm.patchValue(this.drDemand);
     }
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   submitForm() {

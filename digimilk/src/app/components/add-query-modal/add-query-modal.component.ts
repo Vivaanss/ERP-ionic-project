@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-query-modal',
@@ -12,10 +13,12 @@ export class AddQueryModalComponent implements OnInit {
   @Input() query: any;
   addQueryForm!: FormGroup;
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   farmersList = ['John Doe', 'Jane Smith', 'Michael Johnson'];
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {
+  constructor(private modalCtrl: ModalController, private fb: FormBuilder,    private  darkModeService: DarkModeService
+  ) {
   }
   
   ngOnInit() {
@@ -28,6 +31,10 @@ export class AddQueryModalComponent implements OnInit {
     farmerMobileNo: ['', [Validators.required, Validators.pattern(/^\d{10}$/)]],
       query: ['', Validators.required],
       createdAt: [this['queries']?.createdAt || new Date(), Validators.required],
+    });
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
     });
   }
 

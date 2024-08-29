@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-user-modal',
@@ -10,11 +11,13 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 export class AddUserModalComponent implements OnInit {
   @Input() user: any;  // This will contain the user data passed in for editing
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   form!: FormGroup;
   roles = ['Union', 'Supervisor', 'Society', 'Farmer'];
 
-  constructor(private modalCtrl: ModalController, private fb: FormBuilder) {}
+  constructor(private modalCtrl: ModalController, private fb: FormBuilder,    private  darkModeService: DarkModeService
+  ) {}
 
   ngOnInit() {
       this.isEdit = !!this.user;
@@ -26,6 +29,10 @@ export class AddUserModalComponent implements OnInit {
       role: [this.user?.role || '', Validators.required],
       status: [this.user?.status || 'Active', Validators.required],
       createdAt: [this.user?.createdAt || new Date(), Validators.required],
+    });
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
     });
   }
 

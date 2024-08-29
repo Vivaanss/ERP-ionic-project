@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-milk-type-modal',
@@ -11,12 +12,14 @@ export class AddMilkTypeModalComponent {
   @Input() milkType: any;
   addMilkTypeForm: FormGroup;
   isEdit: boolean = false;
+  public isDarkMode: boolean = false;
 
   milkTypes= ["Cow Milk","Buffalo Milk"]
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {
     this.addMilkTypeForm = this.fb.group({
       name: ['', Validators.required],
@@ -27,6 +30,12 @@ export class AddMilkTypeModalComponent {
 
   ngOnInit() {
     this.isEdit = !!this.milkType;
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    }); this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
   dismiss() {
     this.modalCtrl.dismiss();

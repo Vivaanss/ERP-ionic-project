@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-add-shift-modal',
@@ -10,6 +11,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class AddShiftModalComponent {
   @Input() shift: any;
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   addShiftForm: FormGroup = this.fb.group({
     name: ['Morning Shift', Validators.required],
@@ -20,10 +22,15 @@ export class AddShiftModalComponent {
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {}
   ngOnInit() {
     this.isEdit = !!this.shift;
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

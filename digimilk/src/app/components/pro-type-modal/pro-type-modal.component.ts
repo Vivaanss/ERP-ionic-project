@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { DarkModeService } from '../../services/dark-mode';
 
 @Component({
   selector: 'app-pro-type-modal',
@@ -10,12 +11,14 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class ProTypeModalComponent {
   @Input() proType: any;
   isEdit:boolean=false;
+  public isDarkMode: boolean = false;
 
   proTypeForm: FormGroup;
 
   constructor(
     private modalCtrl: ModalController,
-    private fb: FormBuilder
+    private fb: FormBuilder,    private  darkModeService: DarkModeService
+
   ) {
      this.proTypeForm = this.fb.group({
       name: ['', Validators.required],
@@ -27,6 +30,10 @@ export class ProTypeModalComponent {
       this.isEdit = !!this.proType;
     
     throw new Error('Method not implemented.');
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   dismiss() {

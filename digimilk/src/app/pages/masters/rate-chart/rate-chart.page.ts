@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddRateModalComponent } from '../../../components/add-rate-modal/add-rate-modal.component';
+import { DarkModeService } from '../../../services/dark-mode';
 
 interface RateCharts {
   milkType: string;
@@ -42,14 +43,21 @@ export class RateChartPage implements OnInit {
   currentPage = 1;
   paginatedCharts: RateCharts[] = [];
   totalPages = 1;
+  public isDarkMode: boolean = false;
+
 
   constructor(
     private modalController: ModalController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private darkModeService: DarkModeService
   ) {}
 
   ngOnInit() {
     this.updatePagination();
+
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
   }
 
   get filteredCharts(): RateCharts[] {
