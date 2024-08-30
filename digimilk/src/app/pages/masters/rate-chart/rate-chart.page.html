@@ -18,8 +18,12 @@
           </ion-item>
         </ion-col>
 
-        <ion-col size="12" size-xs="6" size-sm="6" size-md="3" offset="3" class="header-section">
-          <ion-button (click)="importExcel()">Import Excel</ion-button>
+        <ion-col size="12" size-xs="12" size-sm="12" size-md="6" offset="0" class="header-section">
+          <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" style="display: none;" #fileInput />
+          <ion-button (click)="fileInput.click()">
+            Import Excel
+          </ion-button> 
+          <ion-button (click)="exportToExcel()">Export Excel</ion-button> 
           <ion-button color="primary" expand="block" (click)="openAddRateChartModal()">
             <ion-icon slot="start" name="add-circle-outline"></ion-icon>
             Add Rate Chart
@@ -51,7 +55,7 @@
             <td>{{ rateChart.snf }}</td>
             <td>{{ rateChart.fat }}</td>
             <td>{{ rateChart.ratePerLitre | currency:'INR' }}</td>
-            <td>{{ rateChart.createdAt | date: 'short' }}</td>
+            <td>{{ isValidDate(rateChart.createdAt) ? (rateChart.createdAt | date: 'short') : 'N/A' }}</td>
             <td>
               <ion-button size="small" fill="clear" color="primary" (click)="editRateChart(rateChart)">
                 <ion-icon slot="icon-only" name="create-outline"></ion-icon>

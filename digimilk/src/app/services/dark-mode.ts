@@ -10,9 +10,13 @@ export class DarkModeService {
   darkMode$ = this.darkModeSubject.asObservable();
 
   constructor() {
-    // Optionally, retrieve the initial dark mode setting from localStorage or default
+    this.initializeDarkMode();
+  }
+
+  initializeDarkMode(): void {
+    // Load the saved theme preference from localStorage or default to false (light mode)
     const savedMode = localStorage.getItem('darkMode') === 'true';
-    this.darkModeSubject.next(savedMode);
+    this.setDarkMode(savedMode);
   }
 
   toggleDarkMode(): void {
@@ -23,5 +27,20 @@ export class DarkModeService {
   setDarkMode(isDarkMode: boolean): void {
     this.darkModeSubject.next(isDarkMode);
     localStorage.setItem('darkMode', JSON.stringify(isDarkMode));
+    this.updateTheme(isDarkMode);
+  }
+
+  isDarkModeEnabled(): boolean {
+    return this.darkModeSubject.value;
+  }
+
+  private updateTheme(isDarkMode: boolean): void {
+    if (isDarkMode) {
+      document.body.classList.add('dark-mode');
+      document.body.classList.remove('light-mode');
+    } else {
+      document.body.classList.add('light-mode');
+      document.body.classList.remove('dark-mode');
+    }
   }
 }

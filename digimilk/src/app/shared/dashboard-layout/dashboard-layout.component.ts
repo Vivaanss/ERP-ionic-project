@@ -3,6 +3,8 @@ import { Router, NavigationEnd } from '@angular/router';
 import { TitleService } from '../../services/title.service'; // Adjust path as needed
 import { DarkModeService } from '../../services/dark-mode';
 import { Platform } from '@ionic/angular';
+import { catchError } from 'rxjs/operators';
+import { of } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard-layout',
@@ -27,7 +29,15 @@ export class DashboardLayoutComponent {
     // Add more items as needed
   ];
 
-  constructor(private router: Router, private titleService: TitleService, public darkModeService: DarkModeService, private platform: Platform) { }
+  constructor(
+    private router: Router,
+    private titleService: TitleService,
+    public darkModeService: DarkModeService,
+    private platform: Platform
+  ) {
+    this.darkModeService.initializeDarkMode(); // Initialize dark mode based on saved preferences
+
+  }
 
   ngOnInit() {
     this.subscribeToTitleChanges();
@@ -36,7 +46,12 @@ export class DashboardLayoutComponent {
   }
 
   subscribeToTitleChanges() {
-    this.titleService.title$.subscribe(title => {
+    this.titleService.title$.pipe(
+      catchError(error => {
+        console.error('Error fetching title:', error);
+        return of('Default Title'); // Fallback title
+      })
+    ).subscribe(title => {
       this.Title = title;
     });
 
@@ -119,8 +134,11 @@ export class DashboardLayoutComponent {
       this.searchResults = [];
     }
 
-    // For small screens, do not minimize the search bar after each keystroke.
-    // If you want to minimize after a search button is clicked, do it separately.
+    // For small screens, minimize the search bar only when search is complete
+  }
+
+  trackByFn(index: number, item: any): string {
+    return item.route; // Unique identifier for *ngFor
   }
 
   navigateTo(route: string) {
@@ -147,10 +165,28 @@ export class DashboardLayoutComponent {
   }
 
   subscribeToDarkModeChanges() {
-    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+    this.isDarkMode = this.darkModeService.isDarkModeEnabled();
+    this.darkModeService.darkMode$.pipe(
+      catchError(error => {
+        console.error('Error fetching dark mode status:', error);
+        return of(false); // Default to light mode
+      })
+    ).subscribe(isDarkMode => {
       this.isDarkMode = isDarkMode;
-      document.body.classList.toggle('dark-mode', isDarkMode);
+      this.applyDarkMode(isDarkMode);
     });
+  }
+
+  applyDarkMode(isDarkMode: boolean) {
+    document.body.classList.toggle('dark-mode', isDarkMode);
+  }
+
+  toggleDarkMode() {
+    try {
+      this.darkModeService.toggleDarkMode();
+    } catch (error) {
+      console.error('Error toggling dark mode:', error);
+    }
   }
 
   logout() {

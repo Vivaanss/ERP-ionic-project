@@ -25,7 +25,7 @@
       </ion-button>
 
       <ion-button (click)="darkModeService.toggleDarkMode()">
-        <ion-icon slot="icon-only" name="moon-outline"></ion-icon>
+        <ion-icon slot="icon-only" [name]="isDarkMode ? 'sunny-outline' : 'moon-outline'"></ion-icon>
       </ion-button>
 
       <ion-button (click)="toggleUserMenu()">
@@ -48,7 +48,7 @@
 <ion-content>
   <div class="search-result">
     <ion-list *ngIf="searchResults.length > 0">
-      <ion-item *ngFor="let result of searchResults" (click)="navigateTo(result.route)">
+      <ion-item *ngFor="let result of searchResults; trackBy: trackByFn" (click)="navigateTo(result.route)">
         {{ result.name }}
       </ion-item>
     </ion-list>

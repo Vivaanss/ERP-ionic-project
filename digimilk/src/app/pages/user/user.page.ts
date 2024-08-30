@@ -3,6 +3,8 @@ import { ModalController, AlertController } from '@ionic/angular';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AddUserModalComponent } from '../../components/add-user-modal/add-user-modal.component';
 import { DarkModeService } from '../../services/dark-mode';
+import { ExcelImportService } from 'src/app/services/excel-import.service'; // Adjust the path as necessary
+import * as XLSX from 'xlsx'; // Import the XLSX library
 
 interface User {
   id: number;
@@ -40,7 +42,7 @@ export class UserPage implements OnInit {
 
   addUserForm: FormGroup;
 
-  constructor(private modalController: ModalController, private alertController: AlertController, private fb: FormBuilder, private darkModeService: DarkModeService) {
+  constructor(private excelImportService: ExcelImportService,private modalController: ModalController, private alertController: AlertController, private fb: FormBuilder, private darkModeService: DarkModeService) {
     this.addUserForm = this.fb.group({
       name: ['', Validators.required],
       email: ['', [Validators.required, Validators.email]],
@@ -72,9 +74,25 @@ export class UserPage implements OnInit {
   }
 
   updatePagination() {
-    this.totalPages = Math.ceil(this.filteredUsers.length / this.entriesToShow);
-    this.paginateUsers();
+    let filteredUsers = this.users;
+  
+    if (this.searchTerm) {
+      filteredUsers = filteredUsers.filter(user =>
+        user.userName.toLowerCase().includes(this.searchTerm.toLowerCase()) ||
+        user.emailId.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  
+    if (this.selectedRole) {
+      filteredUsers = filteredUsers.filter(user => user.role === this.selectedRole);
+    }
+  
+    this.totalPages = Math.ceil(filteredUsers.length / this.entriesToShow);
+    const start = (this.currentPage - 1) * this.entriesToShow;
+    const end = start + this.entriesToShow;
+    this.paginatedUsers = filteredUsers.slice(start, end);
   }
+  
 
   paginateUsers() {
     const startIndex = (this.currentPage - 1) * this.entriesToShow;
@@ -170,7 +188,60 @@ export class UserPage implements OnInit {
     // Implement change password logic
   }
 
-  updateUserDetails(user: any) {
-    // Implement update user details logic
+  exportToExcel() {
+    // Create a workbook and add a worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(this.users);
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Users');
+
+    // Generate Excel file and trigger download
+    XLSX.writeFile(wb, 'Users.xlsx');
   }
+  // src/app/pages/user/user.page.ts
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.excelImportService.readExcelFile(file)
+        .then((data: any[]) => {
+          console.log('Imported Data:', data);
+  
+          // Check if data is available
+          if (data.length > 0) {
+            const headers = data[0];
+            this.users = data.slice(1).map((row: any[]) => {
+              return {
+                id: row[0],
+                userName: row[1],
+                emailId: row[2],
+                userId: row[3],
+                mobile: row[4],
+                role: row[5],
+                status: row[6],
+                createdAt: new Date(row[7]) // Ensure this is a valid date
+              };
+            });
+  
+            // Log users for debugging
+            console.log('Processed Users:', this.users);
+  
+            // Update pagination
+            this.updatePagination();
+          } else {
+            console.log('No data found in the file.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error reading file:', error);
+        });
+    }
+  }
+  
+  
+  // Utility method to check if a date is valid
+  isValidDate(date: Date): boolean {
+    return !isNaN(date.getTime());
+  }
+  
 }

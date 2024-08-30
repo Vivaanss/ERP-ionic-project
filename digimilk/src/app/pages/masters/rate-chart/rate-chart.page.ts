@@ -2,14 +2,16 @@ import { Component, OnInit } from '@angular/core';
 import { ModalController, AlertController } from '@ionic/angular';
 import { AddRateModalComponent } from '../../../components/add-rate-modal/add-rate-modal.component';
 import { DarkModeService } from '../../../services/dark-mode';
+import * as XLSX from 'xlsx'; // Import XLSX library
+import { ExcelImportService } from 'src/app/services/excel-import.service'; // Adjust the path as necessary
 
 interface RateCharts {
+  id: number;
   milkType: string;
   snf: number;
   fat: number;
   ratePerLitre: number;
   createdAt: Date;
-  id: number;
 }
 
 @Component({
@@ -49,7 +51,7 @@ export class RateChartPage implements OnInit {
   constructor(
     private modalController: ModalController,
     private alertController: AlertController,
-    private darkModeService: DarkModeService
+    private darkModeService: DarkModeService,private excelImportService: ExcelImportService
   ) {}
 
   ngOnInit() {
@@ -66,13 +68,20 @@ export class RateChartPage implements OnInit {
     );
   }
   
-  importExcel() {
-    // Logic to handle Excel import
-    console.log('Import Excel functionality not yet implemented');
-  }
+  
   updatePagination() {
-    this.totalPages = Math.ceil(this.filteredCharts.length / this.entriesToShow);
-    this.paginateCharts();
+    let filteredUsers = this. rateCharts;
+  
+    if (this.searchTerm) {
+      filteredUsers = filteredUsers.filter(rateChart =>
+        rateChart.milkType.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  
+    this.totalPages = Math.ceil(filteredUsers.length / this.entriesToShow);
+    const start = (this.currentPage - 1) * this.entriesToShow;
+    const end = start + this.entriesToShow;
+    this.paginatedCharts = filteredUsers.slice(start, end);
   }
 
   paginateCharts() {
@@ -156,6 +165,58 @@ export class RateChartPage implements OnInit {
     await alert.present();
   }
 
+  exportToExcel() {
+    // Create a workbook and add a worksheet
+    const wb = XLSX.utils.book_new();
+    const ws = XLSX.utils.json_to_sheet(this.rateCharts);
+
+    // Add the worksheet to the workbook
+    XLSX.utils.book_append_sheet(wb, ws, 'Users');
+
+    // Generate Excel file and trigger download
+    XLSX.writeFile(wb, 'Users.xlsx');
+  }
+  onFileChange(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.excelImportService.readExcelFile(file)
+        .then((data: any[]) => {
+          console.log('Imported Data:', data);
+  
+          // Check if data is available
+          if (data.length > 0) {
+            const headers = data[0];
+            this.rateCharts= data.slice(1).map((row: any[]) => {
+              return {
+                id: row[0],
+                milkType: row[1],
+                snf: row[2],
+                fat: row[3],
+                ratePerLitre: row[4],
+                createdAt: new Date(row[5]) // Ensure this is a valid date
+              };
+            });
+  
+            // Log  rateCharts for debugging
+            console.log('Processed Users:', this. rateCharts);
+  
+            // Update pagination
+            this.updatePagination();
+          } else {
+            console.log('No data found in the file.');
+          }
+        })
+        .catch((error) => {
+          console.error('Error reading file:', error);
+        });
+    }
+  }
+  
+  
+  // Utility method to check if a date is valid
+  isValidDate(date: Date): boolean {
+    return !isNaN(date.getTime());
+  }
 }
 
 

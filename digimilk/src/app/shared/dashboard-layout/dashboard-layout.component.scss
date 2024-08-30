@@ -1,17 +1,44 @@
-ion-header {
-  background: linear-gradient(90deg, #4e54c8, #8f94fb);
-  box-shadow: 0 4px 6px rgba(5, 5, 5, 0.5);
+// dashboard-layout.component.scss
+// styles.scss
+
+/* Light Mode Styles */
+:host {
+  --background: #ffffff;
+  --text-color: #000000;
+  --toolbar-background: linear-gradient(90deg, #4e83c8, #8fc1fb);
+  --toolbar-shadow: 0 4px 6px rgba(5, 5, 5, 0.5);
+  --searchbar-background: #d5d6d7b8;
+  --searchbar-border-radius: 30px;
 }
 
+/* Dark Mode Styles */
+:host-context(.dark-mode) {
+  --background: #121212;
+  --text-color: #ffffff;
+  --toolbar-background: linear-gradient(90deg, #2a2a2a, #3a3a3a);
+  --toolbar-shadow: 0 4px 6px rgba(0, 0, 0, 0.5);
+  --searchbar-background: #7a7a7a;
+  --searchbar-border-radius: 30px;
+}
+
+/* Header Styles */
+ion-header {
+  --background: var(--toolbar-background);
+  box-shadow: var(--toolbar-shadow);
+}
+
+/* Title Styles */
 ion-title {
   font-weight: bold;
   font-size: 1.5rem;
   text-align: start;
+  color: var(--text-color);
 }
 
+/* Searchbar Styles */
 ion-searchbar {
-  --background: #d5d6d7b8;
-  --border-radius: 30px;
+  --background: var(--searchbar-background);
+  --border-radius: var(--searchbar-border-radius);
   width: 250px;
   margin-right: 20px;
 }
@@ -20,19 +47,18 @@ ion-searchbar {
   display: none;
 }
 
+/* List Styles */
 ion-list {
-  display: block; /* Ensure the list is displayed */
-  background-color: white; /* Make sure the background is visible */
-  z-index: 1000; /* Make sure it's on top of other elements */
-  position: absolute; /* Position it relative to the search bar */
-  width: 30%; /* Full width of the parent container */
+  display: block;
+  background-color: var(--background); /* Ensure background color adapts to theme */
+  z-index: 1000;
+  position: absolute;
+  width: 30%;
   padding: 0;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
 }
 
-ion-icon[name="notifications-outline"]{
-  font-size: 25px;
-}
+/* Notification Badge Styles */
 .notification-badge {
   font-size: 10px;
   border-radius: 50%;
@@ -41,13 +67,15 @@ ion-icon[name="notifications-outline"]{
   right: -4px;
 }
 
-.dark-mode {
-  --ion-background-color: #121212;
-  --ion-text-color: #ffffff;
+/* Toolbar Styles */
+ion-toolbar {
+  background: var(--toolbar-background);
+  color: var(--text-color);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
-ion-toolbar {
-  --background: var(--ion-background-color);
-  color: var(--ion-text-color);
-  transition: background 0.3s ease, color 0.3s ease;
+/* General Styling for Backgrounds and Text Colors */
+body {
+  background-color: var(--background);
+  color: var(--text-color);
 }

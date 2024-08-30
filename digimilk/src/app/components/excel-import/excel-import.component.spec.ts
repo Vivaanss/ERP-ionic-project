@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 import { IonicModule } from '@ionic/angular';
 
-import { MenubarComponent } from './menubar.component';
+import { ExcelImportComponent } from './excel-import.component';
 
-describe('MenubarComponent', () => {
-  let component: MenubarComponent;
-  let fixture: ComponentFixture<MenubarComponent>;
+describe('ExcelImportComponent', () => {
+  let component: ExcelImportComponent;
+  let fixture: ComponentFixture<ExcelImportComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [ MenubarComponent ],
+      declarations: [ ExcelImportComponent ],
       imports: [IonicModule.forRoot()]
     }).compileComponents();
 
-    fixture = TestBed.createComponent(MenubarComponent);
+    fixture = TestBed.createComponent(ExcelImportComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));

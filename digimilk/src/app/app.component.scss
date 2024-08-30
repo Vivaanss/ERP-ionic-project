@@ -1,13 +1,14 @@
 ion-menu {
   width: 305px;
   height: 100%;
+  --background: var(--ion-background-color, #ffffff); /* Default to light background */
 }
 
 ion-toolbar {
   height: 56px;
   display: flex;
   align-items: center;
-  padding-left:  16px; /* Adjust padding as needed */
+  padding-left: 16px; /* Adjust padding as needed */
 }
 
 .logo {
@@ -20,13 +21,14 @@ ion-toolbar {
   font-size: 24px;
 }
 
+/* Searchbar Styling */
 ion-searchbar {
   --background: #d5d6d7b8;
   --border-radius: 30px;
   width: 100%; /* Make the search bar full width */
-  // margin-bottom: 16px; /* Adds space below the search bar */
 }
 
+/* Custom Scrollbar */
 .custom-scrollbar {
   overflow-y: auto; /* Enables vertical scrolling */
 }
@@ -48,6 +50,7 @@ ion-searchbar {
   background: #555; /* Darker color on hover */
 }
 
+/* Menu Item Styling */
 ion-item {
   border-radius: 8px; /* Rounded corners for menu items */
   margin-bottom: 4px; /* Adds space between items */
@@ -55,17 +58,23 @@ ion-item {
 }
 
 ion-item.active {
-  background-color: #e0e0e0; /* Active state color */
+  background-color: var(--ion-item-active-background, #e0e0e0); /* Default active state color */
 }
 
 ion-item:hover {
-  background-color: #d0d0d0; /* Hover effect */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Shadow effect */
+  background-color: var(--ion-item-hover-background, #d0d0d0); /* Default hover effect */
+  box-shadow: var(--ion-item-hover-shadow, 0 2px 5px rgba(0, 0, 0, 0.2)); /* Default shadow effect */
 }
 
+/* Dark Mode Specific Styles */
 :host-context(.dark-mode) {
+  ion-header {
+    --background: #2c2c2c;
+    --color: #ffffff;
+  }
+
   ion-icon {
-    color: white;
+    color: #ffffff;
   }
 
   ion-menu {
@@ -73,7 +82,23 @@ ion-item:hover {
   }
 
   ion-searchbar {
-    color: white;
     --background: #333;
+    color: #ffffff;
+  }
+
+  ion-item.active {
+    background-color: #000000; /* Dark mode active state color */
+  }
+
+  ion-item:hover {
+    background-color: #000000; /* Dark mode hover effect */
+    box-shadow: 0 2px 5px rgba(255, 255, 255, 0.2); /* Light shadow effect for dark mode */
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .header-section {
+    justify-content: space-around;
   }
 }

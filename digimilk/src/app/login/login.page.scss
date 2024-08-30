@@ -13,23 +13,25 @@
   height: 100%;
   padding: 0;
   margin: 0;
-  filter: brightness(0.7); /* Darker background for contrast in dark mode */
+  filter: brightness(0.85); /* Darker background for contrast in dark mode */
 }
 
 /* Dark Mode Styles */
 .dark-mode {
-  --ion-background-color: #1c1c1c;
+  --ion-background-color: #fdfbfb;
   --ion-color-primary: #00d8ff;
   --ion-color-secondary: #ff6f61;
   --ion-color-tertiary: #f3a712;
-  --ion-text-color: #ffffff;
-  --ion-item-background: #2a2a2a;
+  --ion-text-color: #070707;
+  --ion-item-background: #fbf7f7;
   --ion-item-border-color: #444;
   --ion-item-color-active: #00d8ff;
-  --ion-input-background: #333;
-  --ion-input-color: #fff;
-  --ion-label-color: #aaa;
-  --ion-placeholder-color: #666;
+  --ion-item-color:rgb(247, 240, 240);
+  --ion-input-background: #f3f3f3;
+  --ion-input-color: #080808;
+  --ion-label-background:white;
+  --ion-label-color: #0b0b0b;
+  --ion-placeholder-color: #050505;
 }
 
 /* Logo Styling */
@@ -41,7 +43,7 @@
 
 /* Login Container */
 .login-container {
-  background: rgba(44, 44, 44, 0.85); /* Darker background with slight transparency */
+  background: rgba(255, 255, 255, 0.85); /* Darker background with slight transparency */
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 6px 30px rgba(0, 0, 0, 0.6); /* Deeper shadow for better contrast */
@@ -95,10 +97,11 @@
 
 .form-container ion-input:focus {
   --border-color: var(--ion-item-color-active);
-  background: rgba(0, 0, 0, 0.5); /* Darken input background on focus */
+  background: rgba(255, 255, 255, 0.5); /* Darken input background on focus */
 }
 
 .form-container ion-label {
+  background: var(--ion-label-background);
   color: var(--ion-label-color);
 }
 
@@ -106,7 +109,7 @@
 .password-toggle {
   position: absolute;
   right: 20px;
-  top: 35%;
+  top: 50%;
   transform: translateY(-50%);
   z-index: 2;
   font-size: 22px;
