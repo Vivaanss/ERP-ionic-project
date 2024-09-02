@@ -1,8 +1,8 @@
-import { Component, HostListener } from '@angular/core';
+import { Component, ElementRef} from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 import { TitleService } from '../../services/title.service'; // Adjust path as needed
 import { DarkModeService } from '../../services/dark-mode';
-import { Platform } from '@ionic/angular';
+import { Platform, AlertController } from '@ionic/angular';
 import { catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
 
@@ -15,35 +15,54 @@ export class DashboardLayoutComponent {
   searchQuery: string = '';
   notifications: number = 5; // Example value
   isUserMenuOpen: boolean = false;
+  popoverEvent: any; // Store the event to position the popover correctly
   Title: string = 'Dashboard';
   isDarkMode: boolean = false;
   isSmallScreen: boolean = false;
   isSearchActive: boolean = false;
-  searchResults: Array<{ name: string, route: string }> = [];
+  searchResults: Array<{ name: string, route: string,icon: string, isAction?: boolean }> = [];
 
-  items: Array<{ name: string, route: string }> = [
-    { name: 'My Account', route: '/profile' },
-    { name: 'Settings', route: '/settings' },
-    { name: 'Help', route: '/help' },
-    { name: 'Logout', route: '/logout' },
-    // Add more items as needed
+  adminName: string = 'Prerna'; // Replace with actual name
+  adminPhotoUrl: string = 'assets/first-section/person.svg'; // Replace with actual photo URL
+
+  items: Array<{ name: string, route: string, icon: string, isAction?: boolean }> = [
+    { name: 'My Account', route: '/profile', icon: 'person-outline'  },
+    { name: 'Settings', route: '/settings', icon: 'settings-outline'  },
+    { name: 'Help', route: '/help' , icon: 'help-circle-outline' },
+    { name: 'Logout', route: 'logout',icon: 'log-out-outline' , isAction: true }
   ];
+
 
   constructor(
     private router: Router,
     private titleService: TitleService,
     public darkModeService: DarkModeService,
-    private platform: Platform
+    private platform: Platform,
+    private alertController: AlertController, private elementRef: ElementRef // Inject ElementRef to access the host element
+
   ) {
     this.darkModeService.initializeDarkMode(); // Initialize dark mode based on saved preferences
-
   }
 
   ngOnInit() {
     this.subscribeToTitleChanges();
     this.handleScreenResize();
     this.subscribeToDarkModeChanges();
+
+    // Example check for small screens
+    this.isSmallScreen = window.innerWidth < 768; // Adjust as needed
+    window.addEventListener('resize', () => {
+      this.isSmallScreen = window.innerWidth < 768;
+    });
+
+    // Subscribe to NavigationEnd to close the user menu
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.closeUserMenu(); // Close the user menu when navigation ends
+      }
+    });
   }
+  
 
   subscribeToTitleChanges() {
     this.titleService.title$.pipe(
@@ -110,6 +129,8 @@ export class DashboardLayoutComponent {
     return titles[url] || 'DigiMilk'; // Default title
   }
 
+
+  // screen size
   handleScreenResize() {
     this.checkScreenSize();
     this.platform.resize.subscribe(() => {
@@ -121,6 +142,7 @@ export class DashboardLayoutComponent {
     this.isSmallScreen = this.platform.width() < 768; // Adjust the width as needed
   }
 
+  // search bar
   toggleSearchBar() {
     this.isSearchActive = !this.isSearchActive;
   }
@@ -133,17 +155,6 @@ export class DashboardLayoutComponent {
     } else {
       this.searchResults = [];
     }
-
-    // For small screens, minimize the search bar only when search is complete
-  }
-
-  trackByFn(index: number, item: any): string {
-    return item.route; // Unique identifier for *ngFor
-  }
-
-  navigateTo(route: string) {
-    this.router.navigate([route]);
-    this.clearSearch();
   }
 
   clearSearch() {
@@ -152,17 +163,75 @@ export class DashboardLayoutComponent {
     this.isSearchActive = false;
   }
 
-  toggleUserMenu() {
+  selectSearchResult(item: { name: string, route: string, isAction?: boolean }) {
+    this.navigateTo(item);
+  }
+
+  navigateTo(item: { name: string, route: string, isAction?: boolean }) {
+    if (item.isAction) {
+      if (item.route === 'logout') {
+        this.logout();
+      }
+      // Handle other actions if needed
+    } else {
+      this.router.navigate([item.route]);
+      this.clearSearch();
+    }
+  }
+
+  async logout() {
+    console.log('Logout triggered');
+
+    const alert = await this.alertController.create({
+      header: 'Confirm Logout',
+      message: 'Are you sure you want to logout?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Logout canceled');
+          }
+        },
+        {
+          text: 'Logout',
+          handler: () => {
+            this.clearSearch(); // Clear search on logout
+            this.performLogout();
+          }
+        }
+      ]
+    });
+
+    await alert.present();
+  }
+
+  performLogout() {
+    console.log('Logged out');
+    this.router.navigate(['/login']);
+  }
+
+  
+  trackByFn(index: number, item: any): string {
+    return item.route; // Unique identifier for *ngFor
+  }
+
+  toggleUserMenu(event: any) {
+    this.popoverEvent = event; // Capture the event
     this.isUserMenuOpen = !this.isUserMenuOpen;
   }
 
   closeUserMenu() {
     this.isUserMenuOpen = false;
   }
-
+  
+  // for notification
   clearNotifications() {
     this.notifications = 0;
   }
+
+  // dark mode
 
   subscribeToDarkModeChanges() {
     this.isDarkMode = this.darkModeService.isDarkModeEnabled();
@@ -181,15 +250,9 @@ export class DashboardLayoutComponent {
     document.body.classList.toggle('dark-mode', isDarkMode);
   }
 
-  toggleDarkMode() {
-    try {
-      this.darkModeService.toggleDarkMode();
-    } catch (error) {
-      console.error('Error toggling dark mode:', error);
-    }
+  navigateto(route: string) {
+    this.router.navigate([route]);
+    this.clearSearch();
   }
-
-  logout() {
-    this.router.navigate(['/login']);
-  }
+  
 }

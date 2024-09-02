@@ -5,6 +5,8 @@ import { DashboardLayoutComponent } from './shared/dashboard-layout/dashboard-la
 
 const routes: Routes = [
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
+  { path: 'forgot-pwd',loadChildren: () => import('./forgot-pwd/forgot-pwd.module').then( m => m.ForgotPwdPageModule)},
+  { path: 'register', loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule) },
   { path: '', redirectTo: '/login', pathMatch: 'full' },
   
   {
@@ -52,7 +54,8 @@ const routes: Routes = [
     ]
   },
   
-  { path: '**', component: PageNotFoundComponent }  // Wildcard route for 404 page
+  // Wildcard route for 404 page
+  { path: '**', component: PageNotFoundComponent },  
 ];
 
 @NgModule({

@@ -18,13 +18,13 @@ export class LoginPage {
   isLoading: boolean = false;
   public isDarkMode: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService, private loadingCtrl: LoadingController,private  darkModeService: DarkModeService) {}
+  constructor(private router: Router, private authService: AuthService, private loadingCtrl: LoadingController, private darkModeService: DarkModeService) { }
 
   ngOnInit(): void {
-  this.darkModeService.darkMode$.subscribe((isDarkMode) => {
-    this.isDarkMode = isDarkMode;
-  });
-}
+    this.darkModeService.darkMode$.subscribe((isDarkMode) => {
+      this.isDarkMode = isDarkMode;
+    });
+  }
   async login() {
     this.isLoading = true;
     try {
@@ -36,7 +36,8 @@ export class LoginPage {
         this.router.navigate(['/dashboard']);
       } else {
         this.errorMessage = 'Password must contain at least 1 uppercase letter, 1 number, and 1 special character, and be at least 8 characters long.';
-      }} catch (error) {
+      }
+    } catch (error) {
       this.errorMessage = 'Invalid username or password.';
     } finally {
       this.isLoading = false;
@@ -59,8 +60,8 @@ export class LoginPage {
     });
   }
 
-   // Custom password validator function
-   passwordValidator(): ValidatorFn {
+  // Custom password validator function
+  passwordValidator(): ValidatorFn {
     return (control: AbstractControl): ValidationErrors | null => {
       const value = control.value || '';
       if (
@@ -82,21 +83,21 @@ export class LoginPage {
   }
 
 
-// password toggle
-    togglePasswordVisibility() {
-  const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
-  const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
+  // password toggle
+  togglePasswordVisibility() {
+    const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
+    const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
 
-  if (passwordInput && icon) {
-    if (passwordInput.type === 'password') {
-      passwordInput.type = 'text';
-      icon.name = 'eye';
-    } else {
-      passwordInput.type = 'password';
-      icon.name = 'eye-off';
+    if (passwordInput && icon) {
+      if (passwordInput.type === 'password') {
+        passwordInput.type = 'text';
+        icon.name = 'eye';
+      } else {
+        passwordInput.type = 'password';
+        icon.name = 'eye-off';
+      }
     }
   }
-}
 
-    
+
 }

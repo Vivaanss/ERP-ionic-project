@@ -22,7 +22,7 @@ export class ProductsPage implements OnInit {
     {
       id: 1,
       name: 'Milk Pack',
-      image: 'path/to/image1.jpg',
+      image: 'assets/products/milk-pack.jpg',
       type: 'Pack',
       price: 10,
       status: 'Available',
@@ -30,7 +30,7 @@ export class ProductsPage implements OnInit {
     {
       id: 2,
       name: 'Cheese Block',
-      image: 'path/to/image2.jpg',
+      image: 'assets/products/cheese.jpeg',
       type: 'Block',
       price: 20,
       status: 'Out of Stock',

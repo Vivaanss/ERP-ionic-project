@@ -113,7 +113,7 @@ export class AppComponent {
   constructor(private router: Router) {
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        this.isLoginPage = this.router.url === '/login';
+        this.isLoginPage = ['/login', '/forgot-pwd', '/register'].includes(this.router.url);
         this.showMenuBar = !this.isLoginPage;
       }
     });

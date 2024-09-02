@@ -165,17 +165,46 @@ export class RateChartPage implements OnInit {
     await alert.present();
   }
 
-  exportToExcel() {
-    // Create a workbook and add a worksheet
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(this.rateCharts);
+  async confirmExport() {
+    console.log("EXPORTING")
+    const alert = await this.alertController.create({
+      header: 'Confirm Export',
+      message: 'Are you sure you want to export the data to Excel?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Export canceled');
+          }
+        },
+        {
+          text: 'Export',
+          handler: () => {
+            this.exportToExcel();
+          }
+        }
+      ]
+    });
 
-    // Add the worksheet to the workbook
-    XLSX.utils.book_append_sheet(wb, ws, 'Users');
-
-    // Generate Excel file and trigger download
-    XLSX.writeFile(wb, 'Users.xlsx');
+    await alert.present();
   }
+
+
+  exportToExcel() {
+    // Convert your user data to a worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.rateCharts);
+
+    // Create a new workbook and add the worksheet to it
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'RateChart');
+
+    // Export the workbook as an Excel file
+    XLSX.writeFile(wb, 'rateChart_data.xlsx');
+  }
+
+
   onFileChange(event: any) {
     const file = event.target.files[0];
     if (file) {

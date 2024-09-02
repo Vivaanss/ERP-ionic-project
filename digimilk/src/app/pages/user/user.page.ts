@@ -188,17 +188,46 @@ export class UserPage implements OnInit {
     // Implement change password logic
   }
 
-  exportToExcel() {
-    // Create a workbook and add a worksheet
-    const wb = XLSX.utils.book_new();
-    const ws = XLSX.utils.json_to_sheet(this.users);
+  async confirmExport() {
+    console.log("EXPORTING")
+    const alert = await this.alertController.create({
+      header: 'Confirm Export',
+      message: 'Are you sure you want to export the data to Excel?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel',
+          cssClass: 'secondary',
+          handler: () => {
+            console.log('Export canceled');
+          }
+        },
+        {
+          text: 'Export',
+          handler: () => {
+            this.exportToExcel();
+          }
+        }
+      ]
+    });
 
-    // Add the worksheet to the workbook
+    await alert.present();
+  }
+
+
+  exportToExcel() {
+    // Convert your user data to a worksheet
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.users);
+
+    // Create a new workbook and add the worksheet to it
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Users');
 
-    // Generate Excel file and trigger download
-    XLSX.writeFile(wb, 'Users.xlsx');
+    // Export the workbook as an Excel file
+    XLSX.writeFile(wb, 'users_data.xlsx');
   }
+
+
   // src/app/pages/user/user.page.ts
   onFileChange(event: any) {
     const file = event.target.files[0];

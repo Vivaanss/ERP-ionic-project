@@ -29,7 +29,9 @@
           <ion-button (click)="fileInput.click()">
             Import Excel
           </ion-button> 
-          <ion-button (click)="exportToExcel()">Export Excel</ion-button> 
+          <ion-button (click)="confirmExport()" [disabled]="users.length === 0">
+            Export to Excel
+          </ion-button> 
           <ion-button (click)="openAddUserModal()">
             <ion-icon name="add-circle-outline"></ion-icon>
             Add User

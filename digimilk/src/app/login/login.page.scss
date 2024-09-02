@@ -78,8 +78,9 @@
 /* Input Fields */
 .form-container ion-item {
   --background: var(--ion-input-background);
-  --border-color: var(--ion-item-border-color);
+  // --border-color: var(--ion-item-border-color);
   --color: var(--ion-text-color);
+  --border-style: none;
   border-radius: 6px;
   position: relative;
 }
@@ -92,7 +93,6 @@
   border-radius: 6px;
   background: var(--ion-item-background);
   transition: border-color 0.3s ease, background-color 0.3s ease;
-  opacity: .5;
 }
 
 .form-container ion-input:focus {
@@ -109,7 +109,7 @@
 .password-toggle {
   position: absolute;
   right: 20px;
-  top: 50%;
+  top: 35%;
   transform: translateY(-50%);
   z-index: 2;
   font-size: 22px;
@@ -127,6 +127,7 @@
   --background: var(--ion-color-primary);
   --checkmark-color: #fff;
   margin-right: 10px;
+  --border-radius: 50%;
 }
 
 .rememberMe {

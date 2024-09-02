@@ -22,7 +22,7 @@
             <ion-card-title>{{ product.name }}</ion-card-title>
           </ion-card-header>
           <ion-card-content>
-            <ion-img [src]="product.image"></ion-img>
+            <ion-img [src]="product.image || 'assets/products/default.jpeg'"></ion-img>
             <div class="product-details">
               <p><strong>Type:</strong> {{ product.type }}</p>
               <p><strong>Price:</strong> {{ product.price | currency:'INR' }}</p>
