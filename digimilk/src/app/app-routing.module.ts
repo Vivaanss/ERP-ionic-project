@@ -50,12 +50,16 @@ const routes: Routes = [
       { path: 'settings', loadChildren: () => import('./pages/settings/settings.module').then(m => m.SettingsPageModule)},
       { path: 'milk-types', loadChildren: () => import('./pages/masters/milk-types/milk-types.module').then(m => m.MilkTypesPageModule)},
       { path: 'product', loadChildren: () => import('./pages/masters/product/product.module').then(m => m.ProductPageModule)},
-      { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserPageModule)}
+      { path: 'user', loadChildren: () => import('./pages/user/user.module').then(m => m.UserPageModule)},
+      { path: 'profile',loadChildren: () => import('./profile/profile.module').then( m => m.ProfilePageModule) },
+      {path: 'help', loadChildren: () => import('./pages/help/help.module').then( m => m.HelpPageModule)},
     ]
   },
   
   // Wildcard route for 404 page
-  { path: '**', component: PageNotFoundComponent },  
+  { path: '**', component: PageNotFoundComponent },   
+ 
+ 
 ];
 
 @NgModule({

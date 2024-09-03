@@ -124,6 +124,8 @@ export class DashboardLayoutComponent {
       '/broadcast-message/screen-msg': 'Screen Message',
       '/broadcast-message/farmer-screen-msg': 'Farmer Screen Message',
       '/settings': 'Settings',
+      '/profile': 'My Account',
+      '/help': 'Help Center',
       // Add more routes as needed
     };
     return titles[url] || 'DigiMilk'; // Default title

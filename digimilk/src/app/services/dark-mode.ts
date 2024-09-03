@@ -8,6 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 export class DarkModeService {
   private darkModeSubject = new BehaviorSubject<boolean>(false);
   darkMode$ = this.darkModeSubject.asObservable();
+  updateDarkMode: any;
 
   constructor() {
     this.initializeDarkMode();
@@ -19,7 +20,7 @@ export class DarkModeService {
     this.setDarkMode(savedMode);
   }
 
-  toggleDarkMode(): void {
+  toggleDarkMode(isDarkMode?: boolean): void {
     const currentMode = this.darkModeSubject.value;
     this.setDarkMode(!currentMode);
   }

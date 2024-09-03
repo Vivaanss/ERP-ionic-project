@@ -34,11 +34,11 @@
       <ion-label class="admin-label">
         {{adminName}}
       </ion-label>
-      <ion-item lines="none" button (click)="toggleUserMenu($event)">
-        <ion-avatar slot="end">
+      <ion-item>
+      <ion-avatar slot="end" lines="none" class="admin-avatar"  button (click)="toggleUserMenu($event)">
           <img src="assets/admin.png" alt="Admin Photo">
-        </ion-avatar>
-      </ion-item>
+      </ion-avatar>
+    </ion-item>
 
       <!-- Define the template separately -->
       

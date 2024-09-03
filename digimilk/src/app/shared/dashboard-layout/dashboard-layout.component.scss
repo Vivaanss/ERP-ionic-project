@@ -23,7 +23,7 @@
 
 /* Header Styles */
 ion-header {
-  --background: var(--toolbar-background);
+  // --background: var(--toolbar-background);
   box-shadow: var(--toolbar-shadow);
 }
 
@@ -61,7 +61,7 @@ ion-searchbar {
   width: 200px; /* Auto width to match the width of the search bar */
   max-width: 250px; /* Ensure it does not exceed search bar width */
   background-color: var(--background);
-  border-radius: var(--searchbar-border-radius);
+  border-radius: 10px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   z-index: 1000; /* Ensure it appears above other content */
   display: block;
@@ -86,7 +86,7 @@ ion-searchbar {
 /* Adjust search results for responsiveness without full width */
 @media (max-width: 680px){
   .search-result {
-    width: 200px; /* Auto width for smaller screens */
+    width: 150px; /* Auto width for smaller screens */
     max-width: 80%; /* Adjust max-width on small screens */
     left: 50%; /* Align with the start of the search bar */
     transform: translateX(-50%); /* Center horizontally */
@@ -161,11 +161,12 @@ body {
 
 ion-item{
 --padding-start: 0;
+--inner-padding-end:0;
 }
 .admin-avatar {
   --size: 40px;
   margin-left: 0;
-  margin-right: 5px;
+  margin-right: 0;
   width: var(--size);
   height: var(--size);
   border-radius: 50%;
@@ -187,16 +188,12 @@ ion-item{
   letter-spacing: 0.5px; /* Slightly increased letter spacing for readability */
   line-height: 1.4; /* Improved line height for better readability */
   margin: 0;
+  margin-right: 5px;
   padding: 0;
   display: flex;
   align-items: center; /* Vertically center align text and image */
-}
-
-/* Optional: Add a subtle text shadow for better visibility */
-.admin-label {
   text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
-
 /* Hide admin name on small screens */
 @media (max-width: 768px) {
   .admin-label {
