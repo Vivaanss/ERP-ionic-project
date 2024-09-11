@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
+import { AngularFireAuth } from '@angular/fire/compat/auth';
+import firebase from 'firebase/compat/app';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +13,7 @@ export class AuthService {
 
   private users = [{ username: 'user', password: 'pass' }]; // Example data
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private afAuth: AngularFireAuth) {}
 // login
   login(username: string, password: string): Promise<{ success: boolean }> {
     return new Promise((resolve) => {
@@ -24,14 +26,17 @@ export class AuthService {
     localStorage.setItem('rememberedUser', username);
   }
 
+  getUser() {
+    return this.afAuth.authState;
+  }
 // for social links
-async googleLogin(): Promise<void> {
-  // Integrate with Google Auth API or Firebase
+signInWithGoogle() {
+  return this.afAuth.signInWithPopup(new firebase.auth.GoogleAuthProvider());
 }
 
 async facebookLogin(): Promise<void> {
   // Integrate with Facebook Auth API or Firebase
-}
+} 
 
  // Register method
  register(username: string, email: string, password: string): Observable<any> {

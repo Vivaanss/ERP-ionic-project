@@ -1,9 +1,10 @@
-import type { CapacitorConfig } from '@capacitor/cli';
+// import { CapacitorConfig } from '@capacitor/core';
 
-const config: CapacitorConfig = {
+const config = {
   appId: 'io.ionic.starter',
   appName: 'digimilk',
-  webDir: 'www'
+  webDir: 'www',
+  bundledWebRuntime: false
 };
 
 export default config;

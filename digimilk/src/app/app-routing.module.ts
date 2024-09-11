@@ -4,10 +4,10 @@ import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.com
 import { DashboardLayoutComponent } from './shared/dashboard-layout/dashboard-layout.component';  // Import the DashboardLayoutComponent
 
 const routes: Routes = [
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'login', loadChildren: () => import('./login/login.module').then(m => m.LoginPageModule) },
   { path: 'forgot-pwd',loadChildren: () => import('./forgot-pwd/forgot-pwd.module').then( m => m.ForgotPwdPageModule)},
   { path: 'register', loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule) },
-  { path: '', redirectTo: '/login', pathMatch: 'full' },
   
   {
     path: '',

@@ -10,13 +10,20 @@ import { DashboardLayoutComponent } from './shared/dashboard-layout/dashboard-la
 import { ExcelImportComponent } from './components/excel-import/excel-import.component';
 import { ExcelImportService } from './services/excel-import.service';
 import { HttpClientModule } from '@angular/common/http';
-
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { AngularFireModule } from '@angular/fire/compat';
+import { AngularFireAuthModule } from '@angular/fire/compat/auth';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [AppComponent,DashboardLayoutComponent,ExcelImportComponent  // Declare the MenubarComponent here
   ],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,FormsModule,NgxCaptchaModule, HttpClientModule],
-  providers: [ExcelImportService,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy ,}],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule,FormsModule,NgxCaptchaModule, HttpClientModule,
+    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireAuthModule
+
+  ],
+  providers: [ExcelImportService,{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }, { provide: LocationStrategy, useClass: HashLocationStrategy }],
   bootstrap: [AppComponent]
 })
 export class AppModule {} 
