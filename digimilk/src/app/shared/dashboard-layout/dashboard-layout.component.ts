@@ -22,7 +22,7 @@ export class DashboardLayoutComponent {
   isSearchActive: boolean = false;
   searchResults: Array<{ name: string, route: string,icon: string, isAction?: boolean }> = [];
 
-  adminName: string = 'Prerna'; // Replace with actual name
+  adminName: string = 'Admin'; // Replace with actual name
   adminPhotoUrl: string = 'assets/first-section/person.svg'; // Replace with actual photo URL
 
   items: Array<{ name: string, route: string, icon: string, isAction?: boolean }> = [

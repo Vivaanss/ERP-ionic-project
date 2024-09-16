@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';  // Import the component
 import { DashboardLayoutComponent } from './shared/dashboard-layout/dashboard-layout.component';  // Import the DashboardLayoutComponent
+import { RoleGuard } from './guards/role.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -9,6 +10,18 @@ const routes: Routes = [
   { path: 'forgot-pwd',loadChildren: () => import('./forgot-pwd/forgot-pwd.module').then( m => m.ForgotPwdPageModule)},
   { path: 'register', loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule) },
   
+  {
+path: 'admin',
+loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
+canActivate: [RoleGuard],
+data: { expectedRole: 'admin' }
+},
+{
+path: 'users',
+loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
+canActivate: [RoleGuard],
+data: { expectedRole: 'user' }
+},
   {
     path: '',
     component: DashboardLayoutComponent,

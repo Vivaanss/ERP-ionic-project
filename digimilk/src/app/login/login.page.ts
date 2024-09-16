@@ -37,7 +37,7 @@ export class LoginPage {
   async login() {
     this.isLoading = true;
     try {
-      await this.authService.login(this.username, this.password);
+      await this.authService.login(this.username, this.password, { email: this.username, password: this.password });
       if (this.rememberMe) {
         this.authService.rememberUser(this.username);
       }
@@ -53,21 +53,10 @@ export class LoginPage {
     }
   }
 
-  async signInWithGoogle() {
-    this.isLoading = true;
-    try {
-      const provider = new GoogleAuthProvider();
-      const result = await this.afAuth.signInWithPopup(provider);
-      const userCredential = result as unknown as UserCredential;  // Cast result to UserCredential
-      // Use userCredential as needed
-      this.router.navigate(['/dashboard']);
-    } catch (error: any) {
-      console.error('Error signing in with Google:', error);
-      this.errorMessage = 'Failed to sign in with Google.';
-    } finally {
-      this.isLoading = false;
-    }
+  googleSignIn() {
+    this.authService.signInWithGoogle();
   }
+
 
   async signInWithFacebook() {
     this.isLoading = true;
@@ -109,18 +98,18 @@ export class LoginPage {
   }
 
   // Password toggle
-  togglePasswordVisibility() {
-    const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
-    const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
+  // togglePasswordVisibility() {
+  //   const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
+  //   const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
 
-    if (passwordInput && icon) {
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.name = 'eye';
-      } else {
-        passwordInput.type = 'password';
-        icon.name = 'eye-off';
-      }
-    }
-  }
+  //   if (passwordInput && icon) {
+  //     if (passwordInput.type === 'password') {
+  //       passwordInput.type = 'text';
+  //       icon.name = 'eye';
+  //     } else {
+  //       passwordInput.type = 'password';
+  //       icon.name = 'eye-off';
+  //     }
+  //   }
+  // }
 }

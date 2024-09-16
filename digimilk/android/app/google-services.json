@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "13602899813",
+    "project_id": "our-erp",
+    "storage_bucket": "our-erp.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:13602899813:android:f2aa9e65cdf6ed5000438c",
+        "android_client_info": {
+          "package_name": "io.ionic.starter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "13602899813-8aiafe29s46r40igcjj2pkdcj01m3uh3.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA7KpLXc1Zjp7m2rbklVLnK8th2JtyKYWI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "13602899813-8aiafe29s46r40igcjj2pkdcj01m3uh3.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

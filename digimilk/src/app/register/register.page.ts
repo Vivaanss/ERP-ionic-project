@@ -121,18 +121,18 @@ this.successMessage = this.notificationService.getMessage();
   }
 
   // Password visibility toggle
-  togglePasswordVisibility() {
-    const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
-    const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
+  // togglePasswordVisibility() {
+  //   const passwordInput = document.querySelector('ion-input[type="password"]') as HTMLIonInputElement | null;
+  //   const icon = document.querySelector('.password-toggle') as HTMLIonIconElement | null;
 
-    if (passwordInput && icon) {
-      if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        icon.name = 'eye';
-      } else {
-        passwordInput.type = 'password';
-        icon.name = 'eye-off';
-      }
-    }
-  }
+  //   if (passwordInput && icon) {
+  //     if (passwordInput.type === 'password') {
+  //       passwordInput.type = 'text';
+  //       icon.name = 'eye';
+  //     } else {
+  //       passwordInput.type = 'password';
+  //       icon.name = 'eye-off';
+  //     }
+  //   }
+  // }
 }

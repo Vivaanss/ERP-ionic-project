@@ -17,7 +17,7 @@
           <ion-item>
             <ion-input id="passwordField" label="Password" label-placement="floating" fill="outline" placeholder="Enter Password"
               type="password" [(ngModel)]="password" name="password" required [ngModelOptions]="{ updateOn: 'blur' }"></ion-input>
-            <ion-icon name="eye-off" slot="end" class="password-toggle" (click)="togglePasswordVisibility()"></ion-icon>
+            <!-- <ion-icon name="eye-off" slot="end" class="password-toggle" (click)="togglePasswordVisibility()"></ion-icon> -->
           </ion-item>
           
           <!-- Error Message -->
@@ -39,7 +39,7 @@
           
           <!-- Social Logins -->
           <div class="social-login">
-            <ion-button expand="block" fill="clear" (click)="signInWithGoogle()" aria-label="Login with Google">
+            <ion-button expand="block" fill="clear" (click)="googleSignIn()" aria-label="Login with Google">
               <ion-icon name="logo-google" slot="start"></ion-icon> Continue with Google
             </ion-button>
             <ion-button expand="block" fill="clear" (click)="signInWithFacebook()" aria-label="Login with Facebook">
