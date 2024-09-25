@@ -1,14 +1,22 @@
-<ion-menu side="start" menuId="first" contentId="main-content">
+<ion-menu side="start" menuId="main-menu" contentId="main-content">
   <ion-header>
     <ion-toolbar color="primary">
-      <ion-title>Menu</ion-title>
+      <ion-title>Production Menu</ion-title>
     </ion-toolbar>
   </ion-header>
+
   <ion-content>
     <ion-list>
-      <ion-item *ngFor="let item of menuItems" [routerLink]="item.url" routerLinkActive="active">
-        {{ item.title }}
+      <ion-item routerLink="/prod-dashboard" routerDirection="forward">
+        <ion-label>Dashboard</ion-label>
       </ion-item>
+      <ion-item routerLink="/create-order" routerDirection="forward">
+        <ion-label>Create Order</ion-label>
+      </ion-item>
+      <ion-item routerLink="/bom" routerDirection="forward">
+        <ion-label>Bill of Materials</ion-label>
+      </ion-item>
+      <!-- Add more menu items as needed -->
     </ion-list>
   </ion-content>
 </ion-menu>
