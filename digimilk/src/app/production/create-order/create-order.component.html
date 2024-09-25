@@ -1,0 +1,37 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Create Production Order</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-item>
+    <ion-label position="floating">Production Order Name</ion-label>
+    <ion-input [(ngModel)]="order.name"></ion-input>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Start Date</ion-label>
+    <ion-datetime [(ngModel)]="order.startDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">End Date</ion-label>
+    <ion-datetime [(ngModel)]="order.endDate"></ion-datetime>
+  </ion-item>
+
+  <ion-item>
+    <ion-label position="floating">Materials Required</ion-label>
+    <ion-select [(ngModel)]="selectedMaterial" (ionChange)="addMaterial(selectedMaterial)">
+      <ion-select-option *ngFor="let material of availableMaterials" [value]="material">{{ material.name }}</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-list>
+    <ion-item *ngFor="let material of order.materialsRequired">
+      <ion-label>{{ material.name }} - {{ material.quantity }} units</ion-label>
+    </ion-item>
+  </ion-list>
+
+  <ion-button expand="block" (click)="createOrder()">Create Order</ion-button>
+</ion-content>

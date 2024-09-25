@@ -1,0 +1,9 @@
+ion-menu {
+    --background: #ffffff; // Customize background color
+  }
+  
+  ion-item.active {
+    background-color: var(--ion-color-primary);
+    color: white;
+  }
+  

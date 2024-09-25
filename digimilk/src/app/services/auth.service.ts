@@ -6,17 +6,19 @@ import { AngularFireAuth } from '@angular/fire/compat/auth';
 import firebase from 'firebase/compat/app';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
+import { LoginResponse, User } from './auth.models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  [x: string]: any;
   private jwtHelper = new JwtHelperService();
   private authToken: string | null = null;
   private userRole: string | null = null;
 
   user$: Observable<firebase.User | null>;  // Observable for Firebase user state
-  private apiUrl = 'https://your-api-url.com'; // Replace with your API URL
+  private apiUrl = 'http://localhost:3000/api/';  // Update with your API URL
 
   constructor(
     private http: HttpClient,
@@ -27,18 +29,58 @@ export class AuthService {
     this.user$ = this.afAuth.authState as Observable<firebase.User | null>;
   }
 
-  // Function to log in using username and password
-  login(username: string, password: string, credentials: { email: string; password: string }): Observable<any> {
-    return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
-      tap((response) => {
-        this.authToken = response.token;
-        this.userRole = response.role;
-        localStorage.setItem('authToken', this.authToken!);
-        this.router.navigate(['/dashboard']);
-      }),
-      catchError(this.handleError<any>('login'))
+  login(username: string, password: string, rememberMe: boolean): Observable<LoginResponse> {
+    return this.http.post<LoginResponse>(`${this.apiUrl}login`, { username, password }).pipe(
+      tap(response => {
+         if (rememberMe) {
+          localStorage.setItem('rememberedUser', username);
+        } else {
+          sessionStorage.setItem('token', response.token);
+        }
+        // Store token and role if needed
+        localStorage.setItem('token', response.token);
+        localStorage.setItem('role', response['role']);
+      })
     );
   }
+
+ 
+  // // Additional methods to manage authentication state
+  // getToken(): string | null {
+  //   return localStorage.getItem('token');
+  // }
+
+  // Example login status check
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('token');
+  }
+
+  // Example role retrieval method
+  getUserRole(): string | null {
+    return localStorage.getItem('role');
+  }
+
+  
+
+  logout() {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+  }
+
+
+
+  // Function to log in using username and password
+  // login(username: string, password: string, credentials: { email: string; password: string }): Observable<any> {
+  //   return this.http.post<any>(`${this.apiUrl}/login`, credentials).pipe(
+  //     tap((response) => {
+  //       this.authToken = response.token;
+  //       this.userRole = response.role;
+  //       localStorage.setItem('authToken', this.authToken!);
+  //       this.router.navigate(['/dashboard']);
+  //     }),
+  //     catchError(this.handleError<any>('login'))
+  //   );
+  // }
 
   // Google login method using popup with force prompt for account selection
   async signInWithGoogle(): Promise<void> {
@@ -109,7 +151,7 @@ export class AuthService {
   // Register logic
   register(username: string, email: string, password: string): Observable<any> {
     const body = { username, email, password };
-    return this.http.post<any>(`${this.apiUrl}/register`, body).pipe(
+    return this.http.post<any>(`${this.apiUrl}/registeration`, body).pipe(
       tap(response => {
         console.log('Registration successful:', response);
         this.router.navigate(['/login']);
@@ -130,12 +172,12 @@ export class AuthService {
   }
 
   // Logout
-  logout() {
-    this.authToken = null;
-    this.userRole = null;
-    localStorage.removeItem('authToken');
-    this.router.navigate(['/login']);
-  }
+  // logout() {
+  //   this.authToken = null;
+  //   this.userRole = null;
+  //   localStorage.removeItem('authToken');
+  //   this.router.navigate(['/login']);
+  // }
 
   // Check authentication status
   isAuthenticated(): boolean {
@@ -156,9 +198,9 @@ export class AuthService {
   }
 
   // Remember user (optional)
-  rememberUser(username: string) {
-    localStorage.setItem('rememberedUser', username);
-  }
+  // rememberMe(username: string) {
+  //   localStorage.setItem('rememberedUser', username);
+  // }
 
   // Error handler
   private handleError<T>(operation = 'operation', result?: T) {
@@ -170,7 +212,7 @@ export class AuthService {
   }
 
   // Get Firebase user state (optional)
-  getUser() {
-    return this.afAuth.authState;
-  }
+  // getUser() {
+  //   return this.afAuth.authState;
+  // }
 }

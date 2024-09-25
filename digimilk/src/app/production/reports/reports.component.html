@@ -1,0 +1,17 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Production Reports</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <ion-item *ngFor="let report of reports">
+      <ion-label>
+        <h2>{{ report.name }}</h2>
+        <p>Generated On: {{ report.date | date }}</p>
+      </ion-label>
+      <ion-button (click)="downloadReport(report.id)">Download</ion-button>
+    </ion-item>
+  </ion-list>
+</ion-content>

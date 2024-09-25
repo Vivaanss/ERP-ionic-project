@@ -1,0 +1,24 @@
+<app-header></app-header>
+<ion-app>
+  <ion-split-pane contentId="main-content">
+    <app-side-menu></app-side-menu> <!-- Side menu component -->
+    <ion-router-outlet id="main-content"></ion-router-outlet> <!-- Main content -->
+  </ion-split-pane>
+</ion-app>
+<ion-content id="main-content"> <!-- This ID should match the contentId of the menu -->
+  <ion-searchbar [(ngModel)]="searchQuery" placeholder="Search production orders"></ion-searchbar>
+  
+  <app-stats></app-stats> <!-- Overview Stats -->
+  <ion-list>
+    <ion-item *ngFor="let order of filteredOrders">
+      <ion-label>
+        <h2>{{ order.name }}</h2>
+        <p>Status: {{ order.status }}</p>
+        <p>Start: {{ order.startDate | date }}</p>
+        <p>End: {{ order.endDate | date }}</p>
+      </ion-label>
+      <ion-button (click)="viewOrder(order.id)">Details</ion-button>
+    </ion-item>
+  </ion-list>
+  <ion-router-outlet></ion-router-outlet> <!-- Other components can be routed here -->
+</ion-content>

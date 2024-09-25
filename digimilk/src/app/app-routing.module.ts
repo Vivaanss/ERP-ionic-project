@@ -2,7 +2,13 @@ import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './pages/page-not-found/page-not-found.component';  // Import the component
 import { DashboardLayoutComponent } from './shared/dashboard-layout/dashboard-layout.component';  // Import the DashboardLayoutComponent
+import { AuthGuard } from './guards/auth.guard';
+import { AdminDashboardComponent } from './admin/admin-dashboard/admin-dashboard.component';
 import { RoleGuard } from './guards/role.guard';
+import { UsersDashboardComponent } from './user/users-dashboard/users-dashboard.component';
+import { UnauthorizedComponent } from './non_authorization/unauthorized/unauthorized.component';
+import { ProdDashboardComponent } from './production/prod-dashboard/prod-dashboard.component';
+import { CreateOrderComponent } from './production/create-order/create-order.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -10,18 +16,16 @@ const routes: Routes = [
   { path: 'forgot-pwd',loadChildren: () => import('./forgot-pwd/forgot-pwd.module').then( m => m.ForgotPwdPageModule)},
   { path: 'register', loadChildren: () => import('./register/register.module').then( m => m.RegisterPageModule) },
   
-  {
-path: 'admin',
-loadChildren: () => import('./admin/admin.module').then(m => m.AdminModule),
-canActivate: [RoleGuard],
-data: { expectedRole: 'admin' }
-},
-{
-path: 'users',
-loadChildren: () => import('./users/users.module').then(m => m.UsersModule),
-canActivate: [RoleGuard],
-data: { expectedRole: 'user' }
-},
+  { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } }, //admin route
+  { path: 'users-dashboard', component: UsersDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'user' } },  // User route
+  { path: 'prod-dashboard', component: ProdDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'production' },
+children:[
+  { path: 'production/create-order', component: CreateOrderComponent },
+
+] },  // production route
+  { path: 'unauthorized', component: UnauthorizedComponent },
+
+  
   {
     path: '',
     component: DashboardLayoutComponent,
@@ -71,6 +75,7 @@ data: { expectedRole: 'user' }
   
   // Wildcard route for 404 page
   { path: '**', component: PageNotFoundComponent },   
+  
  
  
 ];
