@@ -9,6 +9,9 @@ import { UsersDashboardComponent } from './user/users-dashboard/users-dashboard.
 import { UnauthorizedComponent } from './non_authorization/unauthorized/unauthorized.component';
 import { ProdDashboardComponent } from './production/prod-dashboard/prod-dashboard.component';
 import { CreateOrderComponent } from './production/create-order/create-order.component';
+import { BOMComponent } from './production/bom/bom.component';
+import { ReportsComponent } from './production/reports/reports.component';
+import { WorkOrdersComponent } from './production/work-orders/work-orders.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/login', pathMatch: 'full' },
@@ -18,13 +21,12 @@ const routes: Routes = [
   
   { path: 'admin-dashboard', component: AdminDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'admin' } }, //admin route
   { path: 'users-dashboard', component: UsersDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'user' } },  // User route
-  { path: 'prod-dashboard', component: ProdDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'production' },
-children:[
-  { path: 'production/create-order', component: CreateOrderComponent },
-
-] },  // production route
-  { path: 'unauthorized', component: UnauthorizedComponent },
-
+  { path: 'prod-dashboard', component: ProdDashboardComponent, canActivate: [AuthGuard, RoleGuard], data: { expectedRole: 'production' },},  // production route
+  { path: 'create-order', component: CreateOrderComponent },
+  { path: 'bom', component: BOMComponent },
+  { path: 'work-orders', component: WorkOrdersComponent },
+  { path: 'reports', component: ReportsComponent },
+  
   
   {
     path: '',
@@ -74,9 +76,10 @@ children:[
   },
   
   // Wildcard route for 404 page
+  { path: 'unauthorized', component: UnauthorizedComponent },
   { path: '**', component: PageNotFoundComponent },   
   
- 
+  
  
 ];
 

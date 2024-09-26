@@ -25,9 +25,10 @@ import { AuthInterceptor } from './services/auth.interceptor';
 import { ExcelImportService } from './services/excel-import.service';
 import { RouteReuseStrategy } from '@angular/router';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { SideMenuComponent } from './shared/side-menu/side-menu.component';
 
 @NgModule({
-  declarations: [AppComponent, DashboardLayoutComponent, ExcelImportComponent, UnauthorizedComponent,  
+  declarations: [AppComponent, DashboardLayoutComponent, ExcelImportComponent, UnauthorizedComponent,SideMenuComponent  
   ],
   imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, FormsModule, NgxCaptchaModule,
     AngularFireModule.initializeApp(environment.firebase),
