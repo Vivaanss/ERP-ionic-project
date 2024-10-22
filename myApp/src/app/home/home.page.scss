@@ -1,0 +1,62 @@
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-family:'Merriweather', serif ;
+  font-size: 40px;
+  line-height: 70px;/*between the heading and the paragraph*/
+}
+
+#container p {
+  font-size: 20px;
+  font-family: 'Merriweather', serif;
+  font-style: italic;
+  line-height: 20px;/*between 2 paragraph lines*/
+
+  color: #6e6e6e;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+.paragraph-spacing {
+  margin-bottom: 40px; 
+}
+
+.button-spacing {
+  margin-top: 60px; 
+}
+
+.custom-bg {
+  background-color: #f6dfdf; /* Replace with the color you want */
+}
+
+.custom-header {
+  background-color: #3b0202; /* Your desired background color */
+  color: white; /* Text color */
+}
+
+.custom-button {
+  background: #3b0202; /* Background color */
+  color: white;        /* Text color */
+}
+
+.bg-img {
+  background-image: url('/assets/bg-image.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+}
+
