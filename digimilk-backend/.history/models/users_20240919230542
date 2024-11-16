@@ -1,0 +1,31 @@
+// users.js
+
+const users = [
+    {
+      id: 1,
+      username: 'admin',
+      password: '$2b$10$nDngFJ60gQh3dTj89BAFj.IiAS5LNmdTwrG3hhDdDyVpAucTdE9.2', // bcrypt hash of "admin@1234"
+      role: 'admin',
+    },
+    {
+      id: 2,
+      username: 'user',
+      password: '$2b$10$3HUpv7dLIqHz2HDzGqkzNOElBF4lFfOgzukbUfLpa9pNZRanZ106e', // bcrypt hash of "user@1234"
+      role: 'user',
+    },
+    {
+      id: 3,
+      username: 'production',
+      password: '$2b$10$AiKq93EeL26J0fSLysY02ei/Jy.TbWCeLSaDJBxbUOyloi8k9kwwC', // bcrypt hash of "prod@1234"
+      role: 'production',
+    },
+    {
+      id: 4,
+      username: 'inventory',
+      password: '$2b$10$AiKq93EeL26J0fSLysY02ei/Jy.TbWCeLSaDJBxbUOyloi8k9kwwC', // bcrypt hash of "prod@1234"
+      role: 'production',
+    },
+  ];
+  
+  module.exports = users;
+  

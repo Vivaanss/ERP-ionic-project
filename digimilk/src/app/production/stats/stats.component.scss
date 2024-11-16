@@ -1,0 +1,15 @@
+.stats {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  
+    .stat-item {
+      text-align: center;
+      background-color: #f8f8f8;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      width: 30%;
+    }
+  }
+  
