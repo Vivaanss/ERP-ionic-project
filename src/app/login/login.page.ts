@@ -63,42 +63,30 @@ export class LoginPage {
     this.isLoading = false;
   }
 
-  async googleSignIn() {
-    try {
-      this.isLoading = true;
-      await this.presentLoading('Logging in with Google...');
-      
-      const provider = new GoogleAuthProvider();
-      const userCredential = await this.afAuth.signInWithPopup(provider);
-      
-      // You can get the user details from userCredential.user
-      console.log(userCredential.user);
-      
-      this.router.navigate(['/dashboard']); // Navigate to dashboard on successful login
-    } catch (error) {
-      this.errorMessage = 'Google sign-in failed. Please try again.';
-      console.error(error);
-    } finally {
-      this.isLoading = false;
-    }
+  googleSignIn() {
+    this.authService.signInWithGoogle().then((userCredential) => {
+      // Handle user credential
+      this.router.navigate(['/dashboard']);
+    }).catch((error) => {
+      console.error('Google sign-in error:', error);
+      this.errorMessage = 'Failed to sign in with Google.';
+    });
   }
 
-  // Facebook Sign-In Method
   async signInWithFacebook() {
+    this.isLoading = true;
     try {
-      this.isLoading = true;
-      await this.presentLoading('Logging in with Facebook...');
-      
       const provider = new FacebookAuthProvider();
-      const userCredential = await this.afAuth.signInWithPopup(provider);
-      
-      // You can get the user details from userCredential.user
-      console.log(userCredential.user);
-      
-      this.router.navigate(['/dashboard']); // Navigate to dashboard on successful login
-    } catch (error) {
-      this.errorMessage = 'Facebook sign-in failed. Please try again.';
-      console.error(error);
+      const result = await this.afAuth.signInWithPopup(provider);
+      const userCredential = result as unknown as UserCredential;  // Cast result to UserCredential
+      this.router.navigate(['/dashboard']);
+    } catch (error: any) {
+      if (error.code === 'auth/popup-closed-by-user') {
+        this.errorMessage = 'The popup was closed before authentication could complete.';
+      } else {
+        this.errorMessage = 'Failed to sign in with Facebook.';
+      }
+      console.error('Error signing in with Facebook:', error);
     } finally {
       this.isLoading = false;
     }

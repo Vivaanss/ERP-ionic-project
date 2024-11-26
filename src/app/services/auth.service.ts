@@ -83,69 +83,15 @@ export class AuthService {
   // }
 
   // Google login method using popup with force prompt for account selection
-  async signInWithGoogle(): Promise<void> {
+  signInWithGoogle(): Promise<firebase.auth.UserCredential> {
     const provider = new firebase.auth.GoogleAuthProvider();
-    provider.setCustomParameters({ prompt: 'select_account' });
-
-    try {
-      const result = await this.afAuth.signInWithPopup(provider);
-      if (result.user) {
-        this.router.navigate(['/dashboard']);  // Ensure '/dashboard' is a valid route in your app
-      }
-    } catch (error) {
-      console.error('Error during Google Sign-In:', error);
-    }
+    return this.afAuth.signInWithPopup(provider);
   }
 
   // Facebook login method
-  async signInWithFacebook(): Promise<void> {
+  signInWithFacebook(): Promise<firebase.auth.UserCredential> {
     const provider = new firebase.auth.FacebookAuthProvider();
-    provider.setCustomParameters({ auth_type: 'reauthenticate' });
-
-    try {
-      console.log('Attempting to sign in with Facebook...');
-      const result = await this.afAuth.signInWithPopup(provider);
-      console.log('Facebook login successful:', result.user);
-      this.router.navigate(['/dashboard']);
-    } catch (error: any) {
-      console.error('Error during Facebook login:', error);
-
-      if (error.code === 'auth/account-exists-with-different-credential') {
-        console.log('Handling account-exists-with-different-credential error...');
-
-        const pendingCred = error.credential;  // Facebook credential user attempted to use
-        const email = error.email;  // Email associated with the account
-
-        try {
-          const signInMethods = await this.afAuth.fetchSignInMethodsForEmail(email);
-          console.log('Sign-in methods for email:', signInMethods);
-
-          if (signInMethods.includes(firebase.auth.GoogleAuthProvider.PROVIDER_ID)) {
-            console.log('Email linked to Google, attempting Google sign-in...');
-            const googleProvider = new firebase.auth.GoogleAuthProvider();
-            const googleResult = await this.afAuth.signInWithPopup(googleProvider);
-            console.log('Google sign-in successful:', googleResult.user);
-
-            if (googleResult.user) {
-              await googleResult.user.linkWithCredential(pendingCred);
-              console.log('Facebook account has been linked to Google account.');
-              alert('Facebook account has been linked to your Google account.');
-              this.router.navigate(['/dashboard']);
-            }
-          } else if (signInMethods.includes(firebase.auth.EmailAuthProvider.PROVIDER_ID)) {
-            alert('An account with this email already exists. Please sign in with your email and password.');
-          } else {
-            console.error('Unknown sign-in method associated with this email.');
-          }
-        } catch (linkingError) {
-          console.error('Error linking accounts:', linkingError);
-          alert('There was an error linking your accounts. Please try again.');
-        }
-      } else {
-        console.error('General error during login:', error);
-        alert(`Error signing in: ${error.message}`);
-      }
-    }
+    return this.afAuth.signInWithPopup(provider);
   }
 
   // Register logic

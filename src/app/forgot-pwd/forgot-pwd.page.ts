@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../services/auth.service';
+// import { AuthService } from '../services/auth.service';
 import { DarkModeService } from '../services/dark-mode';
 import { Router } from '@angular/router';
 import { NotificationService } from '../services/notification.service';
@@ -17,7 +17,7 @@ export class ForgotPwdPage implements OnInit {
   isDarkMode: boolean = false;
 
   constructor(
-    private authService: AuthService,
+    // private authService: AuthService,
     private darkModeService: DarkModeService,
     private router: Router,
     private notificationService: NotificationService
@@ -38,7 +38,7 @@ export class ForgotPwdPage implements OnInit {
     this.errorMessage = '';
     this.successMessage = '';
     try {
-      await this.authService.resetPassword(this.email).toPromise();
+      // await this.authService.resetPassword(this.email).toPromise();
       this.notificationService.setMessage('Password reset link sent to your email.');
       this.successMessage = this.notificationService.getMessage();
       setTimeout(() => this.router.navigate(['/login']), 2000);

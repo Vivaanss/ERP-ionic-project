@@ -1,9 +1,8 @@
-<!-- side-menu.component.html -->
 <ion-split-pane contentId="main-content">
   <ion-menu *ngIf="showMenuBar" side="start" menuId="main-menu" contentId="main-content">
     <ion-header>
       <ion-toolbar>
-        <h1> <strong>Menu</strong></h1>
+        <h1><strong>Menu</strong></h1>
         <!-- <img src="../../../assets/digimilk-logo/digimilk-logo.png" alt="Logo" class="logo"/> -->
         <ion-buttons slot="end">
           <ion-button (click)="closeMenu()">
@@ -20,32 +19,30 @@
       </div>
 
       <!-- Menu List -->
-        
-        <ion-list *ngFor="let item of filteredMenuItems">
-          <!-- For items that are dropdowns, call toggleDropdown with the item's key -->
-          <ion-item (click)="item.isDropdown ? toggleDropdown(item.key) : navigateTo(item.route ?? '')">
-            <ion-icon [name]="item.icon" slot="start"></ion-icon>
-            <ion-label>{{ item.label }}</ion-label>
-            <!-- Check dropdown state in the menuService and use appropriate chevron icon -->
-            <ion-icon *ngIf="item.isDropdown" slot="end" 
-                      [name]="menuService.dropdowns[item.key ?? ''] ? 'chevron-up' : 'chevron-down'">
-            </ion-icon>
+      <ion-list *ngFor="let item of filteredMenuItems">
+        <!-- For items that are dropdowns, call toggleDropdown with the item's key -->
+        <ion-item
+        (click)="item.isDropdown ? toggleDropdown(item) : navigateTo(item.route ?? '')">
+        <ion-icon [name]="item.icon" slot="start"></ion-icon>
+        <ion-label>{{ item.label }}</ion-label>
+        <ion-icon
+          *ngIf="item.isDropdown"
+          [name]="item.isDropdownOpen ? 'chevron-down' : 'chevron-forward'"
+          slot="end"
+        ></ion-icon>
+      </ion-item>
+
+        <!-- Show the dropdown items if the dropdown is open -->
+        <ng-container *ngIf="item.isDropdown && item.isDropdownOpen">
+          <ion-item *ngFor="let subItem of item.subMenuItems" 
+                    [routerLink]="subItem.route" routerDirection="forward" 
+                    (click)="closeMenu()">
+            <ion-icon [name]="subItem.icon" slot="start"></ion-icon>
+            <ion-label>{{ subItem.label }}</ion-label>
           </ion-item>
-      
-          <!-- Show the dropdown items if the dropdown is open -->
-          <ng-container *ngIf="item.isDropdown && menuService.dropdowns[item.key ?? '']">
-            <ion-item *ngFor="let subItem of menuService.dropdownItems[item.key ?? '']" 
-                      [routerLink]="subItem.route" routerDirection="forward" 
-                      (click)="closeMenu()">
-              <ion-icon [name]="subItem.icon" slot="start"></ion-icon>
-              <ion-label>{{ subItem.label }}</ion-label>
-            </ion-item>
-          </ng-container>
-        </ion-list>
-      
+        </ng-container>
+      </ion-list>
     </ion-content>
   </ion-menu>
   <ion-router-outlet id="main-content"></ion-router-outlet>
-  
-  <!-- Header added here -->
 </ion-split-pane>
